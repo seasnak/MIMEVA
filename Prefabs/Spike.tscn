@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://cstcd7m8281qo"]
+
+[ext_resource type="Script" path="res://Scripts/Objects/Spike.cs" id="1_4r6kn"]
+[ext_resource type="Texture2D" uid="uid://dt6orelyr08kp" path="res://Sprites/Objects/spike.png" id="2_kod4g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pwqu1"]
+size = Vector2(7, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bujab"]
+atlas = ExtResource("2_kod4g")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kyxp4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bujab")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Spike" type="Area2D"]
+script = ExtResource("1_4r6kn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 3)
+shape = SubResource("RectangleShape2D_pwqu1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 1)
+sprite_frames = SubResource("SpriteFrames_kyxp4")

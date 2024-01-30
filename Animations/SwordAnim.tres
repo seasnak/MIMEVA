@@ -1,0 +1,46 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://ceoihqb7aul24"]
+
+[ext_resource type="Texture2D" uid="uid://ci3cileyqgyqn" path="res://Sprites/Projectiles/horizontal_swipe-Sheet.png" id="1_loy45"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5crt"]
+atlas = ExtResource("1_loy45")
+region = Rect2(0, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_beu7p"]
+atlas = ExtResource("1_loy45")
+region = Rect2(12, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iwdgh"]
+atlas = ExtResource("1_loy45")
+region = Rect2(24, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1g0je"]
+atlas = ExtResource("1_loy45")
+region = Rect2(36, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_odjsl"]
+atlas = ExtResource("1_loy45")
+region = Rect2(48, 0, 12, 12)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r5crt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_beu7p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iwdgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1g0je")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_odjsl")
+}],
+"loop": false,
+"name": &"slash",
+"speed": 24.0
+}]

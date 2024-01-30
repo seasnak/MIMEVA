@@ -1,0 +1,30 @@
+- EMPTY
+B BLOCK
+S SPIKE
+E ENEMY
+C COIN
+P SPAWN_POINT ( where the player spawns ) -- only found in the starting room
+X RESET_POINT ( where the player will reset to )
+[0-9] ENTRANCE/EXIT
+
+SAMPLE ROOM
+============
+10 10
+
+KEY
+U level_3
+L level_2
+D level_1
+R
+
+ROOM
+B B B B B U U B B B
+B B - - - - - - - B
+B - - - S - - S S B
+B B - S B B B B B B
+L - - - - - - - - B
+L - - - - - S S C B
+B B B B - B B B B B
+B B B B - - B B B B
+B B B B - - B B B B
+B B B B D D B B B B

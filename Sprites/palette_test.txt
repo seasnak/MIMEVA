@@ -1,0 +1,8 @@
+1 plague
+2 resurrect64
+3 DB32
+4 downgraded32
+5 vinik24
+6 waldgeist
+7 fantasy24
+8 crystal_decay

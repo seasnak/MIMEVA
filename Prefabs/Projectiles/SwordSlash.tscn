@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://4exjvrjlued6"]
+
+[ext_resource type="SpriteFrames" uid="uid://ceoihqb7aul24" path="res://Animations/SwordAnim.tres" id="1_mnf2p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0b7dq"]
+size = Vector2(6, 6)
+
+[node name="SwordSlash" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_0b7dq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_mnf2p")
+animation = &"slash"
+frame_progress = 0.274477
