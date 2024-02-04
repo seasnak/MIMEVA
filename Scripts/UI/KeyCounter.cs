@@ -4,19 +4,19 @@ using System.CodeDom.Compiler;
 using System.ComponentModel.DataAnnotations;
 
 namespace Mimeva;
-public partial class CoinCount : RichTextLabel
+public partial class KeyCounter : RichTextLabel
 {
 
-	TextureRect coin_texture;
+	TextureRect texture;
 	Player player;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		coin_texture = GetNode<TextureRect>("TextureRect");	
+		texture = GetNode<TextureRect>("TextureRect");	
 		
-		// player = GetNode<Player>("/root/World/Player");
-		player = (Player)GetTree().Root.GetNode("Player");
+		player = GetNode<Player>("/root/World/Player");
+		// player = (Player)GetTree().Root.GetNode("Player");
 
 		Vector2 screensize = this.GetViewportRect().Size;
 		GD.Print(screensize);
@@ -26,14 +26,14 @@ public partial class CoinCount : RichTextLabel
 		this.FitContent = true;
 		this.Scale = new Vector2(2, 2);
 
-		this.Position = new Vector2(screensize.X - 50, 10);
-		coin_texture.Position = new Vector2(-22, 2);
-		coin_texture.Scale = new Vector2(0.5f, 0.5f);
+		this.Position = new Vector2(screensize.X - 50, 50);
+		texture.Position = new Vector2(-22, 2);
+		texture.Scale = new Vector2(0.5f, 0.5f);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		this.Text = $"{player.GetCoins()}";
+		this.Text = $"{player.GetKeys()}";
 	}
 }

@@ -42,14 +42,14 @@ public partial class Player : CharacterBody2D
 	private AnimatedSprite2D sprite;
 	private PlayerVariables player_vars;
 	private HitBox weapon;
-
+	
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	private float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
     public override void _Ready()
     {	
 		sprite = (AnimatedSprite2D)(GetNode("AnimatedSprite2D"));
-		player_vars = (PlayerVariables)GetNode("/root/PlayerVariables");
+		// player_vars = (PlayerVariables)GetNode("/root/PlayerVariables"); // TODO: add player variables
 		weapon = (HitBox)GetNode("Sword");
 		weapon.SetDamage(5);
 	}

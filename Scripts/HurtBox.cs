@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+namespace Mimeva;
 public partial class HurtBox : Area2D
 {
 
@@ -16,7 +17,6 @@ public partial class HurtBox : Area2D
 
 		AreaEntered += OnAreaEntered; // connect signal for hurtbox collision detection
 		
-
 	}
 
     public override void _Process(double delta) {
@@ -25,7 +25,7 @@ public partial class HurtBox : Area2D
 
 	public void OnAreaEntered(Area2D hitbox) {
 		if (hitbox == null || hitbox is not HitBox) { return; }
-
+		
 		if(Owner.HasMethod("DealDamage")) {
 			((Enemy)Owner).DealDamage( ((HitBox)hitbox).GetDamage() );
 		}

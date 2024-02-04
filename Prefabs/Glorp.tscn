@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://dywogtpi22sqn"]
 
-[ext_resource type="Texture2D" uid="uid://bnetufevg31hp" path="res://Sprites/Enemies/glorp-idle.png" id="1_qwop4"]
-[ext_resource type="Texture2D" uid="uid://devdmaf4n51uy" path="res://Sprites/Enemies/glorp-walking.png" id="2_7u7l7"]
+[ext_resource type="Texture2D" uid="uid://bnetufevg31hp" path="res://Sprites/Enemies/Glorp/glorp-idle.png" id="1_qwop4"]
+[ext_resource type="Texture2D" uid="uid://devdmaf4n51uy" path="res://Sprites/Enemies/Glorp/glorp-walking.png" id="2_7u7l7"]
 [ext_resource type="Script" path="res://Scripts/Enemy/Glorp.cs" id="3_3s2jc"]
 [ext_resource type="Script" path="res://Scripts/HurtBox.cs" id="4_04uan"]
 
@@ -88,7 +88,7 @@ script = ExtResource("3_3s2jc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_rlmgx")
-animation = &"idle"
+animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)

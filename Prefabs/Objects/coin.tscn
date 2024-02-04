@@ -1,20 +1,55 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1k6qd2pkppu4"]
+[gd_scene load_steps=11 format=3 uid="uid://d1k6qd2pkppu4"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/Coin.cs" id="1_obcw2"]
-[ext_resource type="Texture2D" uid="uid://djml406r0e135" path="res://Sprites/Objects/coin.png" id="2_158qr"]
+[ext_resource type="Texture2D" uid="uid://bdgas347fgdan" path="res://Sprites/Objects/Pickups/coin_spin.png" id="2_r1jhg"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pj8mq"]
-atlas = ExtResource("2_158qr")
+[sub_resource type="AtlasTexture" id="AtlasTexture_v6y3p"]
+atlas = ExtResource("2_r1jhg")
 region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cx03j"]
+atlas = ExtResource("2_r1jhg")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pnjs5"]
+atlas = ExtResource("2_r1jhg")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3yiwg"]
+atlas = ExtResource("2_r1jhg")
+region = Rect2(24, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8a4rj"]
+atlas = ExtResource("2_r1jhg")
+region = Rect2(32, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mc70"]
+atlas = ExtResource("2_r1jhg")
+region = Rect2(40, 0, 8, 8)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bl7ju"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pj8mq")
+"texture": SubResource("AtlasTexture_v6y3p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cx03j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pnjs5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3yiwg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8a4rj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5mc70")
 }],
 "loop": true,
-"name": &"default",
+"name": &"idle",
 "speed": 5.0
 }]
 
@@ -28,6 +63,7 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_bl7ju")
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_yn5sf")

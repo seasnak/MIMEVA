@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bir77neou5gur"]
+[gd_scene load_steps=19 format=3 uid="uid://bir77neou5gur"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_iacww"]
 [ext_resource type="Texture2D" uid="uid://ddb4y7gt0pvvw" path="res://Sprites/Player/player_walking-Sheet.png" id="2_36jlj"]
@@ -7,9 +7,9 @@
 [ext_resource type="Script" path="res://Scripts/HitBox.cs" id="4_wb1xm"]
 [ext_resource type="SpriteFrames" uid="uid://ceoihqb7aul24" path="res://Animations/SwordAnim.tres" id="5_mqjgn"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_katwr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_l67dd"]
 atlas = ExtResource("2_36jlj")
-region = Rect2(36, 0, 12, 16)
+region = Rect2(84, 0, 12, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sc1tx"]
 atlas = ExtResource("3_culi2")
@@ -43,15 +43,11 @@ region = Rect2(60, 0, 12, 16)
 atlas = ExtResource("2_36jlj")
 region = Rect2(72, 0, 12, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_l67dd"]
-atlas = ExtResource("2_36jlj")
-region = Rect2(84, 0, 12, 16)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_5yp52"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_katwr")
+"texture": SubResource("AtlasTexture_l67dd")
 }],
 "loop": true,
 "name": &"attack",
@@ -114,14 +110,14 @@ script = ExtResource("1_iacww")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_5yp52")
-animation = &"jump"
+animation = &"attack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 4)
 shape = SubResource("RectangleShape2D_2os0o")
 
 [node name="Sword" type="Area2D" parent="."]
-position = Vector2(-8, 2)
+position = Vector2(-8, 5)
 script = ExtResource("4_wb1xm")
 metadata/_edit_group_ = true
 

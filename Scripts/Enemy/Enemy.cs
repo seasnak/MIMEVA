@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+namespace Mimeva;
 public partial class Enemy : CharacterBody2D
 {
 	protected int max_health = 10;
@@ -12,7 +13,7 @@ public partial class Enemy : CharacterBody2D
 	protected string enemy_type = "enemy";
 	protected int enemy_value = 3;
 
-	protected static float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+	protected static readonly float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	protected int movespeed = 10;
 	protected int max_fallspeed = (int)(gravity * 10);
 

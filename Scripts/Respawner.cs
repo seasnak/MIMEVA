@@ -18,7 +18,7 @@ public partial class Respawner : Area2D
 	{
 		
 	}
-
+	
 	public void SpawnPlayer(Player target) 
 	{
         target.Position = this.Position;

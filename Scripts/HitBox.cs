@@ -1,6 +1,7 @@
  using Godot;
 using System;
 
+namespace Mimeva;
 public partial class HitBox : Area2D
 {
 
@@ -19,7 +20,7 @@ public partial class HitBox : Area2D
 		hitbox.Disabled = true;
 
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-
+		
 	}
 
     public override void _Process(double delta) {
@@ -29,5 +30,5 @@ public partial class HitBox : Area2D
 	public int GetDamage() { return damage; }
 	public void SetDamage(int val) { damage = val; }
 	public AnimatedSprite2D GetSprite() { return sprite; }
-
+	
 }
