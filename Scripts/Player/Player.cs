@@ -8,15 +8,15 @@ public partial class Player : CharacterBody2D
 {
 	
 	// Player Stats
-	private int max_health = 5;
-	private int curr_health = 5;
-	private int max_stamina = 10;
-	private int curr_stamina = 10;
+	private int max_health = 100;
+	private int curr_health = 100;
+	private int max_stamina = 100;
+	private int curr_stamina = 100;
 
 	private int death_count = 0;
 	
 
-	private int coins = 0; // currency
+	private int coins = 0;
 	private int keys = 0;
 	private int cool_coins = 0; // the harder to get bonus coins
 
@@ -73,10 +73,10 @@ public partial class Player : CharacterBody2D
 
     public override void _Process(double delta)
     {
+
 		// Handle Health and Death
 		if (curr_health <= 0) {
-			// GD.Print("Player Died!");
-			this.curr_health = max_health;
+			GD.Print("Player Died!");
 			death_count += 1;
 			Die();
 		}
@@ -84,7 +84,8 @@ public partial class Player : CharacterBody2D
     }
 
     private void Die() {
-		this.Position = player_vars.respawner.Position;
+		try{ this.Position = player_vars.checkpoint.Position; }
+		catch{ this.Position = new Godot.Vector2(0, 0); }
 		curr_health = max_health;
 	}
 
@@ -180,4 +181,7 @@ public partial class Player : CharacterBody2D
 	public void SetMaxHealth(int val) { this.max_health = val; }
 
 	public int GetCoins() { return this.coins; }
+
+	public bool IsAttacking() { return is_attacking; }
+	
 }

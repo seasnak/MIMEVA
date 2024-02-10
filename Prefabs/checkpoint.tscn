@@ -1,8 +1,8 @@
 [gd_scene load_steps=15 format=3 uid="uid://ckh066pydrfed"]
 
-[ext_resource type="Texture2D" uid="uid://w4cn2djli5ll" path="res://Sprites/Objects/gong.png" id="1_funn3"]
-[ext_resource type="Script" path="res://Scripts/Respawner.cs" id="1_rxojr"]
-[ext_resource type="Texture2D" uid="uid://dn8vyoeicnoe5" path="res://Sprites/Objects/gong_ringing-Sheet(2).png" id="2_isa5t"]
+[ext_resource type="Script" path="res://Scripts/Objects/Checkpoint.cs" id="1_8wggy"]
+[ext_resource type="Texture2D" uid="uid://w4cn2djli5ll" path="res://Sprites/Objects/Structures/gong.png" id="1_funn3"]
+[ext_resource type="Texture2D" uid="uid://dn8vyoeicnoe5" path="res://Sprites/Objects/Structures/gong_ringing-Sheet(2).png" id="2_isa5t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oo6ap"]
 atlas = ExtResource("1_funn3")
@@ -75,7 +75,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sw4yp")
 }],
-"loop": true,
+"loop": false,
 "name": &"ringing",
 "speed": 5.0
 }]
@@ -83,9 +83,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ent63"]
 size = Vector2(9, 10)
 
-[node name="Respawner" type="Area2D"]
-collision_layer = 2
-script = ExtResource("1_rxojr")
+[node name="Checkpoint" type="Area2D"]
+script = ExtResource("1_8wggy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lkyom")

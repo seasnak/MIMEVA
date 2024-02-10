@@ -6,7 +6,7 @@ public partial class PlayerVariables : Node
 {
 
 
-	public Respawner respawner = null;
+	public Checkpoint checkpoint = null;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -20,11 +20,11 @@ public partial class PlayerVariables : Node
 		
 	}
 
-	private Respawner GetRespawn() {
-		return respawner;
+	private Checkpoint GetCheckpoint() {
+		return checkpoint;
 	}
 
-	private Vector2 GetRespawnLocation() {
-		return respawner.Position;
+	private Vector2 GetCheckpointPos() {
+		return checkpoint.Position;
 	}
 }

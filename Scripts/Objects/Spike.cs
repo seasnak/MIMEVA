@@ -22,11 +22,11 @@ public partial class Spike : Area2D
 
 	private void OnBodyEntered(Node2D body)
 	{
-		if (body is Player) {
-			((Player)body).DealDamage(damage);
+		if (body is Player player) {
+			player.DealDamage(damage);
 		}
-		else if (body is Enemy) {
-			((Enemy)body).DealDamage(damage);
+		else if (body is Enemy enemy) {
+			enemy.DealDamage(damage);
 		}
 	}
 }
