@@ -5,8 +5,7 @@ namespace Mimeva;
 public partial class Spike : Area2D
 {
 
-	private const int damage = 99;
-	private bool is_solid = false;
+	private const int damage = 999;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -22,6 +21,8 @@ public partial class Spike : Area2D
 
 	private void OnBodyEntered(Node2D body)
 	{
+		// GD.Print("Something Entered!"); // DEBUG
+		
 		if (body is Player player) {
 			player.DealDamage(damage);
 		}

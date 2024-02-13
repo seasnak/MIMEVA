@@ -1,38 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://dsiorbqg0tese"]
+[gd_scene load_steps=5 format=3 uid="uid://dsiorbqg0tese"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/Key.cs" id="1_8herf"]
-[ext_resource type="Texture2D" uid="uid://caoskldkxrvns" path="res://Sprites/Objects/Pickups/key_wobble.png" id="2_20u3t"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sa1f7"]
-atlas = ExtResource("2_20u3t")
-region = Rect2(0, 0, 8, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mx1wy"]
-atlas = ExtResource("2_20u3t")
-region = Rect2(8, 0, 8, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0262x"]
-atlas = ExtResource("2_20u3t")
-region = Rect2(16, 0, 8, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k8sx5"]
-atlas = ExtResource("2_20u3t")
-region = Rect2(24, 0, 8, 12)
+[ext_resource type="Texture2D" uid="uid://d4na8s3sryi5v" path="res://Sprites/Objects/Pickups/key.png" id="2_fg003"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ov41m"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sa1f7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mx1wy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0262x")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k8sx5")
+"texture": ExtResource("2_fg003")
 }],
 "loop": true,
 "name": &"idle",
@@ -40,7 +15,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vkxxm"]
-size = Vector2(9, 11)
+size = Vector2(10, 11)
 
 [node name="Key" type="Area2D"]
 position = Vector2(-75, 19)
@@ -52,5 +27,5 @@ sprite_frames = SubResource("SpriteFrames_ov41m")
 animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 0.5)
+position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_vkxxm")

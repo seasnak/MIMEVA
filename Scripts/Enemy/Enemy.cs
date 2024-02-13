@@ -4,17 +4,17 @@ using System;
 namespace Mimeva;
 public partial class Enemy : CharacterBody2D
 {
-	protected int max_health = 10;
-	protected int curr_health = 10;
+	protected int max_health = 100;
+	protected int curr_health = 100;
 
-	protected int max_mana = 10;
-	protected int curr_mana = 10;
+	protected int max_mana = 100;
+	protected int curr_mana = 100;
 
 	protected string enemy_type = "enemy";
 	protected int enemy_value = 3;
 
 	protected static readonly float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-	protected int movespeed = 10;
+	protected int movespeed = 20;
 	protected int max_fallspeed = (int)(gravity * 10);
 
 	protected AnimatedSprite2D sprite;

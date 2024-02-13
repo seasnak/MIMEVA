@@ -38,6 +38,8 @@ public partial class Player : CharacterBody2D
 	private bool is_climbing = false;
 	private bool is_attacking = false;
 
+	private bool is_dead = false;
+
 	// Related Nodes
 	private AnimatedSprite2D sprite;
 	private PlayerVariables player_vars;
@@ -51,11 +53,14 @@ public partial class Player : CharacterBody2D
 		sprite = (AnimatedSprite2D)(GetNode("AnimatedSprite2D"));
 		// player_vars = (PlayerVariables)GetNode("/root/PlayerVariables"); // TODO: add player variables
 		weapon = (HitBox)GetNode("Sword");
-		weapon.SetDamage(5);
+		weapon.SetDamage(30);
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
+
+		if(is_dead) {return;} // prevent physics if the player is dead
+
 		// Gravity
 		if (Velocity.Y < max_fallspeed) {
 			Velocity += new Godot.Vector2( 0, (float)(gravity * 0.5 * delta) );
@@ -76,16 +81,27 @@ public partial class Player : CharacterBody2D
 
 		// Handle Health and Death
 		if (curr_health <= 0) {
-			GD.Print("Player Died!");
-			death_count += 1;
-			Die();
+
+			if(!is_dead) {
+				GD.Print("Player Died!");
+				
+				sprite.Play("death");
+				is_dead = true;
+				death_count += 1;
+			}
+			else if(!sprite.IsPlaying()) {
+				Die();
+				is_dead = false;
+			}
 		}
 		
     }
 
     private void Die() {
 		try{ this.Position = player_vars.checkpoint.Position; }
-		catch{ this.Position = new Godot.Vector2(0, 0); }
+		catch{ this.Position = Godot.Vector2.Zero; }
+
+		this.Velocity = Godot.Vector2.Zero;
 		curr_health = max_health;
 	}
 
@@ -112,7 +128,7 @@ public partial class Player : CharacterBody2D
 		Godot.Vector2 input_dir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 		Velocity = new Godot.Vector2(movespeed * input_dir.X, Velocity.Y);
 		
-		if(input_dir.X != 0) {
+		if(input_dir.X != 0 && !is_attacking) {
 			sprite.FlipH = input_dir.X > 0;
 			weapon.GetSprite().FlipH = sprite.FlipH;
 			weapon.Position = new Godot.Vector2(8 * input_dir.X, 0);

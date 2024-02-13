@@ -1,29 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnisvqkuebbdp"]
+[gd_scene load_steps=5 format=3 uid="uid://cfvinpv0dyg7n"]
 
-[ext_resource type="Script" path="res://Scripts/Objects/Spike.cs" id="1_cx5va"]
-[ext_resource type="Texture2D" uid="uid://b8w2rjvahtfgr" path="res://Sprites/Objects/Hazards/spikeball.png" id="2_uxa6k"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_lrh35"]
-radius = 4.52769
+[ext_resource type="Script" path="res://Scripts/Objects/Spike.cs" id="1_d80c2"]
+[ext_resource type="Texture2D" uid="uid://hbftx1wbatcr" path="res://Sprites/Objects/Hazards/minispikeball.png" id="2_gdn2q"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kyxp4"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_uxa6k")
+"texture": ExtResource("2_gdn2q")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
-[node name="Spikeball" type="Area2D"]
-script = ExtResource("1_cx5va")
+[sub_resource type="CircleShape2D" id="CircleShape2D_0rv1r"]
+radius = 3.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 1.5)
-shape = SubResource("CircleShape2D_lrh35")
+[node name="Spikeball" type="Area2D"]
+script = ExtResource("1_d80c2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_kyxp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_0rv1r")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d1k6qd2pkppu4"]
+[gd_scene load_steps=9 format=3 uid="uid://d1k6qd2pkppu4"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/Coin.cs" id="1_obcw2"]
 [ext_resource type="Texture2D" uid="uid://bdgas347fgdan" path="res://Sprites/Objects/Pickups/coin_spin.png" id="2_r1jhg"]
@@ -19,14 +19,6 @@ region = Rect2(16, 0, 8, 8)
 atlas = ExtResource("2_r1jhg")
 region = Rect2(24, 0, 8, 8)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8a4rj"]
-atlas = ExtResource("2_r1jhg")
-region = Rect2(32, 0, 8, 8)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5mc70"]
-atlas = ExtResource("2_r1jhg")
-region = Rect2(40, 0, 8, 8)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_bl7ju"]
 animations = [{
 "frames": [{
@@ -41,12 +33,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3yiwg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8a4rj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5mc70")
 }],
 "loop": true,
 "name": &"idle",
