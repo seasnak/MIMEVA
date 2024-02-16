@@ -5,7 +5,7 @@ namespace Mimeva;
 public partial class LevelTransition : Area2D
 {
 	// [Export] private PackedScene scene; // the path to the scene to load when the player collides with this level
-	private string scene_path;
+	[Export] private string scene_path;
 	
 	private AnimatedSprite2D sprite;
 
@@ -15,19 +15,21 @@ public partial class LevelTransition : Area2D
 		BodyEntered += OnBodyEntered;
 		
 		sprite.Play("default");
+		scene_path = "res://Scenes/testscene2.tscn";
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-
+		
 	}
 
 	private void OnBodyEntered(Node2D body) {
 		
-		// if(body is Player) {
-		// 	GetTree().ChangeSceneToFile(scene_path);	
-		// }
+		if(body is Player) {
+			GD.Print("Player Entered Level Transition");
+			GetTree().ChangeSceneToFile(scene_path);	
+		}
 	}
 
 	public void SetLevelPath(string scene_p) { scene_path = scene_p; }
