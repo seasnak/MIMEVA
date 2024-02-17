@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://d26il3tionf5x"]
+[gd_scene load_steps=4 format=3 uid="uid://d26il3tionf5x"]
 
 [ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="1_5c1pt"]
+[ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="2_j0cyg"]
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="2_o5ntn"]
 
 [node name="World" type="Node2D"]
@@ -10,8 +11,8 @@ tile_set = ExtResource("1_5c1pt")
 format = 2
 layer_0/tile_data = PackedInt32Array(131068, 196608, 5, 131069, 262144, 3, 131070, 262144, 1, 131071, 262144, 1, 65536, 262144, 3, 65537, 262144, 5, 65538, 262144, 5, 65539, 262144, 3, 65540, 262144, 1, -196604, 327680, 3, -196607, 262144, 1, -196608, 262144, 5, -131073, 196608, 5, -131076, 327680, 2, -65540, 65536, 3, 65541, 262144, 5, 65542, 262144, 5, 65543, 262144, 3, 65544, 327680, 3, 8, 327680, 2, -65528, 327680, 2, -131064, 196608, 2, -196600, 65536, 2, -262136, 196608, 2, -327672, 327680, 2, -393208, 327680, 2, -458744, 327680, 2, -524280, 196608, 2, -262140, 65536, 2, -327676, 65536, 2, -393212, 65536, 2, -458748, 65536, 1, -589816, 65536, 2, -655352, 327680, 2, -720888, 327680, 1, -720889, 262144, 1, -720890, 262144, 5, -720891, 262144, 3, -720892, 262144, 1, -720893, 262144, 5, -720894, 262144, 5, -720895, 262144, 5, -720896, 262144, 1, -655361, 196608, 1, -589825, 65536, 2, -524289, 65536, 2, -458753, 327680, 2, -393217, 196608, 2, -327681, 327680, 3, -327682, 262144, 1, -327683, 262144, 3, -327684, 196608, 1, -262148, 65536, 2, -196612, 65536, 2, -196606, 262144, 1, -196605, 262144, 3)
 
+[node name="Camera2D" parent="." instance=ExtResource("2_j0cyg")]
+zoom = Vector2(1, 1)
+
 [node name="Player" parent="." instance=ExtResource("2_o5ntn")]
 position = Vector2(-14, -1)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(3, 3)

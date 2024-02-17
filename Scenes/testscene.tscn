@@ -1,6 +1,7 @@
-[gd_scene load_steps=29 format=3 uid="uid://evfbl31axu0u"]
+[gd_scene load_steps=30 format=3 uid="uid://evfbl31axu0u"]
 
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="1_bwdw4"]
+[ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="1_rftmd"]
 [ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="2_jgwvn"]
 [ext_resource type="PackedScene" uid="uid://cfvinpv0dyg7n" path="res://Prefabs/Spikeball.tscn" id="3_5sdkl"]
 [ext_resource type="PackedScene" uid="uid://dywogtpi22sqn" path="res://Prefabs/Glorp.tscn" id="4_s0fda"]
@@ -88,13 +89,12 @@ size = Vector2(6, 6)
 
 [node name="World" type="Node2D"]
 
+[node name="Camera" parent="." instance=ExtResource("1_rftmd")]
+zoom = Vector2(1, 1)
+
 [node name="Player" parent="." instance=ExtResource("1_bwdw4")]
 top_level = true
 position = Vector2(0, 2)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(0, 1)
-zoom = Vector2(6, 6)
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("2_jgwvn")

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://yy55uwnex1r5"]
+
+[ext_resource type="Script" path="res://Scripts/Player/CameraController.cs" id="1_jboig"]
+
+[node name="Camera2D" type="Camera2D"]
+position = Vector2(0, 3)
+zoom = Vector2(6, 6)
+script = ExtResource("1_jboig")

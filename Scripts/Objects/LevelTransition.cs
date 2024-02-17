@@ -14,6 +14,7 @@ public partial class LevelTransition : Area2D
 	{
 		BodyEntered += OnBodyEntered;
 		
+		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		sprite.Play("default");
 		scene_path = "res://Scenes/testscene2.tscn";
 	}
@@ -28,7 +29,7 @@ public partial class LevelTransition : Area2D
 		
 		if(body is Player) {
 			GD.Print("Player Entered Level Transition");
-			GetTree().ChangeSceneToFile(scene_path);	
+			GetTree().ChangeSceneToFile(scene_path);
 		}
 	}
 

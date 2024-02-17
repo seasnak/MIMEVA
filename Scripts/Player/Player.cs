@@ -21,8 +21,8 @@ public partial class Player : CharacterBody2D
 	private int cool_coins = 0; // the harder to get bonus coins
 
 	// Movement Vals	
-	private const int movespeed = 85;
-	private const int low_jumpspeed = 68; // 4.5
+	private const int movespeed = 70;
+	private const int low_jumpspeed = 65; // 4.5
 	private const int high_jumpspeed = 160; // 10
 	private const int fast_fallspeed = 30;
 	private const int dashspeed = 100;
@@ -69,8 +69,9 @@ public partial class Player : CharacterBody2D
 			Velocity = new Godot.Vector2( Velocity.X, Math.Min(Velocity.Y, max_fallspeed) );
 		}
 		
-		HandleMove();
-		HandleJump();
+		Godot.Vector2 input_dir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+		HandleMove(input_dir);
+		HandleJump(input_dir);
 		HandleAttack();
 		
 		MoveAndSlide();
@@ -124,8 +125,7 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private void HandleMove() {
-		Godot.Vector2 input_dir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+	private void HandleMove(Godot.Vector2 input_dir) {
 		Velocity = new Godot.Vector2(movespeed * input_dir.X, Velocity.Y);
 		
 		if(input_dir.X != 0 && !is_attacking) {
@@ -150,9 +150,18 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private void HandleJump() {
+	private void HandleJump(Godot.Vector2 input_dir) {
 		Godot.Vector2 velocity = Velocity; // tmp variable to make calculations easier 
 		is_grounded = this.IsOnFloor();
+
+		if(IsOnWall()) {
+			has_fastfell = false;
+			if (Input.IsActionJustPressed("jump")) {
+				velocity.Y = -high_jumpspeed;
+				velocity.X = -100;	
+				is_held_jump = true;
+			}
+		}
 
 		if (is_grounded) {
 			has_fastfell = false;
