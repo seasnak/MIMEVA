@@ -206,7 +206,7 @@ public partial class Player : CharacterBody2D
 	public void SetMaxHealth(int val) { this.max_health = val; }
 
 	public int GetCoins() { return this.coins; }
-
+	
 	public bool IsAttacking() { return is_attacking; }
 	
 }

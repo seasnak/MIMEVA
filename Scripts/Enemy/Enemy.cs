@@ -48,7 +48,7 @@ public partial class Enemy : CharacterBody2D
 
 	protected virtual void SetMovementLogic() 
 	{
-		
+			
 	}
 
 	public virtual void DealDamage(int damage) { 
