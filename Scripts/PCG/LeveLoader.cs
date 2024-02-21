@@ -57,14 +57,13 @@ public partial class LeveLoader : Node2D
 				dims = new Vector2(dims_arr[0].ToFloat(), dims_arr[1].ToFloat());
 				continue;
 			}
-			else if( true ) { // todo: fix the case here
+			else if( true ) { // todo: fix case: check level lines
 				int level_symbol = line.Substring(1, 1).ToInt();
-				string target_new_level = line.Substring(3);
+				string target_new_level = line[3..]; // get the level name for the level
 
 				level_dict[level_symbol] = target_new_level; //save fp to dictionary
-				continue;
+				continue;	
 			}
 		}
-
 	}
 }

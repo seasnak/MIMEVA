@@ -155,12 +155,13 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2os0o"]
-size = Vector2(7, 8)
+size = Vector2(7, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rygms"]
 size = Vector2(6, 9)
 
 [node name="Player" type="CharacterBody2D"]
+position = Vector2(1, 0)
 script = ExtResource("1_iacww")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -168,7 +169,7 @@ sprite_frames = SubResource("SpriteFrames_5yp52")
 animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 4)
+position = Vector2(-0.5, 4.5)
 shape = SubResource("RectangleShape2D_2os0o")
 
 [node name="Sword" type="Area2D" parent="."]

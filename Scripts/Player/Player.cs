@@ -42,6 +42,7 @@ public partial class Player : CharacterBody2D
 
 	// Related Nodes
 	private AnimatedSprite2D sprite;
+	private CollisionShape2D collider;
 	private PlayerVariables player_vars;
 	private HitBox weapon;
 	
@@ -54,6 +55,8 @@ public partial class Player : CharacterBody2D
 		// player_vars = (PlayerVariables)GetNode("/root/PlayerVariables"); // TODO: add player variables
 		weapon = (HitBox)GetNode("Sword");
 		weapon.SetDamage(30);
+
+		collider = GetNode<CollisionShape2D>("CollisionShape2D");
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -130,8 +133,11 @@ public partial class Player : CharacterBody2D
 		
 		if(input_dir.X != 0 && !is_attacking) {
 			sprite.FlipH = input_dir.X > 0;
+			collider.Position = new Godot.Vector2(-0.5 * input_dir.X > 0 ? -1 : 1, collider.Position.Y);
+
 			weapon.GetSprite().FlipH = sprite.FlipH;
 			weapon.Position = new Godot.Vector2(8 * input_dir.X, 0);
+			
 		}
 		if(input_dir.X != 0 && is_grounded) {
 			sprite.Play("walk");
@@ -154,13 +160,9 @@ public partial class Player : CharacterBody2D
 		Godot.Vector2 velocity = Velocity; // tmp variable to make calculations easier 
 		is_grounded = this.IsOnFloor();
 
-		if(IsOnWall()) {
-			has_fastfell = false;
-			if (Input.IsActionJustPressed("jump")) {
-				velocity.Y = -high_jumpspeed;
-				velocity.X = -100;	
-				is_held_jump = true;
-			}
+		int dir = (input_dir.X > 0 ? 1 : -1);
+		if(WallJumpCheck(dir)) {
+			velocity = WallJump(dir, velocity);
 		}
 
 		if (is_grounded) {
@@ -186,6 +188,22 @@ public partial class Player : CharacterBody2D
 		}
 		
 		Velocity = velocity;
+	}
+
+	private bool WallJumpCheck(int dir) { // TODO: fix to make it more fluid
+		return IsOnWall();
+	}
+
+	private Godot.Vector2 WallJump(int dir, Godot.Vector2 velocity) { // wall jump in the direction dir
+		
+		has_fastfell = false;
+		if (Input.IsActionJustPressed("jump")) {
+			velocity.Y = -high_jumpspeed * 0.75f;
+			velocity.X = 100 * (dir > 0 ? -1 : 1); // wall bounceback
+			is_held_jump = true;
+		}
+		
+		return velocity;
 	}
 
 	public void AddCurrency(int val) { this.coins += val; }
