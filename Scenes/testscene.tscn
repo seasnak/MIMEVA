@@ -166,12 +166,6 @@ position = Vector2(-52, -45)
 [node name="SpikeballMini6" parent="Spikeballs/Spikeball6" instance=ExtResource("3_5sdkl")]
 position = Vector2(8, 0)
 
-[node name="Spikeball7" parent="Spikeballs" instance=ExtResource("3_5sdkl")]
-position = Vector2(-156, -62)
-
-[node name="Spikeball8" parent="Spikeballs/Spikeball7" instance=ExtResource("3_5sdkl")]
-position = Vector2(-24, -27)
-
 [node name="Glorp" parent="." instance=ExtResource("4_s0fda")]
 position = Vector2(4, 58)
 

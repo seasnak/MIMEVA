@@ -23,7 +23,7 @@ public partial class Player : CharacterBody2D
 	// Movement Vals	
 	private const int movespeed = 70;
 	private const int low_jumpspeed = 65; // 4.5
-	private const int high_jumpspeed = 160; // 10
+	private const int high_jumpspeed = 150; // 10
 	private const int fast_fallspeed = 30;
 	private const int dashspeed = 100;
 	private const int max_fallspeed = 200;
@@ -65,7 +65,10 @@ public partial class Player : CharacterBody2D
 		if(is_dead) {return;} // prevent physics if the player is dead
 
 		// Gravity
-		if (Velocity.Y < max_fallspeed) {
+		if (IsOnFloor()) {
+			// player is on floor so don't apply gravity
+		}
+		else if (Velocity.Y < max_fallspeed) {
 			Velocity += new Godot.Vector2( 0, (float)(gravity * 0.5 * delta) );
 		}
 		else {
@@ -111,8 +114,6 @@ public partial class Player : CharacterBody2D
 
 	private void HandleAttack() {
 		
-		
-
 		if(Input.IsActionJustPressed("attack") && !is_attacking) {
 			// GD.Print("Player attacking"); // DEBUG
 			is_attacking = true;
@@ -160,7 +161,7 @@ public partial class Player : CharacterBody2D
 		Godot.Vector2 velocity = Velocity; // tmp variable to make calculations easier 
 		is_grounded = this.IsOnFloor();
 
-		int dir = (input_dir.X > 0 ? 1 : -1);
+		int dir = input_dir.X > 0 ? 1 : -1;
 		if(WallJumpCheck(dir)) {
 			velocity = WallJump(dir, velocity);
 		}
@@ -199,7 +200,7 @@ public partial class Player : CharacterBody2D
 		has_fastfell = false;
 		if (Input.IsActionJustPressed("jump")) {
 			velocity.Y = -high_jumpspeed * 0.75f;
-			velocity.X = 100 * (dir > 0 ? -1 : 1); // wall bounceback
+			velocity.X = -200 * dir; // wall bounceback
 			is_held_jump = true;
 		}
 		
