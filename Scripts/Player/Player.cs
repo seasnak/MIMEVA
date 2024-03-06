@@ -37,7 +37,7 @@ public partial class Player : CharacterBody2D
 	private bool can_climb = false;
 	private bool is_climbing = false;
 	private bool is_attacking = false;
-
+	
 	private bool is_dead = false;
 
 	// Related Nodes
@@ -130,7 +130,11 @@ public partial class Player : CharacterBody2D
 	}
 
 	private void HandleMove(Godot.Vector2 input_dir) {
-		Velocity = new Godot.Vector2(movespeed * input_dir.X, Velocity.Y);
+		Godot.Vector2 velocity = Velocity;
+		if(velocity.X != movespeed * input_dir.X) {
+			if(input_dir.X == 0) { velocity.X = 0; }
+			else { velocity.X += movespeed * input_dir.X; }
+		}
 		
 		if(input_dir.X != 0 && !is_attacking) {
 			sprite.FlipH = input_dir.X > 0;
@@ -155,6 +159,8 @@ public partial class Player : CharacterBody2D
 		else {
 			sprite.Play("idle");
 		}
+
+		Velocity = velocity;
 	}
 
 	private void HandleJump(Godot.Vector2 input_dir) {
@@ -162,10 +168,10 @@ public partial class Player : CharacterBody2D
 		is_grounded = this.IsOnFloor();
 
 		int dir = input_dir.X > 0 ? 1 : -1;
+		// int wall_dir =  // Get wall direction
 		if(WallJumpCheck(dir)) {
-			velocity = WallJump(dir, velocity);
+			velocity = WallJump(dir);
 		}
-
 		if (is_grounded) {
 			has_fastfell = false;
 			if (Input.IsActionJustPressed("jump")) {
@@ -179,7 +185,6 @@ public partial class Player : CharacterBody2D
 				velocity.Y = -low_jumpspeed;
 				is_held_jump = false;
 			}
-
 			// steeper jump downward arc for better jump game feel
 			if (!has_fastfell && velocity.Y > 0) {
 				// this.Velocity += new Vector2(0, fast_fallspeed);
@@ -188,19 +193,21 @@ public partial class Player : CharacterBody2D
 			}
 		}
 		
+		
 		Velocity = velocity;
 	}
 
 	private bool WallJumpCheck(int dir) { // TODO: fix to make it more fluid
+		
 		return IsOnWall();
 	}
 
-	private Godot.Vector2 WallJump(int dir, Godot.Vector2 velocity) { // wall jump in the direction dir
-		
+	private Godot.Vector2 WallJump(int dir) { // wall jump in the direction dir
+		Godot.Vector2 velocity = Velocity;
 		has_fastfell = false;
 		if (Input.IsActionJustPressed("jump")) {
-			velocity.Y = -high_jumpspeed * 0.75f;
-			velocity.X = -200 * dir; // wall bounceback
+			velocity.Y = -high_jumpspeed; // -high_jumpspeed * 0.9
+			velocity.X = -150 * dir; // wall bounceback
 			is_held_jump = true;
 		}
 		
