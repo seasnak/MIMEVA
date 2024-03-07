@@ -197,9 +197,14 @@ public partial class Player : CharacterBody2D
 		Velocity = velocity;
 	}
 
+	// ie. { "position": (-112, -24.06502), "normal": (-1, 0), "collider_id": 37262198139, "collider": TileMap:<TileMap#37262198139>, "shape": 0, "rid": RID(8250632175884) }
 	private bool WallJumpCheck(int dir) { // TODO: fix to make it more fluid
-		
-		return IsOnWall();
+		var spaceState = GetWorld2D().DirectSpaceState;
+		var query = PhysicsRayQueryParameters2D.Create(this.Position, this.Position + new Godot.Vector2(dir * -10, 0));
+		var result = spaceState.IntersectRay(query);
+		if( result.Count > 0 ) { GD.Print(result); }
+		// if( result["collider"] == TileMap )
+		return (IsOnWall());
 	}
 
 	private Godot.Vector2 WallJump(int dir) { // wall jump in the direction dir
