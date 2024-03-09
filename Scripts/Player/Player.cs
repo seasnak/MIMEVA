@@ -45,6 +45,9 @@ public partial class Player : CharacterBody2D
 	private CollisionShape2D collider;
 	private PlayerVariables player_vars;
 	private HitBox weapon;
+
+	// Debug Nodes
+	private Godot.Collections.Dictionary<string,Line2D> debugline_dict;
 	
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	private float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
@@ -57,6 +60,8 @@ public partial class Player : CharacterBody2D
 		weapon.SetDamage(30);
 
 		collider = GetNode<CollisionShape2D>("CollisionShape2D");
+		debugline_dict = new Godot.Collections.Dictionary<string,Line2D>();
+		
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -132,8 +137,12 @@ public partial class Player : CharacterBody2D
 	private void HandleMove(Godot.Vector2 input_dir) {
 		Godot.Vector2 velocity = Velocity;
 		if(velocity.X != movespeed * input_dir.X) {
-			if(input_dir.X == 0) { velocity.X = 0; }
-			else { velocity.X += movespeed * input_dir.X; }
+			if(input_dir.X == 0) { 
+				velocity.X = 0; 
+			}
+			else { 
+				velocity.X = Math.Min(velocity.X + movespeed * input_dir.X, movespeed * input_dir.X);
+			}
 		}
 		
 		if(input_dir.X != 0 && !is_attacking) {
@@ -167,7 +176,7 @@ public partial class Player : CharacterBody2D
 		Godot.Vector2 velocity = Velocity; // tmp variable to make calculations easier 
 		is_grounded = this.IsOnFloor();
 
-		int dir = input_dir.X > 0 ? 1 : -1;
+		int dir = (int)Math.Ceiling(input_dir.X);
 		// int wall_dir =  // Get wall direction
 		if(WallJumpCheck(dir)) {
 			velocity = WallJump(dir);
@@ -203,6 +212,22 @@ public partial class Player : CharacterBody2D
 		var query = PhysicsRayQueryParameters2D.Create(this.Position, this.Position + new Godot.Vector2(dir * -10, 0));
 		var result = spaceState.IntersectRay(query);
 		if( result.Count > 0 ) { GD.Print(result); }
+        // DEBUG: Add a line to see where the
+		Line2D line;
+		if(debugline_dict.ContainsKey("walljump")) {
+			line = debugline_dict["walljump"];
+			line.ClearPoints();
+			line.AddPoint(Godot.Vector2.Zero);
+			line.AddPoint(new Godot.Vector2(-10 * dir, 0));
+		}
+		else {
+			line = new() { Width = 0.5f };
+			this.AddChild(line);
+			line.AddPoint(Godot.Vector2.Zero);
+			line.AddPoint(new Godot.Vector2(-10 * dir, 0));
+			debugline_dict.Add("walljump", line);
+		}
+		// line.Position = this.Position;
 		// if( result["collider"] == TileMap )
 		return (IsOnWall());
 	}

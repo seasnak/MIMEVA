@@ -94,7 +94,7 @@ zoom = Vector2(1, 1)
 
 [node name="Player" parent="." instance=ExtResource("1_bwdw4")]
 top_level = true
-position = Vector2(0, 2)
+position = Vector2(-15, -9)
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("2_jgwvn")
