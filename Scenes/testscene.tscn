@@ -247,12 +247,12 @@ shape = SubResource("RectangleShape2D_ragxa")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="LevelTransition"]
 sprite_frames = SubResource("SpriteFrames_wy6f7")
 
-[node name="Bouncshroom" type="StaticBody2D" parent="."]
+[node name="Bounceshroom" type="StaticBody2D" parent="."]
 position = Vector2(-140, 60)
 metadata/_edit_group_ = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Bouncshroom"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Bounceshroom"]
 sprite_frames = SubResource("SpriteFrames_q5you")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bouncshroom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bounceshroom"]
 shape = SubResource("RectangleShape2D_6w0rh")

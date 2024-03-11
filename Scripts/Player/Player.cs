@@ -211,25 +211,28 @@ public partial class Player : CharacterBody2D
 		var spaceState = GetWorld2D().DirectSpaceState;
 		var query = PhysicsRayQueryParameters2D.Create(this.Position, this.Position + new Godot.Vector2(dir * -10, 0));
 		var result = spaceState.IntersectRay(query);
-		if( result.Count > 0 ) { GD.Print(result); }
-        // DEBUG: Add a line to see where the
-		Line2D line;
-		if(debugline_dict.ContainsKey("walljump")) {
-			line = debugline_dict["walljump"];
-			line.ClearPoints();
-			line.AddPoint(Godot.Vector2.Zero);
-			line.AddPoint(new Godot.Vector2(-10 * dir, 0));
+		// if( result.Count > 0 ) { GD.Print(result); } // DEBUG
+        
+		// DEBUG: Add a line to see the walljump
+		// Line2D line;
+		// if(debugline_dict.ContainsKey("walljump")) {
+		// 	line = debugline_dict["walljump"];
+		// 	line.ClearPoints();
+		// 	line.AddPoint(Godot.Vector2.Zero);
+		// 	line.AddPoint(new Godot.Vector2(-5 * dir, 0));
+		// }
+		// else {
+		// 	line = new() { Width = 0.5f };
+		// 	this.AddChild(line);
+		// 	line.AddPoint(Godot.Vector2.Zero);
+		// 	line.AddPoint(new Godot.Vector2(-5 * dir, 0));
+		// 	debugline_dict.Add("walljump", line);
+		// }
+		
+		if( result.Count > 0 ) {
+			return (ulong)result["collider_id"]==GetNode<TileMap>("/root/World/TileMap").GetInstanceId() && !is_grounded;
 		}
-		else {
-			line = new() { Width = 0.5f };
-			this.AddChild(line);
-			line.AddPoint(Godot.Vector2.Zero);
-			line.AddPoint(new Godot.Vector2(-10 * dir, 0));
-			debugline_dict.Add("walljump", line);
-		}
-		// line.Position = this.Position;
-		// if( result["collider"] == TileMap )
-		return (IsOnWall());
+		return IsOnWallOnly();
 	}
 
 	private Godot.Vector2 WallJump(int dir) { // wall jump in the direction dir
