@@ -90,10 +90,9 @@ public partial class Player : CharacterBody2D
 
     public override void _Process(double delta)
     {
-
 		// Handle Health and Death
 		if (curr_health <= 0) {
-
+			
 			if(!is_dead) {
 				GD.Print("Player Died!");
 				
@@ -106,7 +105,6 @@ public partial class Player : CharacterBody2D
 				is_dead = false;
 			}
 		}
-		
     }
 
     private void Die() {
@@ -202,7 +200,7 @@ public partial class Player : CharacterBody2D
 			}
 		}
 		
-		
+		velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
 		Velocity = velocity;
 	}
 
