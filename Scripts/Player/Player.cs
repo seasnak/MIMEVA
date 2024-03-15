@@ -23,7 +23,7 @@ public partial class Player : CharacterBody2D
 	// Movement Vals	
 	private const int movespeed = 70;
 	private const int low_jumpspeed = 65; // 4.5
-	private const int high_jumpspeed = 150; // 10
+	private const int high_jumpspeed = 160; // 10
 	private const int fast_fallspeed = 30;
 	private const int dashspeed = 100;
 	private const int max_fallspeed = 200;
@@ -39,7 +39,7 @@ public partial class Player : CharacterBody2D
 	private bool is_attacking = false;
 	
 	private bool is_dead = false;
-
+	
 	// Related Nodes
 	private AnimatedSprite2D sprite;
 	private CollisionShape2D collider;
@@ -61,7 +61,6 @@ public partial class Player : CharacterBody2D
 
 		collider = GetNode<CollisionShape2D>("CollisionShape2D");
 		debugline_dict = new Godot.Collections.Dictionary<string,Line2D>();
-		
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -110,7 +109,7 @@ public partial class Player : CharacterBody2D
     private void Die() {
 		try{ this.Position = player_vars.checkpoint.Position; }
 		catch{ this.Position = Godot.Vector2.Zero; }
-
+		
 		this.Velocity = Godot.Vector2.Zero;
 		curr_health = max_health;
 	}
@@ -130,13 +129,14 @@ public partial class Player : CharacterBody2D
 			is_attacking = false;
 			weapon.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
 		}
+		
 	}
 
 	private void HandleMove(Godot.Vector2 input_dir) {
 		Godot.Vector2 velocity = Velocity;
 		if(velocity.X != movespeed * input_dir.X) {
-			if(input_dir.X == 0) { 
-				velocity.X = 0; 
+			if(input_dir.X == 0) {
+				velocity.X = 0;
 			}
 			else { 
 				velocity.X = Math.Min(velocity.X + movespeed * input_dir.X, movespeed * input_dir.X);
@@ -173,7 +173,7 @@ public partial class Player : CharacterBody2D
 	private void HandleJump(Godot.Vector2 input_dir) {
 		Godot.Vector2 velocity = Velocity; // tmp variable to make calculations easier 
 		is_grounded = this.IsOnFloor();
-
+		
 		int dir = (int)Math.Ceiling(input_dir.X);
 		// int wall_dir =  // Get wall direction
 		if(WallJumpCheck(dir)) {
