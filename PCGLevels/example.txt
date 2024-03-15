@@ -1,19 +1,19 @@
-==========
+=========
 BLOCK KEY
-==========
+=========
 - EMPTY
 B BLOCK
 S SPIKE
 E ENEMY // this will place a random enemy here. The enemy type being placed here will be determined based on where the tile is.
 K KEY
-D DOOR
+O DOOR
 C COIN
-P PLAYER_START ( where the player spawns ) -- only found in the starting room
-X SPAWNER ( activatable object that the player spawns at after they hit it ) 
+P PLAYER_START ( where the player spawns ) -> only found in the starting room
+X SPAWNER ( activatable object that the player spawns at after they hit it )  
 
-============
-SAMPLE ROOM
-============
+================
+SAMPLE ROOM FILE
+================
 SHAPE 10 10
 
 KEY
@@ -28,8 +28,28 @@ B B - - - - - - - B
 B - - - S K - S S B
 B B - S B B B B B B
 L - - - - - - - - B
-L - - D - - S S C B
+L - - O - - S S C B
 B B B B - B B B B B
 B B B B - - B B B B
 B B B B - - B B B B
 B B B B D D B B B B
+
+=======================
+SAMPLE LINEAR ROOM FILE
+=======================
+SHAPE 10 10
+
+KEY
+L level1
+R level2
+
+B B B B B B B B B B
+B B - - - - - - B B
+B B - - - - - - B B
+B B - - C - - - B B
+L - - B B B - - - R
+L - - - - B - - O R
+B B - C - B - - B B
+B B S B - - - - - B
+B S S S - S S - K B
+B B B B B B B B B B
