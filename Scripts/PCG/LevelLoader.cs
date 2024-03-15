@@ -6,7 +6,7 @@ namespace Mimeva;
 /*
 Loads in levels from custom .txt file format (see examples in pcglevels folder)
 */
-public partial class LeveLoader : Node2D
+public partial class LevelLoader : Node2D
 {
 
 	private static Dictionary<int, string> level_dict; // dictionary representation of level
@@ -35,7 +35,7 @@ public partial class LeveLoader : Node2D
 
 		tilemap.Clear();
 
-		string target_fpath = ""; 
+		string target_fpath = "";
 		if(is_unix) { target_fpath = $"Levels/{target_f}"; }
 		else{ target_fpath = $"Levels\\{target_f}"; }
 		GD.Print($"Opening File {target_fpath}");

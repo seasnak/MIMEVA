@@ -14,7 +14,6 @@ public partial class Player : CharacterBody2D
 	private int curr_stamina = 100;
 
 	private int death_count = 0;
-	
 
 	private int coins = 0;
 	private int keys = 0;
@@ -138,7 +137,7 @@ public partial class Player : CharacterBody2D
 			if(input_dir.X == 0) {
 				velocity.X = 0;
 			}
-			else { 
+			else {
 				velocity.X = Math.Min(velocity.X + movespeed * input_dir.X, movespeed * input_dir.X);
 			}
 		}
