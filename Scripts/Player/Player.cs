@@ -106,7 +106,7 @@ public partial class Player : CharacterBody2D
     }
 
     private void Die() {
-		try{ this.Position = player_vars.checkpoint.Position; }
+		try{ this.Position = PlayerVariables.GetCheckpointPos(); }
 		catch{ this.Position = Godot.Vector2.Zero; }
 		
 		this.Velocity = Godot.Vector2.Zero;

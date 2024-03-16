@@ -38,7 +38,6 @@ public partial class Enemy : CharacterBody2D
 		if(curr_health <= 0) {
 			HandleDeath();
 		}
-
     }
 	
 	private void HandleDeath() {

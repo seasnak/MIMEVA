@@ -6,7 +6,7 @@ public partial class PlayerVariables : Node
 {
 
 
-	public Checkpoint checkpoint = null;
+	private static Checkpoint checkpoint = null;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -20,11 +20,17 @@ public partial class PlayerVariables : Node
 		
 	}
 
-	private Checkpoint GetCheckpoint() {
+
+	// Getters and Setters
+	public static Checkpoint GetCheckpoint() {
 		return checkpoint;
 	}
 
-	private Vector2 GetCheckpointPos() {
+	public static Vector2 GetCheckpointPos() {
 		return checkpoint.Position;
+	}
+
+	public static void SetCheckpoint(Checkpoint new_checkpoint) {
+		checkpoint = new_checkpoint;
 	}
 }

@@ -49,7 +49,7 @@ B B - - - - - - B B
 B B - - C - - - B B
 L - - B B B - - - R
 L - - - - B - - O R
-B B - C - B - - B B
+B B - - - B - - B B
 B B S B - - - - - B
 B S S S - S S - K B
 B B B B B B B B B B

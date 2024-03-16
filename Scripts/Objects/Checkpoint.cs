@@ -8,18 +8,27 @@ public partial class Checkpoint : Area2D {
     
     private AnimatedSprite2D sprite;
     private CollisionShape2D intbox; // the area from which the player can interact with this object
+    private bool player_inside = false;
     
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         // GD.Print("Checkpoint active");
+        sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        player = GetNode<Player>("/root/World/Player");
+
+        sprite.Play("idle");
         BodyEntered += OnBodyEntered;
+        BodyExited += OnBodyExited;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta) 
     {
-        
+        if(player_inside && player.IsAttacking()) {
+            sprite.Play("ring");
+            PlayerVariables.SetCheckpoint(this);
+        }
     }
 
     public void SpawnPlayer(Player target) 
@@ -35,11 +44,16 @@ public partial class Checkpoint : Area2D {
     private void OnBodyEntered(Node body) 
     {
         if(body == null || body is not Player) { return; }
-
-        if( ((Player)body).IsAttacking() ) {
-            
-        }
         
+        player_inside = true;
+        
+    }
+
+    private void OnBodyExited(Node body)
+    {
+        if(body == null || body is not Player) { return; }
+
+        player_inside = false;
     }
 
 }
