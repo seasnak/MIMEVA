@@ -6,11 +6,11 @@ B BLOCK
 S SPIKE
 E ENEMY // this will place a random enemy here. The enemy type being placed here will be determined based on where the tile is.
 K KEY
-O DOOR
+# DOOR
 C COIN
 P PLAYER_START ( where the player spawns ) -> only found in the starting room
 X SPAWNER ( activatable object that the player spawns at after they hit it )  
-
+^ BOUNCEPAD
 ================
 SAMPLE ROOM FILE
 ================

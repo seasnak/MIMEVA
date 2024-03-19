@@ -1,0 +1,19 @@
+10 10
+
+KEY
+U 
+L 
+D 
+R
+
+ROOM
+B B B B B B B B B B
+B - - - - - - - - B
+B - - - - - - - - B
+B - - - - - - - - B
+B - - - - - - - - B
+B - - - - - - - - B
+B - - - - - - - - B
+B - - - - - - - - B
+B - - - - - - - - B
+B B B B B B B B B B

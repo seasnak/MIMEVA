@@ -24,10 +24,12 @@ public partial class Player : CharacterBody2D
 	private const int low_jumpspeed = 65; // 4.5
 	private const int high_jumpspeed = 160; // 10
 	private const int fast_fallspeed = 30;
-	private const int dashspeed = 100;
+	private const int dashspeed = 150;
 	private const int max_fallspeed = 200;
 	private const int attack_dur = 240; // duration of the attack in milliseconds
-	private ulong start_time = 0;
+	private const int dash_dur = 100; // dash duration in msec
+	private ulong curr_attack_time = 0; // current atk time for timer purposes
+	private ulong curr_dash_time = 0; // current dash time for timer purposes
 
 	// Player Boolean Checks
 	private bool is_grounded = true;
@@ -36,6 +38,8 @@ public partial class Player : CharacterBody2D
 	private bool can_climb = false;
 	private bool is_climbing = false;
 	private bool is_attacking = false;
+	private bool is_dashing = false;
+	private bool can_dash = true; // check for player can only dash once while in the air
 	
 	private bool is_dead = false;
 	
@@ -121,10 +125,10 @@ public partial class Player : CharacterBody2D
 			// sprite.Play("attack");
 			weapon.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
 			weapon.GetNode<AnimatedSprite2D>("AnimatedSprite2D").Play("slash");
-			start_time = Time.GetTicksMsec();
+			curr_attack_time = Time.GetTicksMsec();
 		}
 
-		if(is_attacking && Time.GetTicksMsec() - start_time >= attack_dur ) {
+		if(is_attacking && Time.GetTicksMsec() - curr_attack_time >= attack_dur ) {
 			is_attacking = false;
 			weapon.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
 		}
@@ -157,13 +161,20 @@ public partial class Player : CharacterBody2D
 			is_climbing = true;
 			sprite.Play("idle");
 		}
-		
 		else if(!is_grounded) {
 			// TODO: add jumping animation
 			sprite.Play("jump");
 		}
 		else {
 			sprite.Play("idle");
+		}
+
+		if(Input.IsActionPressed("dash")) {
+			if(is_grounded) { can_dash = true; } //
+			if(can_dash) {
+				// sprite.Play("dash"); // TODO: add dash animation
+				HorDash(Math.Sign(input_dir.X));
+			}
 		}
 
 		Velocity = velocity;
@@ -201,6 +212,16 @@ public partial class Player : CharacterBody2D
 		
 		velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
 		Velocity = velocity;
+	}
+
+	private Godot.Vector2 HorDash(int dir) { // dash in the direction <dir>
+		Godot.Vector2 velocity = Velocity;
+
+		if(!is_grounded) { can_dash = false; } // make sure player can only dash once in the air
+
+
+
+		return velocity;
 	}
 
 	// ie. { "position": (-112, -24.06502), "normal": (-1, 0), "collider_id": 37262198139, "collider": TileMap:<TileMap#37262198139>, "shape": 0, "rid": RID(8250632175884) }
