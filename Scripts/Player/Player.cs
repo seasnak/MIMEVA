@@ -244,9 +244,15 @@ public partial class Player : CharacterBody2D
 			}
 		}
 		
-		if(!is_dashing) {
+		GD.Print(velocity);
+		if(!is_dashing && !is_jumping) {
 			velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
 		}
+		else if(!is_dashing) {
+			velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), dashspeed * 0.8f);
+		}
+		// GD.Print("HandleJump: velocity: ", Math.Abs(velocity.X), " ", velocity);
+		GD.Print($"{velocity.X}");
 		Velocity = velocity;
 	}
 

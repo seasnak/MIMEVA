@@ -16,7 +16,7 @@ public partial class Checkpoint : Area2D {
         // GD.Print("Checkpoint active");
         sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         player = GetNode<Player>("/root/World/Player");
-
+        
         sprite.Play("idle");
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
