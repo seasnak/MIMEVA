@@ -21,10 +21,11 @@ public partial class Player : CharacterBody2D
 
 	// Movement Vals	
 	private const int movespeed = 70;
-	private const int low_jumpspeed = 65; // 4.5
+	private const int low_jumpspeed = 75; // 4.5
 	private const int high_jumpspeed = 160; // 10
+	private const int walljump_knockback = 200;
 	private const int fast_fallspeed = 30;
-	private const int dashspeed = 150;
+	private const int dashspeed = 200;
 	private const int max_fallspeed = 200;
 	private const int attack_dur = 240; // duration of the attack in milliseconds
 	private const int dash_dur = 100; // dash duration in msec
@@ -39,7 +40,10 @@ public partial class Player : CharacterBody2D
 	private bool is_climbing = false;
 	private bool is_attacking = false;
 	private bool is_dashing = false;
+	private bool is_jumping = false;
+
 	private bool can_dash = true; // check for player can only dash once while in the air
+	private bool can_jump = true; // check to see if player can jump
 	
 	private bool is_dead = false;
 	
@@ -74,19 +78,26 @@ public partial class Player : CharacterBody2D
 		// Gravity
 		if (IsOnFloor()) {
 			// player is on floor so don't apply gravity
+			is_jumping = false;
+		}
+		else if (is_dashing) {
+			Velocity = new(Velocity.X, 0);
 		}
 		else if (Velocity.Y < max_fallspeed) {
 			Velocity += new Godot.Vector2( 0, (float)(gravity * 0.5 * delta) );
 		}
 		else {
-			Velocity = new Godot.Vector2( Velocity.X, Math.Min(Velocity.Y, max_fallspeed) );
+			Velocity = new( Velocity.X, Math.Min(Velocity.Y, max_fallspeed) );
 		}
 		
-		Godot.Vector2 input_dir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+		// Update player variables
+		is_grounded = IsOnFloor();
+		
+		Godot.Vector2 input_dir = new(Input.GetAxis("ui_left", "ui_right"), Input.GetAxis("ui_up", "ui_down"));
 		HandleMove(input_dir);
 		HandleJump(input_dir);
 		HandleAttack();
-		
+
 		MoveAndSlide();
 	}
 
@@ -96,7 +107,7 @@ public partial class Player : CharacterBody2D
 		if (curr_health <= 0) {
 			
 			if(!is_dead) {
-				GD.Print("Player Died!");
+				// GD.Print("Player Died!"); // DEBUG
 				
 				sprite.Play("death");
 				is_dead = true;
@@ -119,8 +130,9 @@ public partial class Player : CharacterBody2D
 
 	private void HandleAttack() {
 		
+		if(is_dashing) { return; } // prevent player from attacking while dashing
+
 		if(Input.IsActionJustPressed("attack") && !is_attacking) {
-			// GD.Print("Player attacking"); // DEBUG
 			is_attacking = true;
 			// sprite.Play("attack");
 			weapon.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
@@ -136,8 +148,15 @@ public partial class Player : CharacterBody2D
 	}
 
 	private void HandleMove(Godot.Vector2 input_dir) {
+
+		// handle dash timer vars
+		if(is_dashing && Time.GetTicksMsec()-curr_dash_time >= dash_dur) { 
+			is_dashing = false;
+		}
+
+		// handle player movement
 		Godot.Vector2 velocity = Velocity;
-		if(velocity.X != movespeed * input_dir.X) {
+		if(velocity.X != movespeed * input_dir.X && !is_dashing) {
 			if(input_dir.X == 0) {
 				velocity.X = 0;
 			}
@@ -146,19 +165,34 @@ public partial class Player : CharacterBody2D
 			}
 		}
 		
-		if(input_dir.X != 0 && !is_attacking) {
+		// handle character sprite and weapon
+		if(input_dir.X != 0 && !is_attacking && !is_dashing) {
 			sprite.FlipH = input_dir.X > 0;
 			collider.Position = new Godot.Vector2(-0.5 * input_dir.X > 0 ? -1 : 1, collider.Position.Y);
 
 			weapon.GetSprite().FlipH = sprite.FlipH;
 			weapon.Position = new Godot.Vector2(8 * input_dir.X, 0);
-			
 		}
-		if(input_dir.X != 0 && is_grounded) {
+
+		// handle dash movement
+		if(can_dash && input_dir.X != 0 && Input.IsActionJustPressed("dash")) {
+			is_dashing = true;
+			velocity = HorDash(Math.Sign(input_dir.X));
+		}
+		if(!is_dashing && is_grounded) { can_dash = true; } // reset dash if player is on ground
+
+		// handle player's animatedsprite
+		if(is_jumping) {
+			sprite.Play("jump");
+		}
+		else if(is_dashing) {
+			sprite.Play("idle"); // TODO: add a dash animation
+		}
+		else if(input_dir.X != 0 && is_grounded) {
 			sprite.Play("walk");
 		}
 		else if(can_climb && input_dir.Y != 0) {
-			is_climbing = true;
+			is_climbing = true; // TODO: if I add climbing need to add a climbing animation
 			sprite.Play("idle");
 		}
 		else if(!is_grounded) {
@@ -169,29 +203,29 @@ public partial class Player : CharacterBody2D
 			sprite.Play("idle");
 		}
 
-		if(Input.IsActionPressed("dash")) {
-			if(is_grounded) { can_dash = true; } //
-			if(can_dash) {
-				// sprite.Play("dash"); // TODO: add dash animation
-				HorDash(Math.Sign(input_dir.X));
-			}
-		}
-
 		Velocity = velocity;
 	}
 
 	private void HandleJump(Godot.Vector2 input_dir) {
 		Godot.Vector2 velocity = Velocity; // tmp variable to make calculations easier 
-		is_grounded = this.IsOnFloor();
-		
-		int dir = (int)Math.Ceiling(input_dir.X);
+
+		int dir = (int)input_dir.X;
 		// int wall_dir =  // Get wall direction
-		if(WallJumpCheck(dir)) {
-			velocity = WallJump(dir);
+
+		if(WallJumpCheck(dir)) { // handle walljump
+			can_dash = true; // player can dash after touching a wall
+			if(Input.IsActionJustPressed("jump")) {
+				is_jumping = true;
+				velocity = WallJump(dir);
+				// Velocity = velocity;
+				// return;
+			}
 		}
-		if (is_grounded) {
+		else if (is_grounded) { // handle regular jump
 			has_fastfell = false;
 			if (Input.IsActionJustPressed("jump")) {
+				is_dashing = false; // dash is jump cancellable
+				is_jumping = true;
 				velocity.Y = -high_jumpspeed;
 				is_held_jump = true;
 			}
@@ -210,16 +244,20 @@ public partial class Player : CharacterBody2D
 			}
 		}
 		
-		velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
+		if(!is_dashing) {
+			velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
+		}
 		Velocity = velocity;
 	}
 
 	private Godot.Vector2 HorDash(int dir) { // dash in the direction <dir>
 		Godot.Vector2 velocity = Velocity;
 
-		if(!is_grounded) { can_dash = false; } // make sure player can only dash once in the air
+		if(!is_grounded) { can_dash = false; } // player used air dash (value will revert when player dash-resets)
 
-
+		is_dashing = true;
+		curr_dash_time = Time.GetTicksMsec();
+		velocity.X = dashspeed * dir;
 
 		return velocity;
 	}
@@ -227,9 +265,8 @@ public partial class Player : CharacterBody2D
 	// ie. { "position": (-112, -24.06502), "normal": (-1, 0), "collider_id": 37262198139, "collider": TileMap:<TileMap#37262198139>, "shape": 0, "rid": RID(8250632175884) }
 	private bool WallJumpCheck(int dir) { // TODO: fix to make it more fluid
 		var spaceState = GetWorld2D().DirectSpaceState;
-		var query = PhysicsRayQueryParameters2D.Create(this.Position, this.Position + new Godot.Vector2(dir * -10, 0));
+		var query = PhysicsRayQueryParameters2D.Create(this.Position, this.Position + new Godot.Vector2(dir * -7, 0));
 		var result = spaceState.IntersectRay(query);
-		// if( result.Count > 0 ) { GD.Print(result); } // DEBUG
         
 		// DEBUG: Add a line to see the walljump
 		// Line2D line;
@@ -258,7 +295,7 @@ public partial class Player : CharacterBody2D
 		has_fastfell = false;
 		if (Input.IsActionJustPressed("jump")) {
 			velocity.Y = -high_jumpspeed; // -high_jumpspeed * 0.9
-			velocity.X = -150 * dir; // wall bounceback
+			velocity.X = -walljump_knockback * dir; // wall bounceback
 			is_held_jump = true;
 		}
 		
