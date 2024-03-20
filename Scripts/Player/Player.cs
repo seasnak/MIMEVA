@@ -14,7 +14,7 @@ public partial class Player : CharacterBody2D
 	private int curr_stamina = 100;
 
 	private int death_count = 0;
-
+	
 	private int coins = 0;
 	private int keys = 0;
 	private int cool_coins = 0; // the harder to get bonus coins
@@ -23,12 +23,13 @@ public partial class Player : CharacterBody2D
 	private const int movespeed = 70;
 	private const int low_jumpspeed = 75; // 4.5
 	private const int high_jumpspeed = 160; // 10
-	private const int walljump_knockback = 200;
+	private const int walljump_knockback = 150;
 	private const int fast_fallspeed = 30;
 	private const int dashspeed = 200;
+	private const int air_dashspeed = 150;
 	private const int max_fallspeed = 200;
 	private const int attack_dur = 240; // duration of the attack in milliseconds
-	private const int dash_dur = 100; // dash duration in msec
+	private const int dash_dur = 130; // dash duration in msec
 	private ulong curr_attack_time = 0; // current atk time for timer purposes
 	private ulong curr_dash_time = 0; // current dash time for timer purposes
 
@@ -40,7 +41,9 @@ public partial class Player : CharacterBody2D
 	private bool is_climbing = false;
 	private bool is_attacking = false;
 	private bool is_dashing = false;
+	private bool dash_is_airdash = false; // determines whether the dash was an airdash
 	private bool is_jumping = false;
+	private bool is_walljumping = false;
 
 	private bool can_dash = true; // check for player can only dash once while in the air
 	private bool can_jump = true; // check to see if player can jump
@@ -79,6 +82,7 @@ public partial class Player : CharacterBody2D
 		if (IsOnFloor()) {
 			// player is on floor so don't apply gravity
 			is_jumping = false;
+			is_walljumping = false;
 		}
 		else if (is_dashing) {
 			Velocity = new(Velocity.X, 0);
@@ -94,7 +98,7 @@ public partial class Player : CharacterBody2D
 		is_grounded = IsOnFloor();
 		
 		Godot.Vector2 input_dir = new(Input.GetAxis("ui_left", "ui_right"), Input.GetAxis("ui_up", "ui_down"));
-		HandleMove(input_dir);
+		HandleMove(input_dir, delta);
 		HandleJump(input_dir);
 		HandleAttack();
 
@@ -147,7 +151,7 @@ public partial class Player : CharacterBody2D
 		
 	}
 
-	private void HandleMove(Godot.Vector2 input_dir) {
+	private void HandleMove(Godot.Vector2 input_dir, double delta = 1) {
 
 		// handle dash timer vars
 		if(is_dashing && Time.GetTicksMsec()-curr_dash_time >= dash_dur) { 
@@ -156,12 +160,26 @@ public partial class Player : CharacterBody2D
 
 		// handle player movement
 		Godot.Vector2 velocity = Velocity;
-		if(velocity.X != movespeed * input_dir.X && !is_dashing) {
+		if(velocity.X != movespeed * input_dir.X && !is_dashing && !is_walljumping) {
 			if(input_dir.X == 0) {
 				velocity.X = 0;
 			}
-			else {
+			else if(velocity.X > 0) {
+					velocity.X = Math.Max(velocity.X + movespeed * input_dir.X, movespeed * input_dir.X);
+			}
+			else { // velocity.X < 0
 				velocity.X = Math.Min(velocity.X + movespeed * input_dir.X, movespeed * input_dir.X);
+			}
+		}
+		else if(is_walljumping) {
+			GD.Print("WALLJUMP");
+			if(velocity.X != input_dir.X * movespeed) {
+				velocity.X += movespeed * input_dir.X; // gradually decrease movespeed on knockback
+			}
+
+			if(Math.Abs(velocity.X) >= movespeed) {
+				is_walljumping = false;
+				velocity.X = movespeed;
 			}
 		}
 		
@@ -202,7 +220,7 @@ public partial class Player : CharacterBody2D
 		else {
 			sprite.Play("idle");
 		}
-
+		
 		Velocity = velocity;
 	}
 
@@ -215,7 +233,7 @@ public partial class Player : CharacterBody2D
 		if(WallJumpCheck(dir)) { // handle walljump
 			can_dash = true; // player can dash after touching a wall
 			if(Input.IsActionJustPressed("jump")) {
-				is_jumping = true;
+				is_walljumping = true;
 				velocity = WallJump(dir);
 				// Velocity = velocity;
 				// return;
@@ -243,16 +261,21 @@ public partial class Player : CharacterBody2D
 				has_fastfell = true;
 			}
 		}
-		
-		GD.Print(velocity);
+
 		if(!is_dashing && !is_jumping) {
 			velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
 		}
-		else if(!is_dashing) {
-			velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), dashspeed * 0.8f);
+		else if(is_walljumping) {
+			velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
 		}
-		// GD.Print("HandleJump: velocity: ", Math.Abs(velocity.X), " ", velocity);
-		GD.Print($"{velocity.X}");
+		else if(!is_dashing) {
+			if(dash_is_airdash) {
+				velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), air_dashspeed * 0.8f);
+			}
+			else {
+				velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), dashspeed * 0.8f);
+			}
+		}
 		Velocity = velocity;
 	}
 
@@ -263,32 +286,22 @@ public partial class Player : CharacterBody2D
 
 		is_dashing = true;
 		curr_dash_time = Time.GetTicksMsec();
-		velocity.X = dashspeed * dir;
+		if(is_grounded) {
+			velocity.X = dashspeed * dir;
+			dash_is_airdash = false;
+		}
+		else {
+			velocity.X = air_dashspeed * dir;
+			dash_is_airdash = true;
+		}
 
 		return velocity;
 	}
 
-	// ie. { "position": (-112, -24.06502), "normal": (-1, 0), "collider_id": 37262198139, "collider": TileMap:<TileMap#37262198139>, "shape": 0, "rid": RID(8250632175884) }
 	private bool WallJumpCheck(int dir) { // TODO: fix to make it more fluid
 		var spaceState = GetWorld2D().DirectSpaceState;
 		var query = PhysicsRayQueryParameters2D.Create(this.Position, this.Position + new Godot.Vector2(dir * -7, 0));
 		var result = spaceState.IntersectRay(query);
-        
-		// DEBUG: Add a line to see the walljump
-		// Line2D line;
-		// if(debugline_dict.ContainsKey("walljump")) {
-		// 	line = debugline_dict["walljump"];
-		// 	line.ClearPoints();
-		// 	line.AddPoint(Godot.Vector2.Zero);
-		// 	line.AddPoint(new Godot.Vector2(-5 * dir, 0));
-		// }
-		// else {
-		// 	line = new() { Width = 0.5f };
-		// 	this.AddChild(line);
-		// 	line.AddPoint(Godot.Vector2.Zero);
-		// 	line.AddPoint(new Godot.Vector2(-5 * dir, 0));
-		// 	debugline_dict.Add("walljump", line);
-		// }
 		
 		if( result.Count > 0 ) {
 			return (ulong)result["collider_id"]==GetNode<TileMap>("/root/World/TileMap").GetInstanceId() && !is_grounded;
