@@ -172,7 +172,6 @@ public partial class Player : CharacterBody2D
 			}
 		}
 		else if(is_walljumping) {
-			GD.Print("WALLJUMP");
 			if(velocity.X != input_dir.X * movespeed) {
 				velocity.X += movespeed * input_dir.X; // gradually decrease movespeed on knockback
 			}

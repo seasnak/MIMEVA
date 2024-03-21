@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://evfbl31axu0u"]
+[gd_scene load_steps=31 format=3 uid="uid://evfbl31axu0u"]
 
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="1_bwdw4"]
 [ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="1_rftmd"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://djml406r0e135" path="res://Sprites/Objects/Pickups/coin.png" id="16_1b4no"]
 [ext_resource type="Texture2D" uid="uid://cjch4rxen2o3v" path="res://Sprites/Objects/Structures/transitioner-Sheet.png" id="16_dlwwf"]
 [ext_resource type="Script" path="res://Scripts/Objects/LevelTransition.cs" id="16_p1t51"]
+[ext_resource type="PackedScene" uid="uid://d26il3tionf5x" path="res://Scenes/testscene2.tscn" id="18_omp12"]
 [ext_resource type="Texture2D" uid="uid://c1e8c4gcb805w" path="res://Sprites/Objects/Structures/bounceshroom.png" id="18_qtk0u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ragxa"]
@@ -239,6 +240,7 @@ texture = ExtResource("16_1b4no")
 [node name="LevelTransition" type="Area2D" parent="."]
 position = Vector2(213, -8)
 script = ExtResource("16_p1t51")
+scene = ExtResource("18_omp12")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelTransition"]

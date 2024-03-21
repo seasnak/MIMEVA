@@ -4,7 +4,7 @@ using System;
 namespace Mimeva;
 public partial class LevelTransition : Area2D
 {
-	// [Export] private PackedScene scene; // the path to the scene to load when the player collides with this level
+	[Export] private PackedScene scene; // the path to the scene to load when the player collides with this level
 	[Export] private string scene_path;
 	
 	private AnimatedSprite2D sprite;
@@ -16,7 +16,9 @@ public partial class LevelTransition : Area2D
 		
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		sprite.Play("default");
-		scene_path = "res://Scenes/testscene2.tscn";
+		
+		scene_path ??= scene.ResourcePath; // if scene path is null then set it to the path of the scene PackedScene
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
