@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cf5qiuo7vln8c"]
+
+[ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="1_25kqd"]
+[ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="2_4yfyc"]
+[ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="3_4bfmg"]
+
+[node name="World" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_25kqd")]
+position = Vector2(0, 0)
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("2_4yfyc")
+format = 2
+
+[node name="Camera2D" parent="." instance=ExtResource("3_4bfmg")]
+position = Vector2(0, 0)
