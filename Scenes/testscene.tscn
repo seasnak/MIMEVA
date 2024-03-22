@@ -239,7 +239,7 @@ texture = ExtResource("16_1b4no")
 [node name="LevelTransition" type="Area2D" parent="."]
 position = Vector2(213, -8)
 script = ExtResource("16_p1t51")
-scene_path = "res://Scenes/testscene2.tscn"
+scene_path = "res://Scenes/Testing/testscene2.tscn"
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelTransition"]
@@ -257,4 +257,3 @@ sprite_frames = SubResource("SpriteFrames_q5you")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bounceshroom"]
 shape = SubResource("RectangleShape2D_6w0rh")
-
