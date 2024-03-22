@@ -129,8 +129,16 @@ public partial class Player : CharacterBody2D
     }
 
     private void Die() {
-		try{ this.Position = PlayerVariables.GetCheckpointPos(); }
-		catch{ this.Position = Godot.Vector2.Zero; }
+		try{ 
+			// GD.Print(PlayerVariables.GetCheckpointScenePath()); // DEBUG
+			// if(this.SceneFilePath != PlayerVariables.GetCheckpointScenePath()) {
+			// 	GetTree().ChangeSceneToFile(PlayerVariables.GetCheckpointScenePath()); // load checkpoint scene if exists
+			// }
+			this.Position = PlayerVariables.GetCheckpointPos(); // set player position to the position of the checkpoint
+		}
+		catch{ 
+			this.Position = Godot.Vector2.Zero; 
+		}
 		
 		this.Velocity = Godot.Vector2.Zero;
 		curr_health = max_health;
