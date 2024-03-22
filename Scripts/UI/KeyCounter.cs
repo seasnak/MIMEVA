@@ -4,7 +4,7 @@ using System.CodeDom.Compiler;
 using System.ComponentModel.DataAnnotations;
 
 namespace Mimeva;
-public partial class KeyCounter : RichTextLabel
+public partial class KeyCounter : Label
 {
 
 	TextureRect texture;
@@ -23,7 +23,7 @@ public partial class KeyCounter : RichTextLabel
 
 		this.ClipContents = false;
 		this.AutowrapMode = TextServer.AutowrapMode.Off;
-		this.FitContent = true;
+		// this.FitContent = true;
 		this.Scale = new Vector2(2, 2);
 
 		this.Position = new Vector2(screensize.X - 50, 50);

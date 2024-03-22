@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dpa660cn40on1"]
+
+[ext_resource type="FontFile" uid="uid://c7bot0vp53gdl" path="res://Fonts/ARCADECLASSIC.TTF" id="1_2tosh"]
+
+[resource]
+font = ExtResource("1_2tosh")
+font_size = 20

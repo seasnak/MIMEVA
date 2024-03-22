@@ -30,4 +30,5 @@ public partial class CameraController : Camera2D
 			this.Position += dist_to_target.Normalized() * dist_to_target.Length()*0.1f;
 		}
 	}
+	
 }

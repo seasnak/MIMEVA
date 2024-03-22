@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://evfbl31axu0u"]
+[gd_scene load_steps=33 format=3 uid="uid://evfbl31axu0u"]
 
 [ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="1_yrv2t"]
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="2_am2qm"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://pc0xvd7772dk" path="res://Sprites/UI/uibar_under.png" id="10_x5vfo"]
 [ext_resource type="Texture2D" uid="uid://e8ykpiyroghv" path="res://Sprites/UI/healthbar_progress.png" id="11_3ummg"]
 [ext_resource type="Script" path="res://Scripts/UI/HealthBar.cs" id="12_ggnb8"]
+[ext_resource type="LabelSettings" uid="uid://dpa660cn40on1" path="res://Textures/DefaultUIFont.tres" id="13_h8tx2"]
 [ext_resource type="Script" path="res://Scripts/UI/KeyCounter.cs" id="13_r5cvq"]
 [ext_resource type="Texture2D" uid="uid://d4na8s3sryi5v" path="res://Sprites/Objects/Pickups/key.png" id="14_0e4n4"]
 [ext_resource type="Script" path="res://Scripts/UI/CoinCounter.cs" id="15_wtjyb"]
@@ -197,7 +198,7 @@ position = Vector2(136, -17)
 position = Vector2(-1, 0)
 
 [node name="Coin2" parent="Coins" instance=ExtResource("9_s1cwy")]
-position = Vector2(42, -17)
+position = Vector2(42, -16)
 
 [node name="Coin" parent="Coins" instance=ExtResource("9_s1cwy")]
 position = Vector2(-22, 0)
@@ -217,9 +218,10 @@ texture_under = ExtResource("10_x5vfo")
 texture_progress = ExtResource("11_3ummg")
 script = ExtResource("12_ggnb8")
 
-[node name="KeyCounter" type="RichTextLabel" parent="CanvasLayer"]
+[node name="KeyCounter" type="Label" parent="CanvasLayer"]
 offset_right = 40.0
 offset_bottom = 40.0
+label_settings = ExtResource("13_h8tx2")
 script = ExtResource("13_r5cvq")
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/KeyCounter"]
@@ -228,9 +230,10 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("14_0e4n4")
 
-[node name="CoinCounter" type="RichTextLabel" parent="CanvasLayer"]
+[node name="CoinCounter" type="Label" parent="CanvasLayer"]
 offset_right = 40.0
 offset_bottom = 40.0
+label_settings = ExtResource("13_h8tx2")
 script = ExtResource("15_wtjyb")
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/CoinCounter"]
