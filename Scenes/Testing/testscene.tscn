@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://evfbl31axu0u"]
+[gd_scene load_steps=35 format=3 uid="uid://evfbl31axu0u"]
 
 [ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="1_yrv2t"]
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="2_am2qm"]
@@ -21,6 +21,8 @@
 [ext_resource type="PackedScene" uid="uid://d26il3tionf5x" path="res://Scenes/Testing/testscene2.tscn" id="18_wc2bt"]
 [ext_resource type="Texture2D" uid="uid://cjch4rxen2o3v" path="res://Sprites/Objects/Structures/transitioner-Sheet.png" id="19_byvd1"]
 [ext_resource type="Texture2D" uid="uid://c1e8c4gcb805w" path="res://Sprites/Objects/Structures/bounceshroom.png" id="20_t6d0r"]
+[ext_resource type="Texture2D" uid="uid://dht0r33yxwwur" path="res://Sprites/Objects/Structures/sign.png" id="22_j5fkb"]
+[ext_resource type="Script" path="res://Scripts/Objects/Sign.cs" id="22_jstwy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ragxa"]
 size = Vector2(20, 14)
@@ -90,6 +92,7 @@ animations = [{
 size = Vector2(6, 6)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hwuuj"]
+size = Vector2(13, 11)
 
 [node name="World" type="Node2D"]
 
@@ -264,10 +267,13 @@ sprite_frames = SubResource("SpriteFrames_q5you")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bounceshroom"]
 shape = SubResource("RectangleShape2D_6w0rh")
 
-[node name="Area2D" type="Area2D" parent="."]
-position = Vector2(208, -32)
+[node name="Sign" type="Area2D" parent="."]
+position = Vector2(208, -30)
+script = ExtResource("22_jstwy")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sign"]
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_hwuuj")
 
-[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+[node name="Sprite2D" type="Sprite2D" parent="Sign"]
+texture = ExtResource("22_j5fkb")
