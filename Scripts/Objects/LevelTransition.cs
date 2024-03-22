@@ -8,6 +8,8 @@ public partial class LevelTransition : Area2D
 	[Export] private string scene_path;
 	
 	private AnimatedSprite2D sprite;
+	
+	private Player player;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -16,6 +18,8 @@ public partial class LevelTransition : Area2D
 		
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		sprite.Play("default");
+
+		player = GetNode<Player>("/root/World/Player");
 		
 		scene_path ??= scene.ResourcePath; // if scene path is null then set it to the path of the scene PackedScene
 		
@@ -24,6 +28,10 @@ public partial class LevelTransition : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		
+		// hide sprite if player isn't close
+		float a = Math.Max(0, 50 - (this.Position - player.Position).Length())/30;
+		this.Modulate = new Godot.Color(Modulate.R, Modulate.G, Modulate.B, a);
 		
 	}
 

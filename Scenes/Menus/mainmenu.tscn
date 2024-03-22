@@ -1,3 +1,65 @@
-[gd_scene format=3 uid="uid://b0y160acsktsg"]
+[gd_scene load_steps=6 format=3 uid="uid://b0y160acsktsg"]
+
+[ext_resource type="Texture2D" uid="uid://4ohew37o6gkr" path="res://Sprites/Backgrounds/mainmenu-tmp.png" id="1_u4bc3"]
+[ext_resource type="FontFile" uid="uid://c7bot0vp53gdl" path="res://Fonts/ARCADECLASSIC.TTF" id="1_upa42"]
+[ext_resource type="Script" path="res://Scripts/UI/StartGame.cs" id="3_dla46"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_55s55"]
+font = ExtResource("1_upa42")
+font_size = 200
+outline_size = 50
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fr0aq"]
+font = ExtResource("1_upa42")
+font_size = 40
 
 [node name="MainMenu" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_u4bc3")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -577.0
+offset_top = -324.0
+offset_right = 578.0
+offset_bottom = 325.0
+
+[node name="Title" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -575.5
+offset_right = 575.5
+offset_bottom = 239.0
+grow_horizontal = 2
+text = "Mimeva"
+label_settings = SubResource("LabelSettings_55s55")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Press Start" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -576.5
+offset_top = -142.0
+offset_right = 576.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "Press  'Z'  to  Start"
+label_settings = SubResource("LabelSettings_fr0aq")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_dla46")
+starting_scene_path = "res://Scenes/Testing/testscene.tscn"

@@ -17,7 +17,7 @@ public partial class CameraController : Camera2D
 			throw;
 		}
 		
-		this.Zoom = new Vector2(6, 6);
+		this.Zoom = new Vector2(7, 7);
 		this.Position = player.Position;
 	}
 

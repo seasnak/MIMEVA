@@ -19,7 +19,7 @@ public partial class Player : CharacterBody2D
 	private int keys = 0;
 	private int cool_coins = 0; // the harder to get bonus coins
 
-	// Movement Vals	
+	// Movement Values	
 	private const int movespeed = 70;
 	private const int low_jumpspeed = 75; // 4.5
 	private const int high_jumpspeed = 160; // 10
@@ -28,10 +28,14 @@ public partial class Player : CharacterBody2D
 	private const int dashspeed = 200;
 	private const int air_dashspeed = 150;
 	private const int max_fallspeed = 200;
+
+	// Player Timer Values
 	private const int attack_dur = 240; // duration of the attack in milliseconds
 	private const int dash_dur = 130; // dash duration in msec
+	private const int walljump_dur = 60; // the time for the player to be knocked back
 	private ulong curr_attack_time = 0; // current atk time for timer purposes
 	private ulong curr_dash_time = 0; // current dash time for timer purposes
+	private ulong curr_walljump_time = 0; 
 
 	// Player Boolean Checks
 	private bool is_grounded = true;
@@ -98,7 +102,7 @@ public partial class Player : CharacterBody2D
 		is_grounded = IsOnFloor();
 		
 		Godot.Vector2 input_dir = new(Input.GetAxis("ui_left", "ui_right"), Input.GetAxis("ui_up", "ui_down"));
-		HandleMove(input_dir, delta);
+		HandleMove(input_dir, (float) delta);
 		HandleJump(input_dir);
 		HandleAttack();
 
@@ -151,37 +155,45 @@ public partial class Player : CharacterBody2D
 		
 	}
 
-	private void HandleMove(Godot.Vector2 input_dir, double delta = 1) {
+	private void HandleMove(Godot.Vector2 input_dir, float delta = 1) {
 
-		// handle dash timer vars
+		// handle player timers
 		if(is_dashing && Time.GetTicksMsec()-curr_dash_time >= dash_dur) { 
 			is_dashing = false;
+		}
+		else if(is_walljumping && Time.GetTicksMsec()-curr_walljump_time >= walljump_dur) {
+			is_walljumping = false;
 		}
 
 		// handle player movement
 		Godot.Vector2 velocity = Velocity;
-		if(velocity.X != movespeed * input_dir.X && !is_dashing && !is_walljumping) {
-			if(input_dir.X == 0) {
-				velocity.X = 0;
-			}
-			else if(velocity.X > 0) {
-					velocity.X = Math.Max(velocity.X + movespeed * input_dir.X, movespeed * input_dir.X);
-			}
-			else { // velocity.X < 0
-				velocity.X = Math.Min(velocity.X + movespeed * input_dir.X, movespeed * input_dir.X);
-			}
+		
+		if(is_dashing) {
+			// GD.Print("is_dashing");
 		}
 		else if(is_walljumping) {
-			if(velocity.X != input_dir.X * movespeed) {
-				velocity.X += movespeed * input_dir.X; // gradually decrease movespeed on knockback
+			// GD.Print("is_walljumping");
+		}
+		if(velocity.X != movespeed * input_dir.X) { // not dashing or walljumping so keep momentum
+			// slow down movement only if player is on the ground
+			if(is_grounded) {
+				if(input_dir.X > 0 && velocity.X > input_dir.X * movespeed ) {
+					velocity.X -= 500 * delta;
+				}
+				else if(input_dir.X < 0 && velocity.X < input_dir.X * movespeed) {
+					velocity.X += 500 * delta;
+				}
+				else{
+					velocity.X = input_dir.X * movespeed;
+				}
 			}
-
-			if(Math.Abs(velocity.X) >= movespeed) {
-				is_walljumping = false;
-				velocity.X = movespeed;
+			else { // player is either jumping or is airborne
+				if(Math.Sign(velocity.X) != input_dir.X) {
+					velocity.X = input_dir.X * movespeed;
+				}
 			}
 		}
-		
+
 		// handle character sprite and weapon
 		if(input_dir.X != 0 && !is_attacking && !is_dashing) {
 			sprite.FlipH = input_dir.X > 0;
@@ -192,11 +204,18 @@ public partial class Player : CharacterBody2D
 		}
 
 		// handle dash movement
-		if(can_dash && input_dir.X != 0 && Input.IsActionJustPressed("dash")) {
-			is_dashing = true;
-			velocity = HorDash(Math.Sign(input_dir.X));
+		if(!is_dashing) {
+			if(can_dash && input_dir.X != 0 && Input.IsActionJustPressed("dash")) {
+				is_dashing = true;
+				can_dash = false;
+				velocity = HorDash(Math.Sign(input_dir.X));
+			}
+			
+			if(!can_dash && is_grounded) { // reset dash if player is on ground and not locked out
+				GD.Print("dash reset!"); 
+				can_dash = true; 
+			} 
 		}
-		if(!is_dashing && is_grounded) { can_dash = true; } // reset dash if player is on ground
 
 		// handle player's animatedsprite
 		if(is_jumping) {
@@ -230,7 +249,7 @@ public partial class Player : CharacterBody2D
 		// int wall_dir =  // Get wall direction
 
 		if(WallJumpCheck(dir)) { // handle walljump
-			can_dash = true; // player can dash after touching a wall
+			// can_dash = true; // player can dash after touching a wall
 			if(Input.IsActionJustPressed("jump")) {
 				is_walljumping = true;
 				velocity = WallJump(dir);
@@ -261,27 +280,28 @@ public partial class Player : CharacterBody2D
 			}
 		}
 
-		if(!is_dashing && !is_jumping) {
-			velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
-		}
-		else if(is_walljumping) {
-			velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
-		}
-		else if(!is_dashing) {
-			if(dash_is_airdash) {
-				velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), air_dashspeed * 0.8f);
-			}
-			else {
-				velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), dashspeed * 0.8f);
-			}
-		}
+		// limit max movespeed
+		// velocity.X = input_dir.X * Math.Min(Math.Abs(velocity.X), dashspeed);
+
+		// if(!is_dashing && !is_jumping) {
+		// 	velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
+		// }
+		// else if(is_walljumping) {
+		// 	velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
+		// }
+		// else if(!is_dashing) {
+		// 	if(dash_is_airdash) {
+		// 		velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), air_dashspeed * 0.8f);
+		// 	}
+		// 	else {
+		// 		velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), dashspeed * 0.8f);
+		// 	}
+		// }
 		Velocity = velocity;
 	}
 
 	private Godot.Vector2 HorDash(int dir) { // dash in the direction <dir>
 		Godot.Vector2 velocity = Velocity;
-
-		if(!is_grounded) { can_dash = false; } // player used air dash (value will revert when player dash-resets)
 
 		is_dashing = true;
 		curr_dash_time = Time.GetTicksMsec();
