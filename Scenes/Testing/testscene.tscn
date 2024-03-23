@@ -1,5 +1,6 @@
-[gd_scene load_steps=35 format=3 uid="uid://evfbl31axu0u"]
+[gd_scene load_steps=30 format=3 uid="uid://evfbl31axu0u"]
 
+[ext_resource type="Texture2D" uid="uid://cn3aidl0ylafh" path="res://Sprites/Backgrounds/blank.png" id="1_w5tle"]
 [ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="1_yrv2t"]
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="2_am2qm"]
 [ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="3_g7iot"]
@@ -19,7 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://djml406r0e135" path="res://Sprites/Objects/Pickups/coin.png" id="16_k661h"]
 [ext_resource type="Script" path="res://Scripts/Objects/LevelTransition.cs" id="17_mupv1"]
 [ext_resource type="PackedScene" uid="uid://d26il3tionf5x" path="res://Scenes/Testing/testscene2.tscn" id="18_wc2bt"]
-[ext_resource type="Texture2D" uid="uid://cjch4rxen2o3v" path="res://Sprites/Objects/Structures/transitioner-Sheet.png" id="19_byvd1"]
+[ext_resource type="Texture2D" uid="uid://b57yq51k03mmn" path="res://Sprites/Objects/Structures/transitioner.png" id="20_dm1m6"]
 [ext_resource type="Texture2D" uid="uid://c1e8c4gcb805w" path="res://Sprites/Objects/Structures/bounceshroom.png" id="20_t6d0r"]
 [ext_resource type="Texture2D" uid="uid://dht0r33yxwwur" path="res://Sprites/Objects/Structures/sign.png" id="22_j5fkb"]
 [ext_resource type="Script" path="res://Scripts/Objects/Sign.cs" id="22_jstwy"]
@@ -27,50 +28,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ragxa"]
 size = Vector2(20, 14)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x2be7"]
-atlas = ExtResource("19_byvd1")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6rb1n"]
-atlas = ExtResource("19_byvd1")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tfugm"]
-atlas = ExtResource("19_byvd1")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_eusl5"]
-atlas = ExtResource("19_byvd1")
-region = Rect2(48, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ci8h4"]
-atlas = ExtResource("19_byvd1")
-region = Rect2(64, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0bge0"]
-atlas = ExtResource("19_byvd1")
-region = Rect2(80, 0, 16, 16)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_wy6f7"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_x2be7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6rb1n")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tfugm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_eusl5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ci8h4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0bge0")
+"texture": ExtResource("20_dm1m6")
 }],
 "loop": true,
 "name": &"default",
@@ -95,6 +57,12 @@ size = Vector2(6, 6)
 size = Vector2(13, 11)
 
 [node name="World" type="Node2D"]
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Background"]
+position = Vector2(203, -13)
+texture = ExtResource("1_w5tle")
 
 [node name="Camera" parent="." instance=ExtResource("1_yrv2t")]
 zoom = Vector2(1, 1)
@@ -177,7 +145,7 @@ position = Vector2(8, 0)
 position = Vector2(4, 58)
 
 [node name="Checkpoint" parent="." instance=ExtResource("6_xg02x")]
-position = Vector2(-68, -14)
+position = Vector2(-68, -20)
 
 [node name="Door2" parent="." instance=ExtResource("7_htrcn")]
 position = Vector2(86, -32)
@@ -198,7 +166,7 @@ position = Vector2(-41, 18)
 position = Vector2(136, -17)
 
 [node name="Coin4" parent="Coins" instance=ExtResource("9_s1cwy")]
-position = Vector2(-1, 0)
+position = Vector2(-12, 0)
 
 [node name="Coin2" parent="Coins" instance=ExtResource("9_s1cwy")]
 position = Vector2(42, -16)

@@ -19,19 +19,17 @@ public partial class Sign : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
 		if(player_interacted) {
 
 			player_interacted = false;
 			//print out message
 			GD.Print(text);
 		}
-
 	}
 
 	private void OnBodyEntered(Node other) {
 		if(other is not Player || other == null) { return; }
-
+		
 		player_interacted = true;
 	}
 }

@@ -1,16 +1,16 @@
 [gd_scene load_steps=6 format=3 uid="uid://b0y160acsktsg"]
 
 [ext_resource type="Texture2D" uid="uid://4ohew37o6gkr" path="res://Sprites/Backgrounds/mainmenu-tmp.png" id="1_u4bc3"]
-[ext_resource type="FontFile" uid="uid://c7bot0vp53gdl" path="res://Fonts/ARCADECLASSIC.TTF" id="1_upa42"]
+[ext_resource type="FontFile" uid="uid://bh1w584313oip" path="res://Fonts/monogram/monogram-extended.ttf" id="2_qt43n"]
 [ext_resource type="Script" path="res://Scripts/UI/StartGame.cs" id="3_dla46"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_55s55"]
-font = ExtResource("1_upa42")
+font = ExtResource("2_qt43n")
 font_size = 200
-outline_color = Color(0, 0, 0, 1)
+outline_size = 10
 
 [sub_resource type="LabelSettings" id="LabelSettings_fr0aq"]
-font = ExtResource("1_upa42")
+font = ExtResource("2_qt43n")
 font_size = 40
 
 [node name="MainMenu" type="Node2D"]

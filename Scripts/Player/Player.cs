@@ -219,10 +219,12 @@ public partial class Player : CharacterBody2D
 				velocity = HorDash(Math.Sign(input_dir.X));
 			}
 			
-			if(!can_dash && is_grounded) { // reset dash if player is on ground and not locked out
-				GD.Print("dash reset!"); 
-				can_dash = true; 
-			} 
+			if(!can_dash && is_grounded && Time.GetTicksMsec()-curr_dash_time>800) { // reset dash if player is on ground and not locked out
+				curr_dash_time = Time.GetTicksMsec();
+				// GD.Print("dash reset!"); // DEBUG
+				can_dash = true;
+			}
+			
 		}
 
 		// handle player's animatedsprite
