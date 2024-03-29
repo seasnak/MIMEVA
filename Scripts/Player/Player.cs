@@ -224,7 +224,6 @@ public partial class Player : CharacterBody2D
 				// GD.Print("dash reset!"); // DEBUG
 				can_dash = true;
 			}
-			
 		}
 
 		// handle player's animatedsprite
