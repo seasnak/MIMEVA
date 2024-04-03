@@ -61,7 +61,7 @@ size = Vector2(13, 11)
 [node name="Background" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Background"]
-position = Vector2(203, -13)
+position = Vector2(198, -13)
 texture = ExtResource("1_w5tle")
 
 [node name="Camera" parent="." instance=ExtResource("1_yrv2t")]
@@ -180,34 +180,34 @@ position = Vector2(116, -17)
 [node name="Coin6" parent="Coins" instance=ExtResource("9_s1cwy")]
 position = Vector2(126, -17)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
 
-[node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer"]
+[node name="HealthBar" type="TextureProgressBar" parent="UI"]
 offset_right = 40.0
 offset_bottom = 40.0
 texture_under = ExtResource("10_x5vfo")
 texture_progress = ExtResource("11_3ummg")
 script = ExtResource("12_ggnb8")
 
-[node name="KeyCounter" type="Label" parent="CanvasLayer"]
+[node name="KeyCounter" type="Label" parent="UI"]
 offset_right = 40.0
 offset_bottom = 40.0
 label_settings = ExtResource("13_h8tx2")
 script = ExtResource("13_r5cvq")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/KeyCounter"]
+[node name="TextureRect" type="TextureRect" parent="UI/KeyCounter"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("14_0e4n4")
 
-[node name="CoinCounter" type="Label" parent="CanvasLayer"]
+[node name="CoinCounter" type="Label" parent="UI"]
 offset_right = 40.0
 offset_bottom = 40.0
 label_settings = ExtResource("13_h8tx2")
 script = ExtResource("15_wtjyb")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/CoinCounter"]
+[node name="TextureRect" type="TextureRect" parent="UI/CoinCounter"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0

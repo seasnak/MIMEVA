@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8r872y20v2o5"]
+
+[ext_resource type="Texture2D" uid="uid://dcuu7cravxqsb" path="res://Sprites/UI/dialogue_box.png" id="1_b3boy"]
+[ext_resource type="FontFile" uid="uid://bh1w584313oip" path="res://Fonts/monogram/monogram-extended.ttf" id="2_65kh7"]
+
+[node name="DialogueBox" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1088.0
+offset_bottom = -614.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_b3boy")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 32
+patch_margin_top = 16
+patch_margin_right = 32
+patch_margin_bottom = 16
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_65kh7")
+theme_override_font_sizes/font_size = 32
+vertical_alignment = 1
+
+[node name="LetterDisplayTimer" type="Timer" parent="."]
