@@ -46,7 +46,7 @@ public partial class DialogueBox : MarginContainer
 
 		// await resized
 		this.CustomMinimumSize = new Vector2(Math.Min(Size.X, MAX_WIDTH), CustomMinimumSize.Y);
-
+		
 		if (Size.X > MAX_WIDTH) {
 			label.AutowrapMode = TextServer.AutowrapMode.Word;
 			// await resized
@@ -83,10 +83,4 @@ public partial class DialogueBox : MarginContainer
 	private void OnLetterDisplayTimerTimeout() {
 		DisplayLetter();
 	}
-
-	private void UnhandledInput() {
-		
-		return;
-	}
-
 }

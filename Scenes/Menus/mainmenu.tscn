@@ -7,11 +7,12 @@
 [sub_resource type="LabelSettings" id="LabelSettings_55s55"]
 font = ExtResource("2_qt43n")
 font_size = 200
-outline_size = 10
+outline_size = 5
 
 [sub_resource type="LabelSettings" id="LabelSettings_fr0aq"]
 font = ExtResource("2_qt43n")
 font_size = 40
+outline_color = Color(0, 0, 0, 1)
 
 [node name="MainMenu" type="Node2D"]
 
@@ -38,7 +39,7 @@ offset_left = -575.5
 offset_right = 575.5
 offset_bottom = 239.0
 grow_horizontal = 2
-text = "Mimeva"
+text = "mimeva"
 label_settings = SubResource("LabelSettings_55s55")
 horizontal_alignment = 1
 vertical_alignment = 1
