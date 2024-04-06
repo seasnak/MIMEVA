@@ -32,6 +32,7 @@ public partial class DialogueBox : MarginContainer
 		timer = GetNode<Timer>("LetterDisplayTimer");
 
 		timer.Timeout += OnLetterDisplayTimerTimeout;
+		this.Resized += OnResize();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
