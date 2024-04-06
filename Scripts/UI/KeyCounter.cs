@@ -4,7 +4,7 @@ using System.CodeDom.Compiler;
 using System.ComponentModel.DataAnnotations;
 
 namespace Mimeva;
-public partial class KeyCounter : Label
+public partial class KeyCounter : RichTextLabel
 {
 
 	TextureRect texture;
@@ -17,7 +17,7 @@ public partial class KeyCounter : Label
 		
 		player = GetNode<Player>("/root/World/Player");
 		// player = (Player)GetTree().Root.GetNode("Player");
-
+		
 		Vector2 screensize = this.GetViewportRect().Size;
 		GD.Print(screensize);
 
@@ -25,7 +25,7 @@ public partial class KeyCounter : Label
 		this.AutowrapMode = TextServer.AutowrapMode.Off;
 		// this.FitContent = true;
 		this.Scale = new Vector2(2, 2);
-
+		
 		this.Position = new Vector2(screensize.X - 50, 50);
 		texture.Position = new Vector2(-22, 2);
 		texture.Scale = new Vector2(0.5f, 0.5f);

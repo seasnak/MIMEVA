@@ -4,7 +4,7 @@ using System.CodeDom.Compiler;
 using System.ComponentModel.DataAnnotations;
 
 namespace Mimeva;
-public partial class CoinCounter : Label
+public partial class CoinCounter : RichTextLabel
 {
 
 	TextureRect texture;

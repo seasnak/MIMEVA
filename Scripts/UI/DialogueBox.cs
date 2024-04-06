@@ -43,9 +43,9 @@ public partial class DialogueBox : MarginContainer
 	public void DisplayText(string disp_text) {
 		this.text = disp_text;
 		label.Text = disp_text;
-
+		
 		// await resized
-		this.CustomMinimumSize = new Vector2(Math.Min(Size.X, MAX_WIDTH), CustomMinimumSize.Y);
+		// this.CustomMinimumSize = new Vector2(Math.Min(Size.X, MAX_WIDTH), CustomMinimumSize.Y);
 		
 		if (Size.X > MAX_WIDTH) {
 			label.AutowrapMode = TextServer.AutowrapMode.Word;
