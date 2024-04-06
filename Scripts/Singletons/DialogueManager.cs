@@ -48,7 +48,6 @@ public partial class DialogueManager : Node
 		GetTree().Root.AddChild(dbox);
 		dbox.GlobalPosition = dbox_pos;
 		dbox.DisplayText(dbox_lines_arr[curr_line_idx]);
-		
 	}
 	
 	public override void _UnhandledInput(InputEvent @event) {
