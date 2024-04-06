@@ -32,11 +32,11 @@ public partial class DialogueManager : Node
 
 	public void StartDialogue(Godot.Vector2 pos, string[] lines) {
 		if(is_dialogue_active){ return; } // don't start a new dialogue if a dialogue is currently active
+		if(lines.Length <= 0) { GD.Print("No lines passed to Dialogue Manager"); return; } // empty lines array
 
-
-		dbox_lines_arr = lines;
+		dbox_lines_arr = lines; 
 		GD.Print(dbox_lines_arr); // DEBUG: print out dbox linex array
-		dbox_pos = pos + new Godot.Vector2(32, 40);
+		dbox_pos = pos;
 		ShowTextbox();
 
 		is_dialogue_active = true;
@@ -48,14 +48,16 @@ public partial class DialogueManager : Node
 		GetTree().Root.AddChild(dbox);
 		dbox.GlobalPosition = dbox_pos;
 		dbox.DisplayText(dbox_lines_arr[curr_line_idx]);
+		
 	}
 	
 	public override void _UnhandledInput(InputEvent @event) {
-		if ( 
-			@event.IsActionPressed("advanceDialogue") && 
+		if (
+			@event.IsActionPressed("interact") && 
 			is_dialogue_active && 
-			can_advance_line 
+			can_advance_line
 		) {
+			
 			dbox.QueueFree();
 
 			curr_line_idx += 1;

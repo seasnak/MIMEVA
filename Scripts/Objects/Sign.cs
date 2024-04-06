@@ -8,7 +8,7 @@ public partial class Sign : Area2D
 	[Export] private string[] text = {"Insert Dialogue Here"};
 
 	// Sign Conditionals
-	private bool player_interacted;
+	private bool player_interacted = false;
 
 	// Nodes
 	private DialogueManager dmanager;
@@ -27,14 +27,17 @@ public partial class Sign : Area2D
 		if(player_interacted) {
 			dmanager.StartDialogue(this.GlobalPosition, text);
 			player_interacted = false;
-			//print out message
-			GD.Print(text);
+
+			GD.Print(text); // DEBUG: print out message
 		}
 	}
 
 	private void OnBodyEntered(Node other) {
 		if(other is not Player || other == null) { return; }
 		
-		player_interacted = true;
+		if(Input.IsActionPressed("interact")) {
+			GD.Print("Player Interacted");
+			player_interacted = true;
+		}
 	}
 }

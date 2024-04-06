@@ -36,7 +36,7 @@ public partial class LevelTransition : Area2D
 	}
 
 	private void OnBodyEntered(Node2D body) {
-
+		
 		if(body is Player) {
 			GD.Print("Player Entered Level Transition");
 			GetTree().ChangeSceneToFile(scene_path);
