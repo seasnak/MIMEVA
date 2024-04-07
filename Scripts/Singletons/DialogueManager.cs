@@ -21,21 +21,22 @@ public partial class DialogueManager : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		// why does this load into the scene?
 		dbox_scene = ResourceLoader.Load<PackedScene>("res://Prefabs/UI/DialogueBox.tscn");
-		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		
 	}
 
 	public void StartDialogue(Godot.Vector2 pos, string[] lines) {
 		if(is_dialogue_active){ return; } // don't start a new dialogue if a dialogue is currently active
 		if(lines.Length <= 0) { GD.Print("No lines passed to Dialogue Manager"); return; } // empty lines array
 
-		dbox_lines_arr = lines; 
-		GD.Print(dbox_lines_arr); // DEBUG: print out dbox linex array
+		dbox_lines_arr = lines;
+		GD.Print(dbox_lines_arr); // DEBUG: print out dbox lines array
 		dbox_pos = pos;
 		ShowTextbox();
 
@@ -66,10 +67,11 @@ public partial class DialogueManager : Node
 				return;
 			}
 		}
-
-		ShowTextbox();
+		
 		return;
 	}
+
+	public DialogueBox GetDialogueBox() { return dbox; }
 
 	
 }

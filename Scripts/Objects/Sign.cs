@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Mimeva;
 public partial class Sign : Area2D
@@ -8,7 +9,8 @@ public partial class Sign : Area2D
 	[Export] private string[] text = {"Insert Dialogue Here"};
 
 	// Sign Conditionals
-	private bool player_interacted = false;
+	private bool player_inside = false;
+	private bool is_displaying = false;
 
 	// Nodes
 	private DialogueManager dmanager;
@@ -22,22 +24,28 @@ public partial class Sign : Area2D
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override async void _Process(double delta)
 	{
-		if(player_interacted) {
+		if(player_inside && Input.IsActionJustPressed("interact") && !is_displaying) {
+			// player interacted with sign, so display dialogue
+			is_displaying = true;
 			dmanager.StartDialogue(this.GlobalPosition, text);
-			player_interacted = false;
-
-			GD.Print(text); // DEBUG: print out message
+			DialogueBox dbox = dmanager.GetDialogueBox();
+			
+			dbox.QueueFree();
+			is_displaying = false;
 		}
 	}
 
 	private void OnBodyEntered(Node other) {
 		if(other is not Player || other == null) { return; }
 		
-		if(Input.IsActionPressed("interact")) {
-			GD.Print("Player Interacted");
-			player_interacted = true;
-		}
+		player_inside = true;
+	}
+
+	private void OnBodyExited(Node other) {
+		if(other is not Player || other == null) { return; }
+		
+		player_inside = false;
 	}
 }

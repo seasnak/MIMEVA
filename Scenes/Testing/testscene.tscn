@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://evfbl31axu0u"]
+[gd_scene load_steps=29 format=3 uid="uid://evfbl31axu0u"]
 
 [ext_resource type="Texture2D" uid="uid://cn3aidl0ylafh" path="res://Sprites/Backgrounds/blank.png" id="1_w5tle"]
 [ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="1_yrv2t"]
@@ -13,7 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://pc0xvd7772dk" path="res://Sprites/UI/uibar_under.png" id="10_x5vfo"]
 [ext_resource type="Texture2D" uid="uid://e8ykpiyroghv" path="res://Sprites/UI/healthbar_progress.png" id="11_3ummg"]
 [ext_resource type="Script" path="res://Scripts/UI/HealthBar.cs" id="12_ggnb8"]
-[ext_resource type="LabelSettings" uid="uid://dpa660cn40on1" path="res://Textures/DefaultUIFont.tres" id="13_h8tx2"]
 [ext_resource type="Script" path="res://Scripts/UI/KeyCounter.cs" id="13_r5cvq"]
 [ext_resource type="Texture2D" uid="uid://d4na8s3sryi5v" path="res://Sprites/Objects/Pickups/key.png" id="14_0e4n4"]
 [ext_resource type="Script" path="res://Scripts/UI/CoinCounter.cs" id="15_wtjyb"]
@@ -59,9 +58,9 @@ size = Vector2(13, 11)
 [node name="World" type="Node2D"]
 
 [node name="Background" type="Node2D" parent="."]
+scale = Vector2(5, 5)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background"]
-position = Vector2(198, -13)
 texture = ExtResource("1_w5tle")
 
 [node name="Camera" parent="." instance=ExtResource("1_yrv2t")]
@@ -189,10 +188,9 @@ texture_under = ExtResource("10_x5vfo")
 texture_progress = ExtResource("11_3ummg")
 script = ExtResource("12_ggnb8")
 
-[node name="KeyCounter" type="Label" parent="UI"]
+[node name="KeyCounter" type="RichTextLabel" parent="UI"]
 offset_right = 40.0
 offset_bottom = 40.0
-label_settings = ExtResource("13_h8tx2")
 script = ExtResource("13_r5cvq")
 
 [node name="TextureRect" type="TextureRect" parent="UI/KeyCounter"]
@@ -201,10 +199,9 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("14_0e4n4")
 
-[node name="CoinCounter" type="Label" parent="UI"]
+[node name="CoinCounter" type="RichTextLabel" parent="UI"]
 offset_right = 40.0
 offset_bottom = 40.0
-label_settings = ExtResource("13_h8tx2")
 script = ExtResource("15_wtjyb")
 
 [node name="TextureRect" type="TextureRect" parent="UI/CoinCounter"]
@@ -236,7 +233,7 @@ sprite_frames = SubResource("SpriteFrames_q5you")
 shape = SubResource("RectangleShape2D_6w0rh")
 
 [node name="Sign" type="Area2D" parent="."]
-position = Vector2(0, 2)
+position = Vector2(25, 58)
 script = ExtResource("22_jstwy")
 text = PackedStringArray("This is some sample dialogue")
 metadata/_edit_group_ = true
