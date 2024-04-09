@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 DialogueManager="*res://Scripts/Singletons/DialogueManager.cs"
+PlayerVariables="*res://Scripts/Singletons/PlayerVariables.cs"
 
 [dotnet]
 

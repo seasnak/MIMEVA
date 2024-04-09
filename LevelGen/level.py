@@ -4,6 +4,9 @@ import sys
 import numpy as np
 import pandas as pd
 
+from pathlib import Path
+path = Path(__file__).parent.resolve()
+
 class Level():
     
     def __init__(self, shape:tuple = (10, 10)):
@@ -54,12 +57,11 @@ class Level():
                     continue
                 elif len(contents) != self.shape[1]: # error with length of room
                     raise Exception('Error: Incorrect level shape --> load()')
-                
+            
         pass
     
     def save(self, level_f:str):
         # save this level to <level_f> file
-        
         pass
 
     def print(self):
@@ -77,6 +79,7 @@ class Level():
 if __name__ == "__main__":
     # DEBUG: Sample Usage
     test_lvl = Level()
-    test_lvl.load("../PCGLevels/1.txt")
+    test_lvl.load(f"{path}/../PCGLevels/Rooms/1.txt")
     test_lvl.print()
+
     sys.exit()

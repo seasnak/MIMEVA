@@ -32,7 +32,6 @@ public partial class LevelTransition : Area2D
 		// hide sprite if player isn't close
 		float a = Math.Max(0, 50 - (this.Position - player.Position).Length())/30;
 		this.Modulate = new Godot.Color(Modulate.R, Modulate.G, Modulate.B, a);
-		
 	}
 
 	private void OnBodyEntered(Node2D body) {

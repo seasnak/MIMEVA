@@ -26,6 +26,7 @@ public partial class DialogueBox : MarginContainer
 	private static readonly string DialogueFinishedSignal = "DialogueFinished";
 
 	// Booleans
+	private bool is_line_finished = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -43,6 +44,8 @@ public partial class DialogueBox : MarginContainer
 	}
 
 	public void DisplayText(string disp_text) {
+		// disp_text += "\0";
+		is_line_finished = false;
 		this.text = disp_text;
 		label.Text = disp_text;
 		
@@ -64,7 +67,8 @@ public partial class DialogueBox : MarginContainer
 		let_idx += 1;
 
 		if (let_idx >= text.Length) {
-			EmitSignal(DialogueFinishedSignal);
+			is_line_finished = true;
+			// this.QueueFree();
 			return;
 		}
 
@@ -74,6 +78,9 @@ public partial class DialogueBox : MarginContainer
 				break;
 			case ' ':
 				timer.Start(space_time);
+				break;
+			case '\0':
+				timer.Start(disappear_time);
 				break;
 			default: 
 				timer.Start(let_time);
@@ -88,4 +95,6 @@ public partial class DialogueBox : MarginContainer
 	}
 
 	public static string GetDialogueFinishedSignal() { return DialogueFinishedSignal; }
+
+	public bool GetIsLineFinished() { return is_line_finished; }
 }

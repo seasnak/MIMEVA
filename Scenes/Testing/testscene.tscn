@@ -53,7 +53,7 @@ animations = [{
 size = Vector2(6, 6)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hwuuj"]
-size = Vector2(13, 11)
+size = Vector2(21, 11)
 
 [node name="World" type="Node2D"]
 
@@ -235,11 +235,11 @@ shape = SubResource("RectangleShape2D_6w0rh")
 [node name="Sign" type="Area2D" parent="."]
 position = Vector2(25, 58)
 script = ExtResource("22_jstwy")
-text = PackedStringArray("This is some sample dialogue")
+text = PackedStringArray("This is some sample dialogue", "This is some more dialogue")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sign"]
-position = Vector2(0, 1)
+position = Vector2(-0.5, 1)
 shape = SubResource("RectangleShape2D_hwuuj")
 
 [node name="Sprite2D" type="Sprite2D" parent="Sign"]

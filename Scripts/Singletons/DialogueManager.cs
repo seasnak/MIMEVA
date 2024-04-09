@@ -51,27 +51,52 @@ public partial class DialogueManager : Node
 		dbox.DisplayText(dbox_lines_arr[curr_line_idx]);
 	}
 	
-	public override void _UnhandledInput(InputEvent @event) {
-		if (
-			@event.IsActionPressed("interact") && 
-			is_dialogue_active && 
-			can_advance_line
-		) {
+	// public override void _UnhandledInput(InputEvent @event) {
+	// 	if (
+	// 		@event.IsActionPressed("interact") && 
+	// 		is_dialogue_active && 
+	// 		can_advance_line
+	// 	) {
 			
-			dbox.QueueFree();
+	// 		dbox.QueueFree(); // free previous dialogue box and create a new one
 
-			curr_line_idx += 1;
-			if (curr_line_idx >= dbox_lines_arr.Length) { // dialogue box is done!
-				is_dialogue_active = false;
-				curr_line_idx = 0;
-				return;
-			}
-		}
+	// 		curr_line_idx += 1;
+	// 		if (curr_line_idx >= dbox_lines_arr.Length) { // dialogue box is done!
+	// 			is_dialogue_active = false;
+	// 			curr_line_idx = 0;
+	// 			return;
+	// 		}
+	// 	}
 		
-		return;
+	// 	return;
+	// }
+
+	public void AdvanceDialogue() {
+		dbox.QueueFree();
+
+		curr_line_idx += 1;
+		if (curr_line_idx >= dbox_lines_arr.Length) { // dialogue box is done
+			is_dialogue_active = false; 
+			curr_line_idx = 0;
+			return;
+		}
+
+		ShowTextbox();
 	}
 
-	public DialogueBox GetDialogueBox() { return dbox; }
+	public void KillDBox() {
+		if(dbox == null) { return; }
+
+		is_dialogue_active = false;
+		curr_line_idx = 0;
+		dbox.QueueFree();
+	}
+
+	public bool GetDialogueBoxFinishedLine() {
+		if(dbox == null) { return false; }
+		return dbox.GetIsLineFinished(); 
+	}
+	public bool GetDialogueManagerDisplayingLines() { return can_advance_line; }
 
 	
 }

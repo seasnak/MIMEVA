@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 
 namespace Mimeva;
 public partial class Sign : Area2D
@@ -21,19 +22,22 @@ public partial class Sign : Area2D
 		dmanager = GetNode<DialogueManager>("/root/DialogueManager");
 
 		BodyEntered += OnBodyEntered;
+		BodyExited += OnBodyExited;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override async void _Process(double delta)
 	{
-		if(player_inside && Input.IsActionJustPressed("interact") && !is_displaying) {
-			// player interacted with sign, so display dialogue
-			is_displaying = true;
-			dmanager.StartDialogue(this.GlobalPosition, text);
-			DialogueBox dbox = dmanager.GetDialogueBox();
-			
-			dbox.QueueFree();
-			is_displaying = false;
+		if (player_inside && Input.IsActionJustPressed("interact")) {
+			if(!is_displaying) {
+				// player interacted with sign, so display dialogue
+				is_displaying = true;
+				dmanager.StartDialogue(this.GlobalPosition, text);
+			}
+			else if(dmanager.GetDialogueBoxFinishedLine()) {
+				dmanager.AdvanceDialogue();
+				is_displaying = dmanager.GetDialogueManagerDisplayingLines();
+			}
 		}
 	}
 
@@ -46,6 +50,9 @@ public partial class Sign : Area2D
 	private void OnBodyExited(Node other) {
 		if(other is not Player || other == null) { return; }
 		
+		GD.Print("Player Exited!");
 		player_inside = false;
+		is_displaying = false;
+		dmanager.KillDBox();
 	}
 }
