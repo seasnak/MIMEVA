@@ -6,13 +6,11 @@ using System.Runtime.CompilerServices;
 namespace Mimeva;
 public partial class Sign : Area2D
 {
-
 	[Export] private string[] text = {"Insert Dialogue Here"};
 
 	// Sign Conditionals
 	private bool player_inside = false;
 	private bool is_displaying = false;
-
 	// Nodes
 	private DialogueManager dmanager;
 
@@ -20,13 +18,13 @@ public partial class Sign : Area2D
 	public override void _Ready()
 	{
 		dmanager = GetNode<DialogueManager>("/root/DialogueManager");
-
+		
 		BodyEntered += OnBodyEntered;
 		BodyExited += OnBodyExited;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override async void _Process(double delta)
+	public override void _Process(double delta)
 	{
 		if (player_inside && Input.IsActionJustPressed("interact")) {
 			if(!is_displaying) {

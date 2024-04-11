@@ -15,16 +15,38 @@ public partial class LevelLoader : Node2D
 	private string tilemap_path = "/root/world/Tilemap";
 
 	private bool is_unix = true;
+
+	// Prefabs Dictionary
+	private Dictionary<String, PackedScene> block_dict = new();
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		
+		LoadBlockDictionary();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		
+	}
+
+	private void LoadBlockDictionary() {
+		if(block_dict.ContainsKey("Player")) {
+			block_dict["Player"] = GD.Load<PackedScene>("res://Prefabs/Player.tscn");
+		}
+		else {
+			block_dict.Add("Player", GD.Load<PackedScene>("res://Prefabs/Player.tscn"));
+		}
+
+		if(block_dict.ContainsKey("Spikeball")) {
+			block_dict["Spikeball"] = GD.Load<PackedScene>("res://Prefabs/Spikeball.tscn");
+		}
+		else {
+			block_dict.Add("Spikeball", GD.Load<PackedScene>("res://Prefabs/Spikeball.tscn"));
+		}
+
+		
 		
 	}
 
@@ -47,7 +69,7 @@ public partial class LevelLoader : Node2D
 		int j_idx = 0; // hor_idx for line
 		int i_lc = 0; // line count in file
 
-		Vector2 dims = new Vector2(); // the dimension 
+		Vector2 dims = new(); // the dimension 
 		foreach(string line in System.IO.File.ReadLines(target_fpath)) {
 			i_lc++;
 			GD.Print($"{line}");

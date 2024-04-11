@@ -57,7 +57,6 @@ class Level():
                     continue
                 elif len(contents) != self.shape[1]: # error with length of room
                     raise Exception('Error: Incorrect level shape --> load()')
-            
         pass
     
     def save(self, level_f:str):

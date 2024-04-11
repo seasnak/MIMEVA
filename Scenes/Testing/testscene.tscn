@@ -61,6 +61,7 @@ size = Vector2(21, 11)
 scale = Vector2(5, 5)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background"]
+position = Vector2(0, -0.2)
 texture = ExtResource("1_w5tle")
 
 [node name="Camera" parent="." instance=ExtResource("1_yrv2t")]
@@ -142,6 +143,9 @@ position = Vector2(8, 0)
 
 [node name="Glorp" parent="." instance=ExtResource("5_cmuj7")]
 position = Vector2(4, 58)
+
+[node name="Checkpoint2" parent="." instance=ExtResource("6_xg02x")]
+position = Vector2(64, -60)
 
 [node name="Checkpoint" parent="." instance=ExtResource("6_xg02x")]
 position = Vector2(-68, -20)
