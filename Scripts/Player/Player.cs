@@ -57,7 +57,7 @@ public partial class Player : CharacterBody2D
 	// Related Nodes
 	private AnimatedSprite2D sprite;
 	private CollisionShape2D collider;
-	private PlayerVariables player_vars;
+	private PlayerVariables p_vars;
 	private HitBox weapon;
 
 	// Debug Nodes
@@ -69,7 +69,7 @@ public partial class Player : CharacterBody2D
     public override void _Ready()
     {	
 		sprite = (AnimatedSprite2D)(GetNode("AnimatedSprite2D"));
-		// player_vars = (PlayerVariables)GetNode("/root/PlayerVariables"); // TODO: add player variables
+		p_vars = (PlayerVariables)GetNode("/root/PlayerVariables");
 		weapon = (HitBox)GetNode("Sword");
 		weapon.SetDamage(30);
 
@@ -81,7 +81,7 @@ public partial class Player : CharacterBody2D
 	{
 
 		if(is_dead) {return;} // prevent physics if the player is dead
-
+		
 		// Gravity
 		if (IsOnFloor()) {
 			// player is on floor so don't apply gravity
@@ -105,7 +105,7 @@ public partial class Player : CharacterBody2D
 		HandleMove(input_dir, (float) delta);
 		HandleJump(input_dir);
 		HandleAttack();
-
+		
 		MoveAndSlide();
 	}
 
@@ -116,7 +116,6 @@ public partial class Player : CharacterBody2D
 			
 			if(!is_dead) {
 				// GD.Print("Player Died!"); // DEBUG
-				
 				sprite.Play("death");
 				is_dead = true;
 				death_count += 1;
@@ -129,12 +128,12 @@ public partial class Player : CharacterBody2D
     }
 
     private void Die() {
-		try{ 
-			// GD.Print(PlayerVariables.GetCheckpointScenePath()); // DEBUG
-			// if(this.SceneFilePath != PlayerVariables.GetCheckpointScenePath()) {
-			// 	GetTree().ChangeSceneToFile(PlayerVariables.GetCheckpointScenePath()); // load checkpoint scene if exists
+		try{
+			// if() {
+			// 	GD.Print("loading scene");
+			// 	GetTree().ChangeSceneToFile(PlayerVariables.GetCheckpointScenePath());
 			// }
-			this.Position = PlayerVariables.GetCheckpointPos(); // set player position to the position of the checkpoint
+			this.GlobalPosition = PlayerVariables.GetCheckpointPos(); // set player position to the position of the checkpoint
 		}
 		catch{ 
 			this.Position = Godot.Vector2.Zero; 
@@ -289,23 +288,6 @@ public partial class Player : CharacterBody2D
 			}
 		}
 
-		// limit max movespeed
-		// velocity.X = input_dir.X * Math.Min(Math.Abs(velocity.X), dashspeed);
-
-		// if(!is_dashing && !is_jumping) {
-		// 	velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
-		// }
-		// else if(is_walljumping) {
-		// 	velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), movespeed);
-		// }
-		// else if(!is_dashing) {
-		// 	if(dash_is_airdash) {
-		// 		velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), air_dashspeed * 0.8f);
-		// 	}
-		// 	else {
-		// 		velocity.X = Math.Sign(velocity.X) * Math.Min(Math.Abs(velocity.X), dashspeed * 0.8f);
-		// 	}
-		// }
 		Velocity = velocity;
 	}
 

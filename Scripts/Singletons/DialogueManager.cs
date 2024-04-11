@@ -21,7 +21,6 @@ public partial class DialogueManager : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		// why does this load into the scene?
 		dbox_scene = ResourceLoader.Load<PackedScene>("res://Prefabs/UI/DialogueBox.tscn");
 	}
 
@@ -50,26 +49,6 @@ public partial class DialogueManager : Node
 		dbox.GlobalPosition = dbox_pos;
 		dbox.DisplayText(dbox_lines_arr[curr_line_idx]);
 	}
-	
-	// public override void _UnhandledInput(InputEvent @event) {
-	// 	if (
-	// 		@event.IsActionPressed("interact") && 
-	// 		is_dialogue_active && 
-	// 		can_advance_line
-	// 	) {
-			
-	// 		dbox.QueueFree(); // free previous dialogue box and create a new one
-
-	// 		curr_line_idx += 1;
-	// 		if (curr_line_idx >= dbox_lines_arr.Length) { // dialogue box is done!
-	// 			is_dialogue_active = false;
-	// 			curr_line_idx = 0;
-	// 			return;
-	// 		}
-	// 	}
-		
-	// 	return;
-	// }
 
 	public void AdvanceDialogue() {
 		dbox.QueueFree();
