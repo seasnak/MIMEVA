@@ -17,12 +17,12 @@ public partial class LevelLoader : Node2D
 	private bool is_unix = true;
 
 	// Prefabs Dictionary
-	private Dictionary<String, PackedScene> block_dict = new();
+	private Dictionary<string, PackedScene> block_dict;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		LoadBlockDictionary();
+		ReloadBlockDictionary();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -31,23 +31,17 @@ public partial class LevelLoader : Node2D
 		
 	}
 
-	private void LoadBlockDictionary() {
-		if(block_dict.ContainsKey("Player")) {
-			block_dict["Player"] = GD.Load<PackedScene>("res://Prefabs/Player.tscn");
+	private void ReloadBlockDictionary() {
+		block_dict[""] = null;
+	}
+
+	private void UpdateBlockDict(string key, string val_path) {
+		if(block_dict.ContainsKey(key)) {
+			block_dict[key] = GD.Load<PackedScene>(val_path);
 		}
 		else {
-			block_dict.Add("Player", GD.Load<PackedScene>("res://Prefabs/Player.tscn"));
+			block_dict.Add(key, GD.Load<PackedScene>(val_path));
 		}
-
-		if(block_dict.ContainsKey("Spikeball")) {
-			block_dict["Spikeball"] = GD.Load<PackedScene>("res://Prefabs/Spikeball.tscn");
-		}
-		else {
-			block_dict.Add("Spikeball", GD.Load<PackedScene>("res://Prefabs/Spikeball.tscn"));
-		}
-
-		
-		
 	}
 
 	public void LoadTSCNFromFile(string target_f) {
