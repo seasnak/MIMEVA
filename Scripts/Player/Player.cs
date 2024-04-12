@@ -20,18 +20,19 @@ public partial class Player : CharacterBody2D
 	private int cool_coins = 0; // the harder to get bonus coins
 
 	// Movement Values	
-	private const int movespeed = 70;
+	private const int movespeed = 60;
 	private const int low_jumpspeed = 75; // 4.5
-	private const int high_jumpspeed = 160; // 10
-	private const int walljump_knockback = 150;
+	private const int high_jumpspeed = 150; // 10
+	private const int walljump_knockback = 80;
 	private const int fast_fallspeed = 30;
-	private const int dashspeed = 200;
-	private const int air_dashspeed = 150;
-	private const int max_fallspeed = 200;
+	private const int dashspeed = 160;
+	private const int air_dashspeed = 120;
+	private const int max_fallspeed = 180;
 
 	// Player Timer Values
 	private const int attack_dur = 240; // duration of the attack in milliseconds
 	private const int dash_dur = 130; // dash duration in msec
+	private const int dash_lockout_time = 200; // lockout on the dash
 	private const int walljump_dur = 60; // the time for the player to be knocked back
 	private ulong curr_attack_time = 0; // current atk time for timer purposes
 	private ulong curr_dash_time = 0; // current dash time for timer purposes
@@ -218,7 +219,7 @@ public partial class Player : CharacterBody2D
 				velocity = HorDash(Math.Sign(input_dir.X));
 			}
 			
-			if(!can_dash && is_grounded && Time.GetTicksMsec()-curr_dash_time>800) { // reset dash if player is on ground and not locked out
+			if(!can_dash && is_grounded && Time.GetTicksMsec()-curr_dash_time>dash_lockout_time) { // reset dash if player is on ground and not locked out
 				curr_dash_time = Time.GetTicksMsec();
 				// GD.Print("dash reset!"); // DEBUG
 				can_dash = true;

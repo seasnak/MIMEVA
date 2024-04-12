@@ -32,7 +32,13 @@ public partial class LevelLoader : Node2D
 	}
 
 	private void ReloadBlockDictionary() {
-		block_dict[""] = null;
+		string[] block_type_list = {"player", "spikeball", "enemy", "flying_enemy", "door", "key", "coin"};
+
+		UpdateBlockDict("player", "res://Prefabs/Player.tscn");
+		UpdateBlockDict("spikeball", "res://Prefabs/Spikeball.tscn");
+		UpdateBlockDict("enemy", "res://Prefabs/Glorp.tscn");
+		UpdateBlockDict("door", "res://Prefabs/");
+
 	}
 
 	private void UpdateBlockDict(string key, string val_path) {
