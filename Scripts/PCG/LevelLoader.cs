@@ -37,8 +37,9 @@ public partial class LevelLoader : Node2D
 		UpdateBlockDict("player", "res://Prefabs/Player.tscn");
 		UpdateBlockDict("spikeball", "res://Prefabs/Spikeball.tscn");
 		UpdateBlockDict("enemy", "res://Prefabs/Glorp.tscn");
-		UpdateBlockDict("door", "res://Prefabs/");
-
+		UpdateBlockDict("door", "res://Prefabs/Objects/door.tscn");
+		UpdateBlockDict("key", "res://Prefabs/Objects/key.tscn");
+		
 	}
 
 	private void UpdateBlockDict(string key, string val_path) {
