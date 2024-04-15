@@ -16,7 +16,7 @@ public partial class Enemy : CharacterBody2D
 	protected static readonly float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	protected int movespeed = 20;
 	protected int max_fallspeed = (int)(gravity * 10);
-
+	
 	protected AnimatedSprite2D sprite;
 
 	// Enemy Conditionals
