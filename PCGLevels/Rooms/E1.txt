@@ -1,0 +1,13 @@
+20 10
+
+B B B B B B B B B B B B B B B B B B B B
+B - - - B - - - - - - - - - - - - - - B
+B - - * B - - - - - - - - - - - - - S B
+B - - B B - - - - - - - - B B B B B B B
+L - - B B - - - * * - - - - - - - - - R
+L - - - - C - - - - - - - - - - - - - R
+B B B B B B B B - - B B B - - B B B B B
+B B B B B B B B - - B B B - - B B B B B
+B B B B B B B B - - B B B S S B B B B B
+B B B B B B B B B B B B B B B B B B B B
+

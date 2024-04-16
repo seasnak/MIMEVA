@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://bal3p6og0cyjs"]
+
+[ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="1_6a8qe"]
+[ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="2_t7pg2"]
+[ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="3_2n37w"]
+[ext_resource type="PackedScene" uid="uid://cfvinpv0dyg7n" path="res://Prefabs/Objects/Spikeball.tscn" id="4_cgakd"]
+[ext_resource type="PackedScene" uid="uid://c0luna03qyx3y" path="res://Prefabs/Objects/sign.tscn" id="5_q50yx"]
+[ext_resource type="PackedScene" uid="uid://c444v4l648t7r" path="res://Prefabs/UI/PlayerUI.tscn" id="6_xkb0p"]
+
+[node name="World" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_6a8qe")]
+position = Vector2(-35, 0)
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("2_t7pg2")
+format = 2
+layer_0/tile_data = PackedInt32Array(-131075, 524288, 3, -131076, 524288, 3, -131077, 524288, 3, -131078, 524288, 3, -131079, 524288, 3, -131080, 524288, 3, -131081, 720896, 2, -65545, 589824, 2, -9, 589824, 2, 65527, 589824, 2, 131063, 589824, 2, 196599, 524288, 2, 196600, 524288, 1, 196601, 524288, 1, 196602, 786432, 3, 131066, 458752, 1, 131067, 524288, 1, 131068, 589824, 1, 196604, 720896, 3, 196605, 524288, 1, 196606, 524288, 1, 196607, 524288, 1, -131074, 524288, 3, -131073, 524288, 3, -196608, 524288, 3, -196607, 524288, 3, 131072, 524288, 1, 131073, 524288, 1, 131074, 524288, 1, -196606, 524288, 3, -196605, 524288, 3, -196604, 524288, 3, -196603, 524288, 3, 131075, 524288, 1, 131076, 524288, 1, 131077, 524288, 1, 131078, 786432, 3, -196602, 786432, 2, -131066, 458752, 3, 65542, 458752, 1, 65543, 589824, 1, -131065, 589824, 3, 131079, 589824, 2, -196601, 589824, 2, 196603, 524288, 2, 262135, 524288, 3, 262136, 524288, 3, 262137, 524288, 3, 262138, 524288, 3, 262139, 524288, 3, 262140, 524288, 3, 262141, 524288, 3, 262142, 524288, 3, 262143, 524288, 3, 196608, 524288, 3, 196609, 524288, 3, 196610, 524288, 3, 196611, 524288, 3, 196612, 524288, 3, 196613, 524288, 3, 196614, 524288, 3, 196615, 589824, 3, -262137, 589824, 1, -262138, 524288, 1, -262139, 524288, 1, -262140, 524288, 1, -262141, 524288, 1, -262142, 524288, 1, -262143, 524288, 1, -262144, 524288, 1, -196609, 524288, 1, -196610, 524288, 1, -196611, 524288, 1, -196612, 524288, 1, -196613, 524288, 1, -196614, 524288, 1, -196615, 524288, 1, -196616, 524288, 1, -196617, 524288, 1, -196618, 458752, 1, -131082, 458752, 2, -65546, 458752, 2, -10, 458752, 2, 65526, 458752, 2, 131062, 458752, 2, 196598, 458752, 2, 262134, 458752, 3)
+
+[node name="Camera2D" parent="." instance=ExtResource("3_2n37w")]
+position = Vector2(0, 0)
+zoom = Vector2(4, 4)
+
+[node name="Spikes" type="Node2D" parent="."]
+
+[node name="Spikeball" parent="Spikes" instance=ExtResource("4_cgakd")]
+position = Vector2(-60, 11)
+
+[node name="Spikeball2" parent="Spikes" instance=ExtResource("4_cgakd")]
+position = Vector2(-52, 11)
+
+[node name="Sign" parent="." instance=ExtResource("5_q50yx")]
+position = Vector2(-13, 10)
+text = PackedStringArray("Welcome!", "At the end of each level you will be asked a few questions.", "If you have any questions about controls, check the README file (or the text below if you are playing in browser).")
+
+[node name="UI" parent="." instance=ExtResource("6_xkb0p")]

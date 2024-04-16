@@ -10,18 +10,18 @@ public partial class DialogueBox : MarginContainer
 	// Properties
 	private string text = "";
 	private int let_idx = 0; // the current letter
-	private float let_time = 0.02f; // the time it takes each letter to appear
-	private float space_time = 0.04f; // the time it takes for spaces to appear
-	private float punct_time = 0.02f; // the time it takes for punctuation to appear
-	private float disappear_time = 2f; 
+	private float let_time = 0.01f; // the time it takes each letter to appear
+	private float space_time = 0.02f; // the time it takes for spaces to appear
+	private float punct_time = 0.01f; // the time it takes for punctuation to appear
+	private float disappear_time = 1f; 
 
 	// Children Nodes
 	private Label label;
 	private Timer timer;
 
 	// Constants
-	private const int MAX_WIDTH = 256;
-
+	private const int MAX_WIDTH = 512;
+	
 	// Signals
 	private static readonly string DialogueFinishedSignal = "DialogueFinished";
 
@@ -49,14 +49,16 @@ public partial class DialogueBox : MarginContainer
 		this.text = disp_text;
 		label.Text = disp_text;
 		
-		this.Size = new Vector2(Math.Min(Size.X, MAX_WIDTH), CustomMinimumSize.Y);
-		
-		// if (Size.X > MAX_WIDTH) {
-		// 	label.AutowrapMode = TextServer.AutowrapMode.Word;
-		// 	this.Size = new Vector2(CustomMinimumSize.X, Size.Y);
-		// }
-
-		GlobalPosition = new Vector2(GlobalPosition.X - (Size.X / 8), GlobalPosition.Y - 16);
+		this.Size = new Vector2(Size.X, CustomMinimumSize.Y);
+		if (Size.X > MAX_WIDTH) {
+			GD.Print("here");
+			label.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+			label.CustomMinimumSize = new(MAX_WIDTH, label.Size.Y);
+			this.Size = new(MAX_WIDTH, 48*(int)(Size.X/MAX_WIDTH));
+			// this.Size = new(MAX_WIDTH, this.Size.Y);
+		}
+		GD.Print(this.Size);
+		GlobalPosition = new(GlobalPosition.X - (Size.X / 8), GlobalPosition.Y - (this.Size.Y/4) - 10);
 		label.Text = "";
 		DisplayLetter();
 	}

@@ -61,12 +61,13 @@ public partial class Enemy : CharacterBody2D
 
 	protected virtual void SetMovementLogic() 
 	{
-			
+		
 	}
 
 	public virtual void DealDamage(int damage) { 
 		
 		GD.Print($"Dealing {damage} damage to enemy");
+		// TODO: add a shader to flash enemy's sprite white instead
 		this.Modulate = new Godot.Color(0, 0, 0);
 		damage_blink_timer = Time.GetTicksMsec();
 		is_blinking_state = true;

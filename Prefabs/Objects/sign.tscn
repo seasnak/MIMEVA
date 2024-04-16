@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0luna03qyx3y"]
+
+[ext_resource type="Script" path="res://Scripts/Objects/Sign.cs" id="1_myjde"]
+[ext_resource type="Texture2D" uid="uid://dht0r33yxwwur" path="res://Sprites/Objects/Structures/sign.png" id="2_to4f7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hwuuj"]
+size = Vector2(21, 11)
+
+[node name="Sign" type="Area2D"]
+script = ExtResource("1_myjde")
+text = PackedStringArray("This is some sample dialogue", "This is some more dialogue")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 1)
+shape = SubResource("RectangleShape2D_hwuuj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_to4f7")

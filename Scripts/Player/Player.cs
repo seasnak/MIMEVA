@@ -76,6 +76,8 @@ public partial class Player : CharacterBody2D
 
 		collider = GetNode<CollisionShape2D>("CollisionShape2D");
 		debugline_dict = new Godot.Collections.Dictionary<string,Line2D>();
+
+		PlayerVariables.SetPlayerStartingPos(this.Position);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -137,7 +139,7 @@ public partial class Player : CharacterBody2D
 			this.GlobalPosition = PlayerVariables.GetCheckpointPos(); // set player position to the position of the checkpoint
 		}
 		catch{ 
-			this.Position = Godot.Vector2.Zero; 
+			this.Position = PlayerVariables.GetPlayerStartingPos(); 
 		}
 		
 		this.Velocity = Godot.Vector2.Zero;

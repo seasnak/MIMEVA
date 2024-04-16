@@ -1,0 +1,12 @@
+10 6
+
+B B B B B B
+B - - - - -
+B - - - - -
+B - - - - - 
+L - * * - -
+L - - - - -
+B B - - B B
+B B - - B B
+B B S S B B
+B B B B B B
