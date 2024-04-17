@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bw47fxkfhthqi"]
+[gd_scene load_steps=8 format=3 uid="uid://bw47fxkfhthqi"]
 
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="1_b8nu8"]
 [ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="2_npq2r"]
 [ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="3_rir22"]
-[ext_resource type="PackedScene" uid="uid://cfvinpv0dyg7n" path="res://Prefabs/Objects/Spikeball.tscn" id="4_4oa5o"]
-[ext_resource type="PackedScene" uid="uid://c0luna03qyx3y" path="res://Prefabs/Objects/sign.tscn" id="5_brqnw"]
-[ext_resource type="PackedScene" uid="uid://c444v4l648t7r" path="res://Prefabs/UI/PlayerUI.tscn" id="6_6x6ar"]
+[ext_resource type="PackedScene" path="res://Prefabs/Objects/Spikeball.tscn" id="4_4oa5o"]
+[ext_resource type="PackedScene" path="res://Prefabs/Objects/sign.tscn" id="5_brqnw"]
+[ext_resource type="PackedScene" path="res://Prefabs/UI/PlayerUI.tscn" id="6_6x6ar"]
+[ext_resource type="Script" path="res://Scripts/PCG/BlockPlacer.cs" id="7_v6fbu"]
 
 [node name="World" type="Node2D"]
 
@@ -36,3 +37,4 @@ text = PackedStringArray("Welcome!", "At the end of each level you will be asked
 [node name="UI" parent="." instance=ExtResource("6_6x6ar")]
 
 [node name="BlockPlacer" type="Node2D" parent="."]
+script = ExtResource("7_v6fbu")
