@@ -82,14 +82,15 @@ public partial class BlockPlacer : Node2D
 		((Node2D)obj).GlobalPosition = pos;
 	}
 
-	private string[,] GetLevelArrFromFile(string level_f) {
+	private List<List<string>> GetLevelMatFromFile(string level_f) {
 
-        string[,] level_arr = {};
+        // string[,] level_arr = {};
+		List<List<string>> level_mat = new();
 		
 		// check to see if file exists
 		if (!File.Exists(level_f)) {
 			GD.Print($"File {level_f} does not exist!");
-			return level_arr;
+			return level_mat;
 		}
 		
 		// load level from file
@@ -100,18 +101,26 @@ public partial class BlockPlacer : Node2D
 			string[] contents = line.Split(' ');
 
 			if(l == 0) { // initialize array
-				level_arr = new string[contents[0].ToInt(), contents[1].ToInt()];
+				level_mat = new List<List<string>>(contents[0].ToInt());
+				for(int i=0; i<contents[1].ToInt(); i++) {
+					level_mat.Add(new List<string>(contents[1].ToInt()));
+				}
+
 			}
 			if(contents[0] == "ROOM") {
-				if (d_line > level_arr.GetLength(1)) { continue; } 
+				if (d_line > contents[0].ToInt()) { continue; } 
 				for (int x = 0; x < contents.Length; x++) {
-					level_arr[d_line, x] = contents[x];
+					level_mat[d_line][x] = contents[x];
 				}
 				d_line++;
 			}
 		}
 
+		PrintRoom(level_mat);
+		return level_mat;
+	}
 
-		return level_arr;
+	private void PrintRoom(List<List<string>> level_mat) {
+		GD.Print(level_mat);
 	}
 }
