@@ -24,7 +24,10 @@ public partial class PlayerVariables : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
+		// To do move to a different file at some point
+		if (Input.IsKeyPressed(Godot.Key.Escape)) {
+			GetTree().Quit();
+		}
 	}
 
 	// public static void UpdatePlayerStat(string stat_name, float val) {

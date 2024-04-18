@@ -1,6 +1,8 @@
 using Godot;
+using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Mimeva;
 /*
@@ -65,14 +67,51 @@ public partial class BlockPlacer : Node2D
 		
 	}
 
-	public void LoadPartFromFile(string part) {
+	public void LoadPartFromFile(string part, Godot.Vector2 start_pos) {
 		// Load in a part of a level (based on what part we need)
+		if(start_pos == null) { start_pos = curr_offset; }
+
+		string[,] level = GetLevelArrFromFile(part);
 
 	}
 
 	private void PlaceObject(Object obj_name, Godot.Vector2 pos) {
 		//Place an object of type <obj_name> at position <pos>
 		var obj = block_dict[obj_name].Instantiate();
+
+		((Node2D)obj).GlobalPosition = pos;
+	}
+
+	private string[,] GetLevelArrFromFile(string level_f) {
+
+        string[,] level_arr = {};
 		
+		// check to see if file exists
+		if (!File.Exists(level_f)) {
+			GD.Print($"File {level_f} does not exist!");
+			return level_arr;
+		}
+		
+		// load level from file
+		int l = -1; // current line number in file
+		int d_line = 0;
+		foreach (string line in File.ReadLines(level_f)) {
+			l++;
+			string[] contents = line.Split(' ');
+
+			if(l == 0) { // initialize array
+				level_arr = new string[contents[0].ToInt(), contents[1].ToInt()];
+			}
+			if(contents[0] == "ROOM") {
+				if (d_line > level_arr.GetLength(1)) { continue; } 
+				for (int x = 0; x < contents.Length; x++) {
+					level_arr[d_line, x] = contents[x];
+				}
+				d_line++;
+			}
+		}
+
+
+		return level_arr;
 	}
 }
