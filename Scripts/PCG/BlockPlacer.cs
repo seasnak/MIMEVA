@@ -11,7 +11,8 @@ Loads in levels from custom .txt file format (see examples in pcglevels folder)
 public partial class BlockPlacer : Node2D
 {
 
-	private static Dictionary<int, string> level_dict; // dictionary representation of level
+	// private static Dictionary<int, string> level_dict; // dictionary representation of level
+	private List<List<string>> level_mat;
 	private TileMap tilemap;
 	private Player player;
 	private string tilemap_path = "/root/world/Tilemap";
@@ -20,7 +21,7 @@ public partial class BlockPlacer : Node2D
 	private bool is_unix = true;
 
 	// Prefabs Dictionary
-	private Dictionary<Object, PackedScene> block_dict;
+	private Godot.Collections.Dictionary<Object, PackedScene> block_dict;
 
 	// Enums
 	enum RoomPart { Left, Middle, Right };
@@ -67,11 +68,16 @@ public partial class BlockPlacer : Node2D
 		
 	}
 
-	public void LoadPartFromFile(string part, Godot.Vector2 start_pos) {
+	public void LoadPartFromFile(string part_f, Godot.Vector2 start_pos) {
 		// Load in a part of a level (based on what part we need)
 		if(start_pos == null) { start_pos = curr_offset; }
 
-		string[,] level = GetLevelArrFromFile(part);
+		GetLevelMatFromFile(part_f, ref level_mat);
+		BuildLevel(ref level_mat);
+
+	}
+
+	private void BuildLevel(ref List<List<string>> level) {
 
 	}
 
@@ -82,15 +88,15 @@ public partial class BlockPlacer : Node2D
 		((Node2D)obj).GlobalPosition = pos;
 	}
 
-	private List<List<string>> GetLevelMatFromFile(string level_f) {
+	private static void GetLevelMatFromFile(string level_f, ref List<List<string>> level_mat) {
 
         // string[,] level_arr = {};
-		List<List<string>> level_mat = new();
+		level_mat = new(); // clear level matrix
 		
 		// check to see if file exists
 		if (!File.Exists(level_f)) {
 			GD.Print($"File {level_f} does not exist!");
-			return level_mat;
+			return;
 		}
 		
 		// load level from file
@@ -117,10 +123,10 @@ public partial class BlockPlacer : Node2D
 		}
 
 		PrintRoom(level_mat);
-		return level_mat;
+		return;
 	}
 
-	private void PrintRoom(List<List<string>> level_mat) {
+	private static void PrintRoom(List<List<string>> level_mat) {
 		GD.Print(level_mat);
 	}
 }
