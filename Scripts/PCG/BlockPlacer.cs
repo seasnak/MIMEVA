@@ -114,12 +114,13 @@ public partial class BlockPlacer : Area2D
 	}
 
 	private void BuildLevelFromLevelMat() {
+		// loop through the level matrix
 		for(int i = 0; i < level_mat.Count; i++) {
 			for(int j = 0; j < level_mat[0].Count; j++) {
-				if(level_mat[i][j] == "B") {
+				if(level_mat[i][j] == "B") { // case: block
 					tilemap.SetCellsTerrainConnect(0, new Godot.Collections.Array<Vector2I> {new Vector2I(i + (int)curr_offset.X, j + (int)curr_offset.Y)}, 0, 0);
 				}
-				else {
+				else { // case: not a block, so an object
 					Vector2 obj_pos = new((i + (int)curr_offset.X)*BLOCK_SIZE, (j + (int)curr_offset.Y)*BLOCK_SIZE);
 
 					if(block_dict.ContainsKey(level_mat[i][j])) {
@@ -137,8 +138,6 @@ public partial class BlockPlacer : Area2D
 	private void SaveLevelToFile(string outfile) {
 		// saves level to <outfile>
 
-		
-	
 		GD.Print("Saving Level");
 		Console.WriteLine("Saving Level");
 		for(int i = 0; i<level_mat.Count; i++) {
