@@ -49,15 +49,14 @@ public partial class DialogueBox : MarginContainer
 		this.text = disp_text;
 		label.Text = disp_text;
 		
+		// resize dialogue text box
 		this.Size = new Vector2(Size.X, CustomMinimumSize.Y);
 		if (Size.X > MAX_WIDTH) {
-			GD.Print("here");
 			label.AutowrapMode = TextServer.AutowrapMode.WordSmart;
 			label.CustomMinimumSize = new(MAX_WIDTH, label.Size.Y);
 			this.Size = new(MAX_WIDTH, 48*(int)(Size.X/MAX_WIDTH));
 			// this.Size = new(MAX_WIDTH, this.Size.Y);
 		}
-		GD.Print(this.Size);
 		GlobalPosition = new(GlobalPosition.X - (Size.X / 8), GlobalPosition.Y - (this.Size.Y/4) - 10);
 		label.Text = "";
 		DisplayLetter();

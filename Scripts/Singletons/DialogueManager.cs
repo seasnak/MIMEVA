@@ -35,7 +35,7 @@ public partial class DialogueManager : Node
 		if(lines.Length <= 0) { GD.Print("No lines passed to Dialogue Manager"); return; } // empty lines array
 
 		dbox_lines_arr = lines;
-		GD.Print(dbox_lines_arr); // DEBUG: print out dbox lines array
+		// GD.Print(dbox_lines_arr); // DEBUG: print out dbox lines array
 		dbox_pos = pos;
 		ShowTextbox();
 

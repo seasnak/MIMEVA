@@ -48,7 +48,6 @@ public partial class Sign : Area2D
 	private void OnBodyExited(Node other) {
 		if(other is not Player || other == null) { return; }
 		
-		GD.Print("Player Exited!");
 		player_inside = false;
 		is_displaying = false;
 		dmanager.KillDBox();
