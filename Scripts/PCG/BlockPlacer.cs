@@ -115,6 +115,7 @@ public partial class BlockPlacer : Area2D
 	}
 
 	private void BuildLevelFromLevelMat() {
+		// loop through the level matrix
 		for(int i = 0; i < level_mat.Count; i++) {
 			for(int j = 0; j < level_mat[0].Count; j++) {
 				if(level_mat[i][j] == "B") {
