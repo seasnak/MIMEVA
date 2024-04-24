@@ -10,36 +10,31 @@ Loads in levels from custom .txt file format (see examples in pcglevels folder)
 */
 public partial class BlockPlacer : Area2D
 {
+	private List<List<string>> level_mat; // list representation of level
 
-	// private static Dictionary<int, string> level_dict; // dictionary representation of level
-	private List<List<string>> level_mat;
+	// Imported Nodes
 	private TileMap tilemap;
 	private Player player;
-	private string tilemap_path = "/root/world/Tilemap";
+	
+
+	// private string tilemap_path = "/root/world/TileMap"; // where the TileMap is located
 	private string level_folder = "res://Levels";
 	
 	// Constants 
 	private const int BLOCK_SIZE = 8; // size of each tilemap block in pixels
 	private const int BLOCK_OFFSET = 4; // offset to place blocks at
 	
-	// Tilemape to World Coordinates Scale (OUTDATED)
-	// private const int T2W_SCALE = 8;
-	// private const int T2W_OFFSET = 4;
-	
+	// Level Variables
 	[Export] private Godot.Vector2 curr_offset = Godot.Vector2.Zero; // offset for the next room
 	private Godot.Vector2 left_connector_pos = Godot.Vector2.Zero; // the location of the left connector
 	private Godot.Vector2 right_connector_pos = Godot.Vector2.Zero; // the location of the right connector
 	private bool is_unix = true;
-
-	private bool tmp_generating_level = false;
+	private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
+	private int difficulty = 1; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
 
 	// Prefabs Dictionary
 	private Godot.Collections.Dictionary<string, PackedScene> block_dict;
-	
 
-	// Enums
-	enum RoomPart { Left, Middle, Right };
-	// enum Object { Block, Player, Spikeball, Enemy, FlyingEnemy, Door, Key, Coin, Checkpoint };
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -87,7 +82,8 @@ public partial class BlockPlacer : Area2D
 
 	public void LoadRoomFromFile(string target_f) {
 		// Load in Levels and line up based on where we have left off
-		
+		GetLevelMatFromFile(target_f);
+		BuildLevelFromLevelMat();
 	}
 
 	public void LoadNewRoomFromPartFiles(int start_pos_x=-1, int start_pos_y=-1) {
@@ -96,8 +92,10 @@ public partial class BlockPlacer : Area2D
 		// Todo: change to be a random room once more parts are generated
 		LoadPartFromFile($"{level_folder}/Parts/Left/LE1_10.txt");
 		LoadPartFromFile($"{level_folder}/Parts/Middle/ME1_10.txt");
-		LoadPartFromFile($"{level_folder}/Parts/Middle/ME1_10.txt");
+		LoadPartFromFile($"{level_folder}/Parts/Middle/ME2_10.txt");
 		LoadPartFromFile($"{level_folder}/Parts/Right/RE1_10.txt");
+
+		
 		
 	}
 
@@ -123,6 +121,9 @@ public partial class BlockPlacer : Area2D
 				}
 				else {
 					Vector2 obj_pos = new((j + (int)curr_offset.X)*BLOCK_SIZE + BLOCK_OFFSET, (i + (int)curr_offset.Y)*BLOCK_SIZE + BLOCK_OFFSET);
+					
+					try { block_dict.ContainsKey(level_mat[i][j]); }
+					catch(Exception e) { GD.Print($"Error {e}: could not find key {level_mat[i][j]}"); }
 
 					if(block_dict.ContainsKey(level_mat[i][j])) {
 						var obj = block_dict[level_mat[i][j]].Instantiate();
@@ -238,6 +239,24 @@ public partial class BlockPlacer : Area2D
 		if(!tmp_generating_level) {
 			tmp_generating_level = true;
 			LoadNewRoomFromPartFiles();
+		}
+	}
+
+	private void UpdateTilemap(string new_tilemap_path) {
+		try {
+			tilemap = GetNode<TileMap>(new_tilemap_path);
+		}
+		catch(Exception e) {
+			GD.Print($"Error {e}: Could not change tilemap. \"{new_tilemap_path}\" does not exist, or is not a valid tilemap");	
+		}
+	}
+
+	private void UpdateTileset(string new_tileset_path) {
+		try{
+			tilemap.TileSet = ResourceLoader.Load<TileSet>(new_tileset_path);
+		}
+		catch(Exception e) {
+			GD.Print($"Error {e}: Could not cange tileset. \"{new_tileset_path}\" does not exist or is not a valid tileset");
 		}
 	}
 }
