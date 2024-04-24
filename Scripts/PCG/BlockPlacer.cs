@@ -20,11 +20,11 @@ public partial class BlockPlacer : Area2D
 	
 	// Constants 
 	private const int BLOCK_SIZE = 8; // size of each tilemap block in pixels
-	private const int BLOCK_OFFSET = 4;
+	private const int BLOCK_OFFSET = 4; // offset to place blocks at
 	
-	// Tilemape to World Coordinates Scale
-	private const int T2W_SCALE = 8;
-	private const int T2W_OFFSET = 4;
+	// Tilemape to World Coordinates Scale (OUTDATED)
+	// private const int T2W_SCALE = 8;
+	// private const int T2W_OFFSET = 4;
 	
 	[Export] private Godot.Vector2 curr_offset = Godot.Vector2.Zero; // offset for the next room
 	private Godot.Vector2 left_connector_pos = Godot.Vector2.Zero; // the location of the left connector

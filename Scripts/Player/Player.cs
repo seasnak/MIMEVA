@@ -54,6 +54,9 @@ public partial class Player : CharacterBody2D
 	private bool can_jump = true; // check to see if player can jump
 	
 	private bool is_dead = false;
+
+	// Safety net variables
+	private double time_falling = 0f;
 	
 	// Related Nodes
 	private AnimatedSprite2D sprite;
@@ -100,6 +103,17 @@ public partial class Player : CharacterBody2D
 		else {
 			Velocity = new( Velocity.X, Math.Min(Velocity.Y, max_fallspeed) );
 		}
+
+		// Temp safety net in case player breaks the game
+		if(!is_grounded) { 
+			time_falling += delta;
+			// GD.Print("Time Falling: ", time_falling); // DEBUG
+			if(time_falling > 2) {   // player free-falling so queue death
+				time_falling = 0; 
+				curr_health = 0; 
+			}
+		}
+		else { time_falling = 0; }
 		
 		// Update player variables
 		is_grounded = IsOnFloor();
