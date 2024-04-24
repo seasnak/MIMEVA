@@ -7,6 +7,7 @@
 size = Vector2(21, 11)
 
 [node name="Sign" type="Area2D"]
+show_behind_parent = true
 script = ExtResource("1_myjde")
 text = PackedStringArray("This is some sample dialogue", "This is some more dialogue")
 metadata/_edit_group_ = true

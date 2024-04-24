@@ -20,6 +20,7 @@ public partial class BlockPlacer : Area2D
 	
 	// Constants 
 	private const int BLOCK_SIZE = 8; // size of each tilemap block in pixels
+	private const int BLOCK_OFFSET = 4;
 	
 	// Tilemape to World Coordinates Scale
 	private const int T2W_SCALE = 8;
@@ -49,8 +50,8 @@ public partial class BlockPlacer : Area2D
 		tilemap = GetNode<TileMap>("/root/World/TileMap"); // get tilemap node
 		
 		// default offsets based on starting level
-		curr_offset = new(8, 0);
-		right_connector_pos = new(8, 2);
+		curr_offset = new(8, -5);
+		right_connector_pos = new(8, -5);
 
 		// add signals
 		BodyEntered += OnBodyEntered;
@@ -93,8 +94,8 @@ public partial class BlockPlacer : Area2D
 		// Loads in Levels using Room Parts and lines it up based on where the previous room ended
 
 		// Todo: change to be a random room once more parts are generated
-		// res://Levels/Parts/Left/LE1_10.txt
 		LoadPartFromFile($"{level_folder}/Parts/Left/LE1_10.txt");
+		LoadPartFromFile($"{level_folder}/Parts/Middle/ME1_10.txt");
 		LoadPartFromFile($"{level_folder}/Parts/Middle/ME1_10.txt");
 		LoadPartFromFile($"{level_folder}/Parts/Right/RE1_10.txt");
 		
@@ -109,7 +110,7 @@ public partial class BlockPlacer : Area2D
 		Godot.Vector2 start_pos = new(start_pos_x, start_pos_y);
 
 		GetLevelMatFromFile(part_f); // update level_mat to correct output
-		BuildLevelFromLevelMat(); // 
+		BuildLevelFromLevelMat(); // build the level given the current matrix
 		
 	}
 
@@ -117,14 +118,22 @@ public partial class BlockPlacer : Area2D
 		for(int i = 0; i < level_mat.Count; i++) {
 			for(int j = 0; j < level_mat[0].Count; j++) {
 				if(level_mat[i][j] == "B") {
-					tilemap.SetCellsTerrainConnect(0, new Godot.Collections.Array<Vector2I> {new Vector2I(i + (int)curr_offset.X, j + (int)curr_offset.Y)}, 0, 0);
+					tilemap.SetCellsTerrainConnect(0, new Godot.Collections.Array<Vector2I> {new Vector2I(j + (int)curr_offset.X, i + (int)curr_offset.Y)}, 0, 0);
 				}
 				else {
-					Vector2 obj_pos = new((i + (int)curr_offset.X)*BLOCK_SIZE, (j + (int)curr_offset.Y)*BLOCK_SIZE);
+					Vector2 obj_pos = new((j + (int)curr_offset.X)*BLOCK_SIZE + BLOCK_OFFSET, (i + (int)curr_offset.Y)*BLOCK_SIZE + BLOCK_OFFSET);
 
 					if(block_dict.ContainsKey(level_mat[i][j])) {
 						var obj = block_dict[level_mat[i][j]].Instantiate();
+						GetTree().Root.AddChild(obj);
 						((Node2D)obj).Position = obj_pos;
+					}
+					else if(level_mat[i][j] == "-") { continue; } // empty element
+					else if(level_mat[i][j] == "L") { // update left connector position
+						left_connector_pos = new Godot.Vector2(i, j) + curr_offset;
+					}
+					else if(level_mat[i][j] == "R") { // update right connector position
+						right_connector_pos = new Godot.Vector2(i, j) + curr_offset;
 					}
 					else {
 						GD.Print($"Error: Block {level_mat[i][j]} not in block dictionary.");
@@ -132,12 +141,13 @@ public partial class BlockPlacer : Area2D
 				}
 			}
 		}
+
+		//update current offset
+		curr_offset += new Godot.Vector2(level_mat[0].Count, 0);
 	}
 
 	private void SaveLevelToFile(string outfile) {
 		// saves level to <outfile>
-
-		
 	
 		GD.Print("Saving Level");
 		Console.WriteLine("Saving Level");
@@ -163,47 +173,67 @@ public partial class BlockPlacer : Area2D
 		level_mat = new(); // clear level matrix
 		
 		// check to see if file exists
-		if (Godot.FileAccess.FileExists(level_f)) {
-			GD.Print($"File {level_f} does not exist!");
+		if (ResourceLoader.Exists(level_f)) {
+			GD.Print($"file \"{level_f}\" does not exist, or could not be found.");
 			return;
 		}
 		
 		// load level from file
 		int l = -1; // current line number in file
-		int d_line = 0;
-		foreach (string line in File.ReadLines(level_f)) {
-			l++;
+		int room_y = 0; // line in the room or part of room
+
+		bool in_room_contents = false; // if true, then currently reading through the room text representation
+
+		using var file = Godot.FileAccess.Open(level_f, Godot.FileAccess.ModeFlags.Read);
+		string lines = file.GetAsText();
+		foreach (string line in lines.Split('\n')) {
+			l++; // increment line counter
+
+			if(line.Length == 0) { continue; } // empty line so skip
+			
 			string[] contents = line.Split(' ');
 
 			if(l == 0) { // initialize array
+				GD.Print($"creating matrix of size ({contents[0]},{contents[1]})");
 				level_mat = new List<List<string>>(contents[0].ToInt());
-				for(int i=0; i<contents[1].ToInt(); i++) {
-					level_mat.Add(new List<string>(contents[1].ToInt()));
+				for(int i=0; i<contents[0].ToInt(); i++) {
+					level_mat.Add( new List<string>(contents[1].ToInt()) );
 				}
-
+				GD.Print(level_mat.Count, " ", level_mat[0].Count);
+				
 			}
-			if(contents[0] == "ROOM") {
-				if (d_line > contents[0].ToInt()) { continue; } 
-				for (int x = 0; x < contents.Length; x++) {
-					level_mat[d_line][x] = contents[x];
+			else if(line == "ROOM") {
+				in_room_contents = true;
+			}
+			else if(in_room_contents) {
+				for (int x = 0; x < contents.Length; x++) { // read through line
+					level_mat[room_y].Add(contents[x]);
 				}
-				d_line++;
+				room_y++;
 			}
 		}
 
-		PrintRoom();
+		PrintRoom(); // DEBUG
+
 		return;
 	}
 
 	private void PrintRoom() {
-		GD.Print(level_mat);
+		string line;
+		foreach(var list in level_mat) {
+			line = "";
+			foreach(var obj in list) {
+				line += obj + " ";
+			}
+			GD.Print(line);
+		}
 	}
 
 	// Signal Functions
 	private void OnBodyEntered(Node other) {
 		if(other is not Player || other == null) { return; }
 
-		GD.Print("Player Entered!");
+		// GD.Print("Player Entered!");
 		if(!tmp_generating_level) {
 			tmp_generating_level = true;
 			LoadNewRoomFromPartFiles();

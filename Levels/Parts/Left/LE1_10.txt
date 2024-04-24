@@ -6,7 +6,7 @@ B - - - - -
 B - - - - -
 B - - - - - 
 L - * * - -
-L - - - - -
+L C - - - -
 B B - - B B
 B B - - B B
 B B S S B B

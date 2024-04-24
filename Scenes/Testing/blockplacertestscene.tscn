@@ -29,10 +29,10 @@ zoom = Vector2(4, 4)
 [node name="Spikes" type="Node2D" parent="."]
 
 [node name="Spikeball" parent="Spikes" instance=ExtResource("4_4oa5o")]
-position = Vector2(-60, 11)
+position = Vector2(-60, 12)
 
 [node name="Spikeball2" parent="Spikes" instance=ExtResource("4_4oa5o")]
-position = Vector2(-52, 11)
+position = Vector2(-52, 12)
 
 [node name="Sign" parent="." instance=ExtResource("5_brqnw")]
 position = Vector2(-13, 10)
