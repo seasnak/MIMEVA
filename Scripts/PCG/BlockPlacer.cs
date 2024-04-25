@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 
 namespace Mimeva;
@@ -34,7 +35,14 @@ public partial class BlockPlacer : Area2D
 
 	// Prefabs Dictionary
 	private Godot.Collections.Dictionary<string, PackedScene> block_dict;
+	
+	// levels dictionary
+	private Godot.Collections.Dictionary<string, string[]> level_dict;
+	// private System.Collections.Generic.Dictionary<string, string[]> level_dict;
 
+	// enums	
+	private enum Difficulty {EASY, MEDIUM, HARD};
+	private enum Part {LEFT, MIDDLE, RIGHT};
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -86,6 +94,10 @@ public partial class BlockPlacer : Area2D
 		BuildLevelFromLevelMat();
 	}
 
+	public void UpdateLevelDict() {
+		
+	}
+
 	public void LoadNewRoomFromPartFiles(int start_pos_x=-1, int start_pos_y=-1) {
 		// Loads in Levels using Room Parts and lines it up based on where the previous room ended
 
@@ -94,7 +106,6 @@ public partial class BlockPlacer : Area2D
 		LoadPartFromFile($"{level_folder}/Parts/Middle/ME1_10.txt");
 		LoadPartFromFile($"{level_folder}/Parts/Middle/ME2_10.txt");
 		LoadPartFromFile($"{level_folder}/Parts/Right/RE1_10.txt");
-
 		
 		
 	}
