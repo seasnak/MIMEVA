@@ -90,7 +90,7 @@ public partial class BlockPlacer : Area2D
 		// Loads in Levels using Room Parts and lines it up based on where the previous room ended
 
 		// Todo: change to be a random room once more parts are generated
-		LoadPartFromFile($"{level_folder}/Parts/Left/LE1_10.txt");
+		LoadPartFromFile($"{level_folder}/Parts/Left/LM1_10.txt");
 		LoadPartFromFile($"{level_folder}/Parts/Middle/ME1_10.txt");
 		LoadPartFromFile($"{level_folder}/Parts/Middle/ME2_10.txt");
 		LoadPartFromFile($"{level_folder}/Parts/Right/RE1_10.txt");
