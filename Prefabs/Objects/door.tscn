@@ -71,15 +71,16 @@ script = ExtResource("1_asj5i")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 0)
+position = Vector2(1, -3)
 shape = SubResource("RectangleShape2D_s1qy3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_hyx2j")
 animation = &"open"
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-1, 0)
+position = Vector2(-1, -4)
 shape = SubResource("RectangleShape2D_gmr8e")

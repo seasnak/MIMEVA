@@ -1,13 +1,13 @@
-10 10
+10 12
 
 ROOM
-B B B B B B B B B B
-- - - - - - - - - -
-- - - - - - - - - -
-- - - - - - - - - -
-- - - * - - - - - -
-- - - B - - - B - -
-- - - B - - - B - -
-- - - - - - S B B -
-- - B B B B B B B -
-B B B B B B B B B B
+B B B B B B B B B B B B
+- - - - - - - B B - - -
+- - - - - - - B B - - -
+- - - * - - - - - - - -
+- - B B - - - - - - - -
+- - - B - - - B B - - -
+- - - B - - - B B B - -
+- - - - - - S B B B - -
+- - B B B B B B B B E -
+B B B B B B B B B B B B

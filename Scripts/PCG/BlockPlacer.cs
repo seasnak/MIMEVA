@@ -31,13 +31,14 @@ public partial class BlockPlacer : Area2D
 	private Godot.Vector2 right_connector_pos = Godot.Vector2.Zero; // the location of the right connector
 	private bool is_unix = true;
 	private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
-	private int difficulty = 1; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
+	private float difficulty = 1f; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
+	private int num_parts_in_room = 5; // the number of parts that will make up the room.
 
 	// Prefabs Dictionary
 	private Godot.Collections.Dictionary<string, PackedScene> block_dict;
 	
 	// levels dictionary
-	private Godot.Collections.Dictionary<string, string[]> level_dict;
+	private Godot.Collections.Dictionary<string, string[]> parts_dict;
 	// private System.Collections.Generic.Dictionary<string, string[]> level_dict;
 
 	// enums	
@@ -49,6 +50,7 @@ public partial class BlockPlacer : Area2D
 	{
 		block_dict = new();
 		ReloadBlockDictionary();
+		ReloadLevelPartsDictionary(); // loads in the list of levels
 
 		tilemap = GetNode<TileMap>("/root/World/TileMap"); // get tilemap node
 		
@@ -88,14 +90,18 @@ public partial class BlockPlacer : Area2D
 		}
 	}
 
+	public void ReloadLevelPartsDictionary(string folder="res://Levels/Parts/") {
+		// adds and sorts all level parts from 
+
+		string[] files = Directory.GetFiles(folder);
+		GD.Print(files);
+		
+	}
+
 	public void LoadRoomFromFile(string target_f) {
 		// Load in Levels and line up based on where we have left off
 		GetLevelMatFromFile(target_f);
 		BuildLevelFromLevelMat();
-	}
-
-	public void UpdateLevelDict() {
-		
 	}
 
 	public void LoadNewRoomFromPartFiles(int start_pos_x=-1, int start_pos_y=-1) {
@@ -103,11 +109,14 @@ public partial class BlockPlacer : Area2D
 
 		// Todo: change to be a random room once more parts are generated
 		LoadPartFromFile($"{level_folder}/Parts/Left/LM1_10.txt");
-		LoadPartFromFile($"{level_folder}/Parts/Middle/ME1_10.txt");
+		LoadPartFromFile($"{level_folder}/Parts/Middle/MM1_10.txt");
 		LoadPartFromFile($"{level_folder}/Parts/Middle/ME2_10.txt");
 		LoadPartFromFile($"{level_folder}/Parts/Right/RE1_10.txt");
 		
-		
+		for(int i=0; i<num_parts_in_room; i++) {
+			// do something
+		}
+
 	}
 
 	public void LoadPartFromFile(string part_f, int start_pos_x = -1, int start_pos_y = -1) {
