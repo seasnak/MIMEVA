@@ -129,6 +129,8 @@ public partial class BlockPlacer : Area2D
 		LoadPartFromFile($"{level_folder}/Parts/Middle/ME2_10.txt");
 		LoadPartFromFile($"{level_folder}/Parts/Right/RE1_10.txt");
 		
+
+		// randomly pick room parts from parts dictionary
 		for(int i=0; i<num_parts_in_room; i++) {
 			// do something
 		}
@@ -192,10 +194,9 @@ public partial class BlockPlacer : Area2D
 		Console.WriteLine("Saving Level");
 		for(int i = 0; i<level_mat.Count; i++) {
 			for(int j = 0; j<level_mat[0].Count; j++) {
-				
+
 			}
 		}
-		
 
 	}
 
@@ -253,7 +254,7 @@ public partial class BlockPlacer : Area2D
 		}
 
 		PrintRoom(); // DEBUG
-
+		
 		return;
 	}
 
