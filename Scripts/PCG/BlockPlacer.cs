@@ -42,16 +42,19 @@ public partial class BlockPlacer : Area2D
 	// private System.Collections.Generic.Dictionary<string, string[]> level_dict;
 
 	// enums	
-	// private enum Difficulty {EASY, MEDIUM, HARD};
-	// private enum Part {LEFT, MIDDLE, RIGHT};
+	private enum Difficulty {EASY, MEDIUM, HARD};
+	private enum Part {LEFT, MIDDLE, RIGHT};
 
-	private string[] difficulty_arr = {"EASY", "MEDIUM", "HARD"};
-	private string[] part_arr = {"LEFT", "MIDDLE", "RIGHT"};
+	private readonly string[] diff_arr = {"Easy", "Medium", "Hard"};
+	private readonly string[] part_arr = {"Left", "Middle", "Right"};
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		// initialize empty dictionaries
 		block_dict = new();
+		parts_dict = new();
+
 		ReloadBlockDictionary();
 		ReloadLevelPartsDictionary(); // loads in the list of levels
 
@@ -96,22 +99,30 @@ public partial class BlockPlacer : Area2D
 	public void ReloadLevelPartsDictionary(string path="res://Levels/Parts/") {
 		// adds and sorts all level parts from 
 		string[] files = System.Array.Empty<string>();
-
-		// Template
-		// string global_path = ProjectSettings.GlobalizePath(path);
-		// string[] files = Directory.GetFiles(global_path, "*", SearchOption.AllDirectories);
-		
-		// DEBUG: print out the files
-		// string file_str = "";
-		// foreach(string file in files) { 
-		// 	file_str += file + ", ";
-		// }
-		// GD.Print($"{files.Length} files found at \"{global_path}\": {file_str}");
-
 		string global_path = ProjectSettings.GlobalizePath(path);
 		
-		
+		foreach (string part in part_arr) {
+			global_path = ProjectSettings.GlobalizePath(path + part + "/");
 
+			foreach (string diff in diff_arr) {
+				// difficulties are EASY MEDIUM HARD
+				string key = $"{part}{diff}";
+				GD.Print($"searching {global_path} for {part}{diff} levels");
+				
+				files = Directory.GetFiles(global_path, $"*{part[0]}{diff[0]}*", SearchOption.AllDirectories);
+				
+				// add files to dictionary
+				if(parts_dict.ContainsKey(key)) {
+					parts_dict[key] = files;
+				}
+				else {
+					parts_dict.Add(key, files);
+				}
+			}
+		}
+		
+		GD.Print(parts_dict); // DEBUG
+		
 	}
 
 	public void LoadRoomFromFile(string target_f) {
