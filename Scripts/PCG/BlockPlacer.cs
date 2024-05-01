@@ -42,8 +42,11 @@ public partial class BlockPlacer : Area2D
 	// private System.Collections.Generic.Dictionary<string, string[]> level_dict;
 
 	// enums	
-	private enum Difficulty {EASY, MEDIUM, HARD};
-	private enum Part {LEFT, MIDDLE, RIGHT};
+	// private enum Difficulty {EASY, MEDIUM, HARD};
+	// private enum Part {LEFT, MIDDLE, RIGHT};
+
+	private string[] difficulty_arr = {"EASY", "MEDIUM", "HARD"};
+	private string[] part_arr = {"LEFT", "MIDDLE", "RIGHT"};
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -90,12 +93,25 @@ public partial class BlockPlacer : Area2D
 		}
 	}
 
-	public void ReloadLevelPartsDictionary(string folder="res://Levels/Parts/") {
+	public void ReloadLevelPartsDictionary(string path="res://Levels/Parts/") {
 		// adds and sorts all level parts from 
+		string[] files = System.Array.Empty<string>();
 
-		string[] files = Directory.GetFiles(folder);
-		GD.Print(files);
+		// Template
+		// string global_path = ProjectSettings.GlobalizePath(path);
+		// string[] files = Directory.GetFiles(global_path, "*", SearchOption.AllDirectories);
 		
+		// DEBUG: print out the files
+		// string file_str = "";
+		// foreach(string file in files) { 
+		// 	file_str += file + ", ";
+		// }
+		// GD.Print($"{files.Length} files found at \"{global_path}\": {file_str}");
+
+		string global_path = ProjectSettings.GlobalizePath(path);
+		
+		
+
 	}
 
 	public void LoadRoomFromFile(string target_f) {
@@ -147,7 +163,8 @@ public partial class BlockPlacer : Area2D
 
 					if(block_dict.ContainsKey(level_mat[i][j])) {
 						var obj = block_dict[level_mat[i][j]].Instantiate();
-						GetTree().Root.AddChild(obj);
+						// GetTree().Root.AddChild(obj);
+						GetTree().Root.CallDeferred("add_child", obj);
 						((Node2D)obj).Position = obj_pos;
 					}
 					else if(level_mat[i][j] == "-") { continue; } // empty element
