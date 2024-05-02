@@ -131,15 +131,17 @@ public partial class BlockPlacer : Area2D
 		BuildLevelFromLevelMat();
 	}
 
-	public void LoadNewRoomFromPartFiles(int start_pos_x=-1, int start_pos_y=-1) {
+	public void LoadNewRoomFromPartFiles(int start_pos_x=-1, int start_pos_y=-1, int num_parts=-1) {
 		// Loads in Levels using Room Parts and lines it up based on where the previous room ended
 
 		// Todo: change to be a random room once more parts are generated
-		LoadPartFromFile($"{level_folder}/Parts/Left/LM1_10.txt");
-		LoadPartFromFile($"{level_folder}/Parts/Middle/MM1_10.txt");
-		LoadPartFromFile($"{level_folder}/Parts/Middle/ME2_10.txt");
-		LoadPartFromFile($"{level_folder}/Parts/Right/RE1_10.txt");
+		// LoadPartFromFile($"{level_folder}/Parts/Left/LM1_10.txt");
+		// LoadPartFromFile($"{level_folder}/Parts/Middle/MM1_10.txt");
+		// LoadPartFromFile($"{level_folder}/Parts/Middle/ME2_10.txt");
+		// LoadPartFromFile($"{level_folder}/Parts/Right/RE1_10.txt");
 		
+		Random random = new();
+		if(num_parts == -1) { num_parts_in_room = (int)random.Next(0, 10); } else { num_parts_in_room = num_parts; }
 
 		// randomly pick room parts from parts dictionary
 		for(int i=0; i<num_parts_in_room; i++) {
