@@ -140,12 +140,14 @@ public partial class BlockPlacer : Area2D
 		// LoadPartFromFile($"{level_folder}/Parts/Middle/ME2_10.txt");
 		// LoadPartFromFile($"{level_folder}/Parts/Right/RE1_10.txt");
 		
+		// select a random amount of parts for the level
 		Random random = new();
-		if(num_parts == -1) { num_parts_in_room = (int)random.Next(0, 10); } else { num_parts_in_room = num_parts; }
+		if(num_parts == -1) { num_parts_in_room = (int)random.Next(3, 7); } else { num_parts_in_room = num_parts; }
 
 		// randomly pick room parts from parts dictionary
 		for(int i=0; i<num_parts_in_room; i++) {
 			// do something
+			
 		}
 
 	}
