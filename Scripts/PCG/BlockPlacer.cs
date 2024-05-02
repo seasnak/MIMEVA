@@ -131,30 +131,58 @@ public partial class BlockPlacer : Area2D
 		BuildLevelFromLevelMat();
 	}
 
+	private string GetNewDifficulty() {
+		Random random = new();
+		string diff = "Hard";
+		if(difficulty <= 3) { diff = "Easy"; }
+		else if(difficulty == 4 ) { 
+			diff = random.NextDouble() > 0.5 ? "Medium" : "Easy"; 
+		}
+		else if(difficulty <= 7) { diff = "Medium"; }
+		else if(difficulty == 8) {
+			diff = random.NextDouble() > 0.5 ? "Hard" : "Medium";
+		}
+		return diff;
+	}
+
 	public void LoadNewRoomFromPartFiles(int start_pos_x=-1, int start_pos_y=-1, int num_parts=-1) {
 		// Loads in Levels using Room Parts and lines it up based on where the previous room ended
+		Random random = new();
 
 		// Todo: change to be a random room once more parts are generated
 		// LoadPartFromFile($"{level_folder}/Parts/Left/LM1_10.txt");
 		// LoadPartFromFile($"{level_folder}/Parts/Middle/MM1_10.txt");
 		// LoadPartFromFile($"{level_folder}/Parts/Middle/ME2_10.txt");
 		// LoadPartFromFile($"{level_folder}/Parts/Right/RE1_10.txt");
-		
+
+		// select the minimum amount of rooms based on the current difficulty settin
+		int min_parts = (int) Math.Floor(difficulty * 0.33) + 3; //
+		int max_parts = (int) Math.Floor(difficulty * 0.5) + 5; //
+
 		// select a random amount of parts for the level
-		Random random = new();
-		if(num_parts == -1) { num_parts_in_room = (int)random.Next(3, 7); } else { num_parts_in_room = num_parts; }
+		if(num_parts == -1) { num_parts_in_room = (int)random.Next(min_parts, max_parts+1); } else { num_parts_in_room = num_parts; }
 
 		// randomly pick room parts from parts dictionary
+		string diff_str = GetNewDifficulty();
+		int curr_parts_len = parts_dict["Left"+diff_str].Length;
+		LoadPartFromFile($"{ parts_dict["Left"+diff_str][random.Next(0, curr_parts_len)] }"); // load left part
+
 		for(int i=0; i<num_parts_in_room; i++) {
-			// do something
-			
+			//load in middle room parts
+			diff_str = GetNewDifficulty();
+			curr_parts_len = parts_dict["Middle"+diff_str].Length;
+			LoadPartFromFile($"{parts_dict["Middle"+diff_str][random.Next(0, curr_parts_len)]}");		
 		}
+
+		diff_str = GetNewDifficulty();
+		curr_parts_len = parts_dict["Right"+diff_str].Length;
+		LoadPartFromFile($"{ parts_dict["Right"+diff_str][random.Next(0, curr_parts_len)] }");
 
 	}
 
 	public void LoadPartFromFile(string part_f, int start_pos_x = -1, int start_pos_y = -1) {
 		// Load in a part of a level (based on what part we need)
-		if(start_pos_x < 0) { 
+		if(start_pos_x < 0) {
 			start_pos_x = (int)curr_offset.X; 
 			start_pos_y = (int)curr_offset.Y;
 		}
