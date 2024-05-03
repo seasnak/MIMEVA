@@ -20,6 +20,7 @@ public partial class BlockPlacer : Area2D
 
 	// private string tilemap_path = "/root/world/TileMap"; // where the TileMap is located
 	private string level_folder = "res://Levels";
+	private string connector_room_path = "res://Levels/Rooms/C_10.txt";
 	
 	// Constants 
 	private const int BLOCK_SIZE = 8; // size of each tilemap block in pixels
@@ -31,7 +32,7 @@ public partial class BlockPlacer : Area2D
 	private Godot.Vector2 right_connector_pos = Godot.Vector2.Zero; // the location of the right connector
 	private bool is_unix = true;
 	private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
-	private float difficulty = 1f; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
+	private float difficulty = 5f; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
 	private int num_parts_in_room = 5; // the number of parts that will make up the room.
 
 	// Prefabs Dictionary
@@ -51,6 +52,10 @@ public partial class BlockPlacer : Area2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+
+		// play animations
+		GetNode<AnimatedSprite2D>("AnimatedSprite2D").Play("default");
+		
 		// initialize empty dictionaries
 		block_dict = new();
 		parts_dict = new();
@@ -149,12 +154,6 @@ public partial class BlockPlacer : Area2D
 		// Loads in Levels using Room Parts and lines it up based on where the previous room ended
 		Random random = new();
 
-		// Todo: change to be a random room once more parts are generated
-		// LoadPartFromFile($"{level_folder}/Parts/Left/LM1_10.txt");
-		// LoadPartFromFile($"{level_folder}/Parts/Middle/MM1_10.txt");
-		// LoadPartFromFile($"{level_folder}/Parts/Middle/ME2_10.txt");
-		// LoadPartFromFile($"{level_folder}/Parts/Right/RE1_10.txt");
-
 		// select the minimum amount of rooms based on the current difficulty settin
 		int min_parts = (int) Math.Floor(difficulty * 0.33) + 3; //
 		int max_parts = (int) Math.Floor(difficulty * 0.5) + 5; //
@@ -177,6 +176,9 @@ public partial class BlockPlacer : Area2D
 		diff_str = GetNewDifficulty();
 		curr_parts_len = parts_dict["Right"+diff_str].Length;
 		LoadPartFromFile($"{ parts_dict["Right"+diff_str][random.Next(0, curr_parts_len)] }");
+
+		GD.Print($"Loading in {ProjectSettings.GlobalizePath(connector_room_path)}");
+		LoadPartFromFile(ProjectSettings.GlobalizePath(connector_room_path));
 
 	}
 
@@ -218,6 +220,10 @@ public partial class BlockPlacer : Area2D
 					}
 					else if(level_mat[i][j] == "R") { // update right connector position
 						right_connector_pos = new Godot.Vector2(i, j) + curr_offset;
+					}
+					else if(level_mat[i][j] == "!") { // move block placer here
+						this.Position = obj_pos;
+						tmp_generating_level = false;
 					}
 					else {
 						GD.Print($"Error: Block {level_mat[i][j]} not in block dictionary.");

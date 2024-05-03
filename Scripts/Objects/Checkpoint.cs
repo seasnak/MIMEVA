@@ -28,9 +28,15 @@ public partial class Checkpoint : Area2D {
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta) 
     {
-        if(player_inside && player.IsAttacking()) {
+        // if(player_inside && player.IsAttacking()) {
+        //     sprite.Play("ring");
+        //     PlayerVariables.SetCheckpoint(this);
+        // }
+
+        if(player_inside) {
             sprite.Play("ring");
             PlayerVariables.SetCheckpoint(this);
+            player_inside = false;
         }
     }
 
