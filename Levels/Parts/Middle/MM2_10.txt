@@ -3,11 +3,11 @@
 ROOM
 B B B B B B B B B B B B
 - - - - - - - S B - - -
-- - - - - - - S B - - -
-- - - - - - - S B - - -
+- - - - - - - - B - - -
+- - - - - - - - B - - -
 - - - B B B - - - - - -
 - - - B - - - - - B - -
 - - - B - - - - - B - -
-- - - B S S S - - B - -
+- - - B S S - - - B - -
 - - B B B B B B B B - -
 B B B B B B B B B B B B

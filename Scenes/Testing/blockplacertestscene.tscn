@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bw47fxkfhthqi"]
+[gd_scene load_steps=17 format=3 uid="uid://bw47fxkfhthqi"]
 
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="1_b8nu8"]
 [ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="2_npq2r"]
@@ -7,10 +7,60 @@
 [ext_resource type="PackedScene" uid="uid://c0luna03qyx3y" path="res://Prefabs/Objects/sign.tscn" id="5_brqnw"]
 [ext_resource type="PackedScene" uid="uid://c444v4l648t7r" path="res://Prefabs/UI/PlayerUI.tscn" id="6_6x6ar"]
 [ext_resource type="Script" path="res://Scripts/PCG/BlockPlacer.cs" id="7_v6fbu"]
-[ext_resource type="Texture2D" uid="uid://byx4hurd8gxre" path="res://Sprites/Objects/ladder.png" id="8_gnqod"]
+[ext_resource type="Texture2D" uid="uid://nafyj88o7jha" path="res://Sprites/Objects/Structures/flag_wave.png" id="8_yekaw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tfnuq"]
-size = Vector2(20, 24)
+size = Vector2(12, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1e3tw"]
+atlas = ExtResource("8_yekaw")
+region = Rect2(24, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6abf"]
+atlas = ExtResource("8_yekaw")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6wyrk"]
+atlas = ExtResource("8_yekaw")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwedu"]
+atlas = ExtResource("8_yekaw")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4tgs6"]
+atlas = ExtResource("8_yekaw")
+region = Rect2(32, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7tel8"]
+atlas = ExtResource("8_yekaw")
+region = Rect2(40, 0, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_es1nq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1e3tw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m6abf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6wyrk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xwedu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4tgs6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7tel8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
 
 [node name="World" type="Node2D"]
 
@@ -41,13 +91,13 @@ text = PackedStringArray("Welcome!", "At the end of each level you will be asked
 [node name="UI" parent="." instance=ExtResource("6_6x6ar")]
 
 [node name="BlockPlacer" type="Area2D" parent="."]
-position = Vector2(10, 6)
+position = Vector2(10, 12)
 script = ExtResource("7_v6fbu")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BlockPlacer"]
-position = Vector2(0, -2)
+position = Vector2(-1, -5)
 shape = SubResource("RectangleShape2D_tfnuq")
 
-[node name="Sprite2D" type="Sprite2D" parent="BlockPlacer"]
-texture = ExtResource("8_gnqod")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BlockPlacer"]
+sprite_frames = SubResource("SpriteFrames_es1nq")
