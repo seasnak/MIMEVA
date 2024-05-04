@@ -220,7 +220,7 @@ public partial class Player : CharacterBody2D
 
 		// handle character sprite and weapon
 		if(input_dir.X != 0 && !is_attacking && !is_dashing) {
-			sprite.FlipH = input_dir.X > 0;
+			sprite.FlipH = input_dir.X < 0;
 			collider.Position = new Godot.Vector2(-0.5 * input_dir.X > 0 ? -1 : 1, collider.Position.Y);
 
 			weapon.GetSprite().FlipH = sprite.FlipH;
