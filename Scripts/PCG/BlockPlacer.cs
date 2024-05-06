@@ -154,12 +154,16 @@ public partial class BlockPlacer : Area2D
 		// Loads in Levels using Room Parts and lines it up based on where the previous room ended
 		Random random = new();
 
-		// select the minimum amount of rooms based on the current difficulty settin
-		int min_parts = (int) Math.Floor(difficulty * 0.33) + 3; //
-		int max_parts = (int) Math.Floor(difficulty * 0.5) + 5; //
-
 		// select a random amount of parts for the level
-		if(num_parts == -1) { num_parts_in_room = (int)random.Next(min_parts, max_parts+1); } else { num_parts_in_room = num_parts; }
+		if(num_parts == -1) {
+			// select the minimum amount of rooms based on the current difficulty settin
+			int min_parts = (int) Math.Floor(difficulty * 0.33) + 1;
+			int max_parts = (int) Math.Floor(difficulty * 0.5) + 3;
+			num_parts_in_room = (int)random.Next(min_parts, max_parts+1); 
+		} 
+		else { 
+			num_parts_in_room = num_parts; 
+		}
 
 		// randomly pick room parts from parts dictionary
 		string diff_str = GetNewDifficulty();
@@ -233,6 +237,7 @@ public partial class BlockPlacer : Area2D
 		}
 
 		//update current offset
+		if(level_mat.Count == 0) { return; }
 		curr_offset += new Godot.Vector2(level_mat[0].Count, 0);
 	}
 

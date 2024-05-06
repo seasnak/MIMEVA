@@ -161,7 +161,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2os0o"]
-size = Vector2(6, 8)
+size = Vector2(6, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rygms"]
 size = Vector2(6, 9)
@@ -176,7 +176,7 @@ sprite_frames = SubResource("SpriteFrames_5yp52")
 animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
+position = Vector2(1, 4.5)
 shape = SubResource("RectangleShape2D_2os0o")
 
 [node name="Sword" type="Area2D" parent="."]
