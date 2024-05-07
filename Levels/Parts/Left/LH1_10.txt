@@ -1,0 +1,26 @@
+20 12
+
+LPOS 5
+RPOS 
+
+ROOM
+B B B B B B B B B B B B
+B - B S - - - - - B - -
+B - B S - - - - - B - -
+B - B S - - - - - B - -
+L - B S B B B - S B - R
+L - B S B B S - S B - R
+B - B B B B S - - - - -
+B - B B B B S - - - - -
+B - B B B B S - - - - -
+B - B B B B B - - B B B
+B - - - - - - - - - - B
+B - - - - - - - - - - B
+B - - - - - - - - - - B
+B - - - - - - - - - - B
+B - - - - B - - - - - B
+B - - - - S - - - - - B
+B - - - - S B B - - E B
+B - - - - - - - - B B B 
+B - C - - - - - - - - B
+B B B B B B B B B B B B

@@ -157,8 +157,8 @@ public partial class BlockPlacer : Area2D
 		// select a random amount of parts for the level
 		if(num_parts == -1) {
 			// select the minimum amount of rooms based on the current difficulty settin
-			int min_parts = (int) Math.Floor(difficulty * 0.33) + 1;
-			int max_parts = (int) Math.Floor(difficulty * 0.5) + 3;
+			int min_parts = 3;
+			int max_parts = (int)Math.Floor(difficulty/3) + 3;
 			num_parts_in_room = (int)random.Next(min_parts, max_parts+1); 
 		} 
 		else { 
