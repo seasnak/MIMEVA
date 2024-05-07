@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="3_rir22"]
 [ext_resource type="PackedScene" uid="uid://cfvinpv0dyg7n" path="res://Prefabs/Objects/Spikeball.tscn" id="4_4oa5o"]
 [ext_resource type="PackedScene" uid="uid://c0luna03qyx3y" path="res://Prefabs/Objects/sign.tscn" id="5_brqnw"]
-[ext_resource type="PackedScene" path="res://Prefabs/UI/PlayerUI.tscn" id="6_6x6ar"]
+[ext_resource type="PackedScene" uid="uid://c444v4l648t7r" path="res://Prefabs/UI/PlayerUI.tscn" id="6_6x6ar"]
 [ext_resource type="Script" path="res://Scripts/PCG/BlockPlacer.cs" id="7_v6fbu"]
 [ext_resource type="Texture2D" uid="uid://nafyj88o7jha" path="res://Sprites/Objects/Structures/flag_wave.png" id="8_yekaw"]
 
