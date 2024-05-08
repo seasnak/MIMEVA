@@ -43,8 +43,8 @@ public partial class BlockPlacer : Area2D
 	// private System.Collections.Generic.Dictionary<string, string[]> level_dict;
 
 	// enums	
-	private enum Difficulty {EASY, MEDIUM, HARD};
-	private enum Part {LEFT, MIDDLE, RIGHT};
+	// private enum Difficulty {EASY, MEDIUM, HARD};
+	// private enum Part {LEFT, MIDDLE, RIGHT};
 
 	private readonly string[] diff_arr = {"Easy", "Medium", "Hard"};
 	private readonly string[] part_arr = {"Left", "Middle", "Right"};
@@ -64,7 +64,7 @@ public partial class BlockPlacer : Area2D
 		ReloadLevelPartsDictionary(); // loads in the list of levels
 
 		tilemap = GetNode<TileMap>("/root/World/TileMap"); // get tilemap node
-		
+
 		// default offsets based on starting level
 		curr_offset = new(8, -5);
 		right_connector_pos = new(8, -5);
@@ -112,7 +112,7 @@ public partial class BlockPlacer : Area2D
 			foreach (string diff in diff_arr) {
 				// difficulties are EASY MEDIUM HARD
 				string key = $"{part}{diff}";
-				GD.Print($"searching {global_path} for {part}{diff} levels");
+				// GD.Print($"searching {global_path} for {part}{diff} levels");
 				
 				files = Directory.GetFiles(global_path, $"*{part[0]}{diff[0]}*", SearchOption.AllDirectories);
 				
@@ -126,7 +126,7 @@ public partial class BlockPlacer : Area2D
 			}
 		}
 		
-		GD.Print(parts_dict); // DEBUG
+		// GD.Print(parts_dict); // DEBUG
 		
 	}
 
@@ -177,13 +177,13 @@ public partial class BlockPlacer : Area2D
 		// 	LoadPartFromFile($"{parts_dict["Middle"+diff_str][random.Next(0, curr_parts_len)]}");		
 		// }
 		
-		LoadPartFromFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Middle/MH1_20.txt"));
+		LoadPartFromFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Middle/MH2_10.txt"));
 
 		diff_str = GetNewDifficulty();
 		curr_parts_len = parts_dict["Right"+diff_str].Length;
 		LoadPartFromFile($"{ parts_dict["Right"+diff_str][random.Next(0, curr_parts_len)] }");
 
-		GD.Print($"Loading in {ProjectSettings.GlobalizePath(connector_room_path)}");
+		// GD.Print($"Loading in {ProjectSettings.GlobalizePath(connector_room_path)}"); // DEBUG
 		LoadPartFromFile(ProjectSettings.GlobalizePath(connector_room_path));
 
 	}
@@ -290,12 +290,12 @@ public partial class BlockPlacer : Area2D
 			string[] contents = line.Split(' ');
 
 			if(l == 0) { // initialize array
-				GD.Print($"creating matrix of size ({contents[0]},{contents[1]})");
+				// GD.Print($"creating matrix of size ({contents[0]},{contents[1]})");
 				level_mat = new List<List<string>>(contents[0].ToInt());
 				for(int i=0; i<contents[0].ToInt(); i++) {
 					level_mat.Add( new List<string>(contents[1].ToInt()) );
 				}
-				GD.Print(level_mat.Count, " ", level_mat[0].Count);
+				// GD.Print(level_mat.Count, " ", level_mat[0].Count);
 				
 			}
 			else if(line == "ROOM") {
@@ -309,7 +309,7 @@ public partial class BlockPlacer : Area2D
 			}
 		}
 
-		PrintRoom(); // DEBUG
+		// PrintRoom(); // DEBUG
 		
 		return;
 	}

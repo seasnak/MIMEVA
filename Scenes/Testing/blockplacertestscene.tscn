@@ -74,6 +74,8 @@ sprite_frames = SubResource("SpriteFrames_es1nq")
 
 [node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 show_behind_parent = true
-position = Vector2(13.5, 4)
-scale = Vector2(0.504375, 0.2475)
+position = Vector2(1.49997, 11.5)
+scale = Vector2(0.255625, 0.146875)
 texture = ExtResource("2_xa832")
+region_enabled = true
+region_rect = Rect2(0, 0, 1500, 1500)
