@@ -177,7 +177,7 @@ public partial class BlockPlacer : Area2D
 		// 	LoadPartFromFile($"{parts_dict["Middle"+diff_str][random.Next(0, curr_parts_len)]}");		
 		// }
 		
-		LoadPartFromFile(ProjectSettings.GlobalizePath(connector_room_path));
+		LoadPartFromFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Middle/MH1_20.txt"));
 
 		diff_str = GetNewDifficulty();
 		curr_parts_len = parts_dict["Right"+diff_str].Length;

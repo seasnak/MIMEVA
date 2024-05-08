@@ -8,8 +8,8 @@ B B B B B B B B B B B B
 B - B S - - - - - B - -
 B - B S - - - - - B - -
 B - B S - - - - - B - -
-L - B S B B B - S B - R
-L - B S B B S - S B - R
+L - B S B B B - S B - -
+L - B S B B S - S B - -
 B - B B B B S - - - - -
 B - B B B B S - - - - -
 B - B B B B S - - - - -
