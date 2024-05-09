@@ -36,7 +36,7 @@ public partial class Player : CharacterBody2D
 	private const int walljump_dur = 60; // the time for the player to be knocked back
 	private ulong curr_attack_time = 0; // current atk time for timer purposes
 	private ulong curr_dash_time = 0; // current dash time for timer purposes
-	private ulong curr_walljump_time = 0; 
+	private ulong curr_walljump_time = 0;
 
 	// Player Boolean Checks
 	private bool is_grounded = true;
@@ -227,7 +227,8 @@ public partial class Player : CharacterBody2D
 			collider.Position = new Godot.Vector2(-0.5 * input_dir.X > 0 ? -1 : 1, collider.Position.Y);
 
 			weapon.GetSprite().FlipH = sprite.FlipH;
-			weapon.Position = weapon.Position = new Godot.Vector2(8, 5);
+			if(input_dir.X > 0) { weapon.Position = new Godot.Vector2(8, 5); }
+			else { weapon.Position = new Godot.Vector2(-5, 5); }
 		}
 
 		// handle dash movement

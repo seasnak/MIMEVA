@@ -170,14 +170,14 @@ public partial class BlockPlacer : Area2D
 		int curr_parts_len = parts_dict["Left"+diff_str].Length;
 		LoadPartFromFile($"{ parts_dict["Left"+diff_str][random.Next(0, curr_parts_len)] }"); // load left part
 
-		// for(int i=0; i<num_parts_in_room; i++) {
-		// 	//load in middle room parts
-		// 	diff_str = GetNewDifficulty();
-		// 	curr_parts_len = parts_dict["Middle"+diff_str].Length;
-		// 	LoadPartFromFile($"{parts_dict["Middle"+diff_str][random.Next(0, curr_parts_len)]}");		
-		// }
+		for(int i=0; i<num_parts_in_room; i++) {
+			//load in middle room parts
+			diff_str = GetNewDifficulty();
+			curr_parts_len = parts_dict["Middle"+diff_str].Length;
+			LoadPartFromFile($"{parts_dict["Middle"+diff_str][random.Next(0, curr_parts_len)]}");		
+		}
 		
-		LoadPartFromFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Middle/MH2_10.txt"));
+		// LoadPartFromFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Middle/MH2_10.txt")); // DEBUG
 
 		diff_str = GetNewDifficulty();
 		curr_parts_len = parts_dict["Right"+diff_str].Length;
@@ -250,7 +250,7 @@ public partial class BlockPlacer : Area2D
 		Console.WriteLine("Saving Level");
 		for(int i = 0; i<level_mat.Count; i++) {
 			for(int j = 0; j<level_mat[0].Count; j++) {
-
+				
 			}
 		}
 
