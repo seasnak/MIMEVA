@@ -74,8 +74,11 @@ public partial class Player : CharacterBody2D
     {	
 		sprite = (AnimatedSprite2D)(GetNode("AnimatedSprite2D"));
 		p_vars = (PlayerVariables)GetNode("/root/PlayerVariables");
+		
+		// set sword hitbox
 		weapon = (HitBox)GetNode("Sword");
 		weapon.SetDamage(30);
+		weapon.GetSprite().Frame = 4;
 
 		collider = GetNode<CollisionShape2D>("CollisionShape2D");
 		debugline_dict = new Godot.Collections.Dictionary<string,Line2D>();
@@ -224,7 +227,7 @@ public partial class Player : CharacterBody2D
 			collider.Position = new Godot.Vector2(-0.5 * input_dir.X > 0 ? -1 : 1, collider.Position.Y);
 
 			weapon.GetSprite().FlipH = sprite.FlipH;
-			weapon.Position = new Godot.Vector2(8 * input_dir.X, 0);
+			weapon.Position = weapon.Position = new Godot.Vector2(8, 5);
 		}
 
 		// handle dash movement

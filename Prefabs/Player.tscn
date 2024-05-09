@@ -185,11 +185,10 @@ script = ExtResource("4_wb1xm")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
-position = Vector2(-1, 0.5)
+position = Vector2(-1, -1.5)
 shape = SubResource("RectangleShape2D_rygms")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Sword"]
+position = Vector2(-2, -2)
 sprite_frames = ExtResource("5_mqjgn")
 animation = &"slash"
-frame = 4
-frame_progress = 1.0

@@ -20,7 +20,6 @@ public partial class HitBox : Area2D
 		hitbox.Disabled = true;
 
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		
 	}
 
     public override void _Process(double delta) {

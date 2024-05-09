@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bw47fxkfhthqi"]
+[gd_scene load_steps=20 format=3 uid="uid://bw47fxkfhthqi"]
 
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="1_b8nu8"]
 [ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="2_npq2r"]
@@ -8,24 +8,73 @@
 [ext_resource type="PackedScene" uid="uid://c0luna03qyx3y" path="res://Prefabs/Objects/sign.tscn" id="5_brqnw"]
 [ext_resource type="PackedScene" uid="uid://c444v4l648t7r" path="res://Prefabs/UI/PlayerUI.tscn" id="6_6x6ar"]
 [ext_resource type="Script" path="res://Scripts/PCG/BlockPlacer.cs" id="7_v6fbu"]
-[ext_resource type="Texture2D" uid="uid://nafyj88o7jha" path="res://Sprites/Objects/Structures/flag_wave.png" id="8_yekaw"]
+[ext_resource type="Texture2D" uid="uid://cxbnyyagsqsfj" path="res://Sprites/Objects/Structures/Computer/computer_idle-Sheet.png" id="8_aa7b0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tfnuq"]
 size = Vector2(12, 46)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xwedu"]
-atlas = ExtResource("8_yekaw")
-region = Rect2(16, 0, 8, 8)
+[sub_resource type="AtlasTexture" id="AtlasTexture_13yww"]
+atlas = ExtResource("8_aa7b0")
+region = Rect2(0, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_riw3b"]
+atlas = ExtResource("8_aa7b0")
+region = Rect2(12, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1mul"]
+atlas = ExtResource("8_aa7b0")
+region = Rect2(24, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfudo"]
+atlas = ExtResource("8_aa7b0")
+region = Rect2(36, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yn33t"]
+atlas = ExtResource("8_aa7b0")
+region = Rect2(48, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ky8ni"]
+atlas = ExtResource("8_aa7b0")
+region = Rect2(60, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lcbw5"]
+atlas = ExtResource("8_aa7b0")
+region = Rect2(72, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3m4q2"]
+atlas = ExtResource("8_aa7b0")
+region = Rect2(84, 0, 12, 12)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_es1nq"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_xwedu")
+"texture": SubResource("AtlasTexture_13yww")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_riw3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1mul")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfudo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yn33t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ky8ni")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lcbw5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3m4q2")
 }],
 "loop": true,
 "name": &"default",
-"speed": 12.0
+"speed": 10.0
 }]
 
 [node name="World" type="Node2D"]
@@ -66,6 +115,7 @@ position = Vector2(-1, -5)
 shape = SubResource("RectangleShape2D_tfnuq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BlockPlacer"]
+position = Vector2(-1, -2)
 sprite_frames = SubResource("SpriteFrames_es1nq")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
