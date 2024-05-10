@@ -89,7 +89,7 @@ layer_0/tile_data = PackedInt32Array(-131075, 524288, 3, -131076, 524288, 3, -13
 
 [node name="Camera2D" parent="." instance=ExtResource("3_rir22")]
 position = Vector2(0, 0)
-zoom = Vector2(4, 4)
+zoom = Vector2(5, 5)
 
 [node name="Spikes" type="Node2D" parent="."]
 
