@@ -68,7 +68,7 @@ public partial class DialogueManager : Node
 
 		is_dialogue_active = false;
 		curr_line_idx = 0;
-		dbox.QueueFree();
+		// dbox.QueueFree();
 	}
 
 	public bool GetDialogueBoxFinishedLine() {

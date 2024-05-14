@@ -1,5 +1,9 @@
 10 3
 
+INSIZE 10
+OUTSIZE 10
+
+
 B B B
 - B -
 - B -

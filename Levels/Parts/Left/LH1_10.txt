@@ -1,26 +1,28 @@
-20 12
+20 15
 
-LPOS 5
-RPOS 
+INPOS 5
+
+INSIZE 10
+OUTSIZE 10
 
 ROOM
-B B B B B B B B B B B B
-B - B S - - - - - B - -
-B - B S - - - - - B - -
-B - B S - - - - - B - -
-L - B S B B B - S B - -
-L - B S B B S - S B - -
-B - B B B B S - - - - -
-B - B B B B S - - - - -
-B - B B B B S - - - - -
-B - B B B B B - - B B B
-B - - - - - - - - - - B
-B - - - - - - - - - - B
-B - - - - - - - - - - B
-B - - - - - - - - - - B
-B - - - - B - - - - - B
-B - - - - S - - - - - B
-B - - - - S B B - - E B
-B - - - - - - - - B B B 
-B - C - - - - - - - - B
-B B B B B B B B B B B B
+B B B B B B B B B B B B B B
+B - - - B O - - - - - B - -
+B - - - B O - - - - - B - -
+B - - - B O * - - - - B - -
+L - - - B B B B B - - B - -
+L - - - B B B B S - - B - -
+B B - - B B B B S - - - - -
+B B - - B B B B S - - - - -
+B - - - B B B B B - - - - -
+B - - - B B B B B - - B B B
+B - - - O O B - - - B B B B
+B - - - O O B - - - B B B B
+B - - - O O B - - - S B B B
+B - - - O S - - - - B B B B
+B - - - O O B - - - B B B B
+B - - - - S - - - - - - - B
+B - - - - S B B - - - - E B
+B B B - - - - - - B B B B B
+B B B - - - - - - - - B B B
+B B B B B B B B B B B B B B

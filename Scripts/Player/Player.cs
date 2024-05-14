@@ -166,7 +166,7 @@ public partial class Player : CharacterBody2D
 	private void HandleAttack() {
 		
 		if(is_dashing) { return; } // prevent player from attacking while dashing
-
+		
 		if(Input.IsActionJustPressed("attack") && !is_attacking) {
 			is_attacking = true;
 			// sprite.Play("attack");
@@ -183,7 +183,7 @@ public partial class Player : CharacterBody2D
 	}
 
 	private void HandleMove(Godot.Vector2 input_dir, float delta = 1) {
-
+		
 		// handle player timers
 		if(is_dashing && Time.GetTicksMsec()-curr_dash_time >= dash_dur) { 
 			is_dashing = false;

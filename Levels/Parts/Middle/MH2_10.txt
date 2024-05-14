@@ -1,5 +1,8 @@
 20 10
 
+INSIZE 10
+OUTSIZE 10
+
 ROOM
 B B B B B B B B B B
 - - B B - - - - - -

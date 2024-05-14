@@ -1,5 +1,9 @@
 10 8
 
+INPUT_S 10
+OUTPUT_S 10
+
+
 ROOM
 B B B B B B B B
 - - - - - - - -

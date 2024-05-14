@@ -1,13 +1,18 @@
 10 12
 
+INPOS 5
+
+INSIZE 10
+OUTSIZE 10
+
 ROOM
 B B B B B B B B B B B B
 B - - - - - - - - B - -
 B - - - - - - - - B - -
 B - - - - C - - - B - -
-L - - S B B B - S B - -
-L - - S B B - - S B - -
-B B B B B B - - - - - -
-B B B B B B - - - - - -
-B B B B B B * - - - - -
+L - - - B B B - - B - -
+L - - S B B S - - B - -
+B B B B B B S - - - - -
+B B B B B B S - - - - -
+B B B B B B S - - - - -
 B B B B B B B B B B B B

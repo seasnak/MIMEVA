@@ -32,27 +32,26 @@ public partial class BlockPlacer : Area2D
 	private Godot.Vector2 right_connector_pos = Godot.Vector2.Zero; // the location of the right connector
 	private bool is_unix = true;
 	private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
+	private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
 	private float difficulty = 5f; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
 	private int num_parts_in_room = 5; // the number of parts that will make up the room.
-
+	
 	// Prefabs Dictionary
 	private Godot.Collections.Dictionary<string, PackedScene> block_dict;
 	
 	// levels dictionary
 	private Godot.Collections.Dictionary<string, string[]> parts_dict;
-	// private System.Collections.Generic.Dictionary<string, string[]> level_dict;
 
-	// enums	
-	// private enum Difficulty {EASY, MEDIUM, HARD};
-	// private enum Part {LEFT, MIDDLE, RIGHT};
 
+	// arrays for difficulty level difficulty and part files
 	private readonly string[] diff_arr = {"Easy", "Medium", "Hard"};
 	private readonly string[] part_arr = {"Left", "Middle", "Right"};
 	
+	// dictionary for optional level adjustments
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-
 		// play animations
 		GetNode<AnimatedSprite2D>("AnimatedSprite2D").Play("default");
 		
@@ -89,7 +88,6 @@ public partial class BlockPlacer : Area2D
 		UpdateBlockDict("K", "res://Prefabs/Objects/key.tscn");
 		UpdateBlockDict("*", "res://Prefabs/Objects/coin.tscn");
 		UpdateBlockDict("C", "res://Prefabs/Objects/checkpoint.tscn");
-		
 	}
 
 	public void UpdateBlockDict(string key, string val_path) {
