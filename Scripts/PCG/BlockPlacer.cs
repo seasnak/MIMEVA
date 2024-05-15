@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.IO;
 
 namespace Mimeva;
+
 /*
 Loads in levels from custom .txt file format (see examples in pcglevels folder)
 */
@@ -63,7 +64,7 @@ public partial class BlockPlacer : Area2D
 		ReloadLevelPartsDictionary(); // loads in the list of levels
 
 		tilemap = GetNode<TileMap>("/root/World/TileMap"); // get tilemap node
-
+		
 		// default offsets based on starting level
 		curr_offset = new(8, -5);
 		right_connector_pos = new(8, -5);
@@ -75,7 +76,7 @@ public partial class BlockPlacer : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
+
 	}
 
 	public void ReloadBlockDictionary() {
