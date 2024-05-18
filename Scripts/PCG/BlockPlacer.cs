@@ -84,7 +84,7 @@ public partial class BlockPlacer : Area2D
 
 		UpdateBlockDict("P", "res://Prefabs/Player.tscn");
 		UpdateBlockDict("S", "res://Prefabs/Objects/Spikeball.tscn");
-		UpdateBlockDict("E", "res://Prefabs/Glorp.tscn");
+		UpdateBlockDict("E", "res://Prefabs/Enemies/Glorp.tscn");
 		UpdateBlockDict("D", "res://Prefabs/Objects/door.tscn");
 		UpdateBlockDict("K", "res://Prefabs/Objects/key.tscn");
 		UpdateBlockDict("*", "res://Prefabs/Objects/coin.tscn");

@@ -18,6 +18,7 @@ public partial class Enemy : CharacterBody2D
 	protected int max_fallspeed = (int)(gravity * 10);
 	
 	protected AnimatedSprite2D sprite;
+	protected Material mat;
 
 	// Enemy Conditionals
 	private bool is_blinking_state = false;
@@ -31,6 +32,8 @@ public partial class Enemy : CharacterBody2D
 	{
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		AddToGroup("enemy");
+
+		mat = sprite.Material;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -48,7 +51,7 @@ public partial class Enemy : CharacterBody2D
 
 		// handle damage blink
 		if(is_blinking_state && Time.GetTicksMsec() - damage_blink_timer >= damage_blink_dur) {
-			this.Modulate = new Godot.Color(1, 1, 1);
+			(mat as ShaderMaterial).SetShaderParameter("active", false);
 			is_blinking_state = false;
 		}
     }
@@ -67,8 +70,8 @@ public partial class Enemy : CharacterBody2D
 	public virtual void DealDamage(int damage) { 
 		
 		GD.Print($"Dealing {damage} damage to enemy");
-		// TODO: add a shader to flash enemy's sprite white instead
-		this.Modulate = new Godot.Color(0, 0, 0);
+
+		(mat as ShaderMaterial).SetShaderParameter("active", true); // activate hitflash
 		damage_blink_timer = Time.GetTicksMsec();
 		is_blinking_state = true;
 		this.curr_health -= damage;

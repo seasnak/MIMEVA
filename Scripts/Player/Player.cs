@@ -366,11 +366,14 @@ public partial class Player : CharacterBody2D
 
 	public int GetCurrHealth() { return this.curr_health; }
 	public void SetCurrHealth(int val) { this.curr_health = val; }
+
 	public int GetMaxHealth() { return this.max_health; }
 	public void SetMaxHealth(int val) { this.max_health = val; }
 
 	public int GetCoins() { return this.coins; }
-	
+	public void SetCoins(int val) { this.coins = val; }
+
 	public bool IsAttacking() { return is_attacking; }
+	public void SetAttacking(bool val) { is_attacking = val; }
 	
 }
