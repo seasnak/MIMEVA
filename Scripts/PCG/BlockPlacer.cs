@@ -17,7 +17,6 @@ public partial class BlockPlacer : Area2D
 	// Imported Nodes
 	private TileMap tilemap;
 	private Player player;
-	
 
 	// private string tilemap_path = "/root/world/TileMap"; // where the TileMap is located
 	private string level_folder = "res://Levels";
@@ -37,6 +36,9 @@ public partial class BlockPlacer : Area2D
 	private float difficulty = 5f; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
 	private int num_parts_in_room = 5; // the number of parts that will make up the room.
 	
+	// Booleans for level generation
+	private bool is_key_room = false;
+
 	// Prefabs Dictionary
 	private Godot.Collections.Dictionary<string, PackedScene> block_dict;
 	

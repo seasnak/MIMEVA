@@ -5,7 +5,7 @@ INPOS 5
 OUTSIZE 10
 
 ROOM
-B B B B B B
+S S - - - -
 B - - - - -
 B - - - - -
 B - - - - - 

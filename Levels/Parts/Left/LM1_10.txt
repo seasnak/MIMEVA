@@ -5,15 +5,17 @@ INPOS 5
 INSIZE 10
 OUTSIZE 10
 
+HAS_KEY TRUE
+
 ROOM
-B B B B B B B B B B B B
-B - - - - - - - - B - -
-B - - - - - - - - B - -
-B - - - - C - - - B - -
-L - - - B B B - - B - -
-L - - S B B S - - B - -
-B B B B B B S - - - - -
-B B B B B B S - - - - -
-B B B B B B S - - - - -
+S - - - - - - - - - - -
+S - - - - - - - - - - -
+- - - - - - - - - - - -
+- - - - - C - - - - - -
+L - - - B B B - - - - -
+L - - S B B - - - B - -
+B B B B B B K - - B - -
+B B B B B B - - - B - -
+B B B B B B S S S B - -
 B B B B B B B B B B B B
 
