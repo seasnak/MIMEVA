@@ -13,14 +13,18 @@
 [node name="HealthBar" type="TextureProgressBar" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 texture_under = ExtResource("1_qj1t3")
 texture_progress = ExtResource("2_h5koc")
 script = ExtResource("3_tdliq")
+metadata/_edit_use_anchors_ = true
 
 [node name="KeyCounter" type="RichTextLabel" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_mp6it")
+metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect" type="TextureRect" parent="KeyCounter"]
 layout_mode = 0
@@ -32,6 +36,7 @@ texture = ExtResource("5_3uepa")
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("6_rd4kc")
+metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect" type="TextureRect" parent="CoinCounter"]
 layout_mode = 0

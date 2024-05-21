@@ -33,7 +33,7 @@ public partial class BlockPlacer : Area2D
 	private bool is_unix = true;
 	private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
 	private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
-	private float difficulty = 5f; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
+	private float difficulty = 10f; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
 	private int num_parts_in_room = 5; // the number of parts that will make up the room.
 	
 	// Booleans for level generation

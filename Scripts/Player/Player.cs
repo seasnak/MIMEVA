@@ -355,8 +355,7 @@ public partial class Player : CharacterBody2D
 	public void AddCurrency(int val) { this.coins += val; }
 	public void DealDamage(int val) { this.curr_health -= val; }
 
-
-	//Getters and Setters 
+	// Getters and Setters
 	public void SetClimb(bool val) { this.can_climb = val; }
 	public bool GetClimb() { return this.can_climb; }
 
@@ -366,7 +365,7 @@ public partial class Player : CharacterBody2D
 
 	public int GetCurrHealth() { return this.curr_health; }
 	public void SetCurrHealth(int val) { this.curr_health = val; }
-
+	
 	public int GetMaxHealth() { return this.max_health; }
 	public void SetMaxHealth(int val) { this.max_health = val; }
 
