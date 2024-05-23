@@ -4,23 +4,23 @@ INSIZE 10
 OUTSIZE 10
 
 ROOM
-B B B B B B B B B B
-- - B B - - - - - -
-- - B B - - - - - -
-- - B B - - - - - -
-- - B B - - - - - -
-- - B B - - - - - -
-- - B B - - - - - -
-- - B B - - - - - -
-- - B - - - - - - -
-B - B - - - - - - B
-B - B - - - - - - B
-B - B - - - - - - B
-B - B - - - - - - B
-B - B - - - - - - B
-B - B - - - - - - B
-B - B - - - - - - B
+- - - - - - - - - -
+- - S S S S S S - -
+- S B B B B B B S -
+- - - - - - - B - -
+- - - - - - K B - -
+- - B B S S B B - -
+- - B B B B - - - -
+- - B B B B - - - -
+- - B B B B - - - -
+B - B B B B - - - B
+B - B B B B - - - B
+B - B B B B - - - B
+B - B B B B - - S B
+B - B B B B - - - B
+B - B B B B - - - B
+B - B B B B - - - B
 B - - - - - - - - B
-B - - - - - - - - B
-B - - - - - - - - B
+B - - D - - - - - B
+B B B B B - - - - B
 B B B B B B B B B B

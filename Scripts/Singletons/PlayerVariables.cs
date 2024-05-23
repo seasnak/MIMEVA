@@ -15,10 +15,12 @@ public partial class PlayerVariables : Node
 
 	private static Godot.Vector2 player_starting_pos;
 
+	private static float level_diff = 5f;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -74,6 +76,14 @@ public partial class PlayerVariables : Node
 
 	public static void SetPlayerStartingPos(Godot.Vector2 pos) {
 		player_starting_pos = pos;
+	}
+
+	public static void SetLevelDifficulty(float diff) {
+		level_diff = diff;
+	}
+
+	public static float GetLevelDifficulty() {
+		return level_diff;
 	}
 
 }

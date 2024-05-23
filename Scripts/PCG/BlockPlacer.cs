@@ -45,7 +45,6 @@ public partial class BlockPlacer : Area2D
 	// levels dictionary
 	private Godot.Collections.Dictionary<string, string[]> parts_dict;
 
-
 	// arrays for difficulty level difficulty and part files
 	private readonly string[] diff_arr = {"Easy", "Medium", "Hard"};
 	private readonly string[] part_arr = {"Left", "Middle", "Right"};
@@ -66,7 +65,7 @@ public partial class BlockPlacer : Area2D
 		ReloadLevelPartsDictionary(); // loads in the list of levels
 
 		tilemap = GetNode<TileMap>("/root/World/TileMap"); // get tilemap node
-		
+
 		// default offsets based on starting level
 		curr_offset = new(8, -5);
 		right_connector_pos = new(8, -5);
@@ -200,6 +199,11 @@ public partial class BlockPlacer : Area2D
 		GetLevelMatFromFile(part_f); // update level_mat to correct output
 		BuildLevelFromLevelMat(); // build the level given the current matrix
 		
+	}
+
+	private void BuildLevelFromLevelMat(Godot.Vector2 offset) {
+		// builds an entire level from the level matrix
+
 	}
 
 	private void BuildLevelFromLevelMat() {

@@ -1,20 +1,21 @@
 20 15
 
 INPOS 5
+OUTPOS 0
 
 INSIZE 10
 OUTSIZE 10
 
 ROOM
-S - - S S S - - - - - - - -
+- - - S S S - - - - - - - -
 - - - S B B - - - - - B S -
 - - - S B B - - - - - B S -
 - - - - B B * - - - - B S -
 L - - - B B B B B - - B - -
 L - - - B B B B S - - B - -
+B B - - B B B B S - - - - -
 B - - - B B B B S - - - - -
-B - - - B B B B S - - - - -
-B - - - B B B B B - - - - -
+B - - - B B B B B - - - C -
 B - - - B B B B B - - B B B
 B - - - - - B - - - - B B B
 B - - - - - B - - - - B B B
