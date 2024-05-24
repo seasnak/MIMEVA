@@ -1,16 +1,16 @@
-10 3
+10 5
 
 INSIZE 10
 OUTSIZE 10
 
 ROOM
-- S -
-- S -
-- S -
-- B -
-- - -
-- D -
-- B -
-- B -
-- B -
-B B B
+B B B B
+- - B -
+- - B -
+- - B -
+- - - -
+- - D -
+- B B -
+- B B -
+- B B -
+B B B B

@@ -168,7 +168,8 @@ public partial class BlockPlacer : Area2D
 		// randomly pick room parts from parts dictionary
 		string diff_str = GetNewDifficulty();
 		int curr_parts_len = parts_dict["Left"+diff_str].Length;
-		LoadPartFromFile($"{ parts_dict["Left"+diff_str][random.Next(0, curr_parts_len)] }"); // load left part
+		// LoadPartFromFile($"{ parts_dict["Left"+diff_str][random.Next(0, curr_parts_len)] }"); // load left part
+		LoadPartFromFile(ProjectSettings.GlobalizePath($"res://Levels/Parts/Left/LT_10.txt")); // changed to a default "left connector"
 
 		for(int i=0; i<num_parts_in_room; i++) {
 			//load in middle room parts
