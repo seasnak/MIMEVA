@@ -126,7 +126,7 @@ public partial class BlockPlacer : Area2D
 			}
 		}
 		
-		// GD.Print(parts_dict); // DEBUG
+		GD.Print(parts_dict); // DEBUG
 		
 	}
 
@@ -169,7 +169,7 @@ public partial class BlockPlacer : Area2D
 		string diff_str = GetNewDifficulty();
 		int curr_parts_len = parts_dict["Left"+diff_str].Length;
 		// LoadPartFromFile($"{ parts_dict["Left"+diff_str][random.Next(0, curr_parts_len)] }"); // load left part
-		LoadPartFromFile(ProjectSettings.GlobalizePath($"res://Levels/Parts/Left/LT_10.txt")); // changed to a default "left connector"
+		LoadPartFromFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt")); // changed to a default "left connector"
 
 		for(int i=0; i<num_parts_in_room; i++) {
 			//load in middle room parts
@@ -177,6 +177,8 @@ public partial class BlockPlacer : Area2D
 			curr_parts_len = parts_dict["Middle"+diff_str].Length;
 			LoadPartFromFile($"{parts_dict["Middle"+diff_str][random.Next(0, curr_parts_len)]}");		
 		}
+
+		LoadPartFromFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Right/RT_10.txt")); // changed to a default "right connector"	
 		
 		// LoadPartFromFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Middle/MH2_10.txt")); // DEBUG
 
@@ -249,17 +251,32 @@ public partial class BlockPlacer : Area2D
 		curr_offset += new Godot.Vector2(level_mat[0].Count, 0);
 	}
 
-	private void SaveLevelToFile(string outfile) {
-		// saves level to <outfile>
-	
-		GD.Print("Saving Level");
-		Console.WriteLine("Saving Level");
-		for(int i = 0; i<level_mat.Count; i++) {
-			for(int j = 0; j<level_mat[0].Count; j++) {
-				
+	private void BuildLevel(ref List<List<string>> level, Godot.Vector2 curr_offset, Godot.Vector2 room_size) {
+		/* Builds level given an offset
+		@Params:
+			level (2-D List of string) :  
+		*/
+	}
+
+	private void SaveLevelToFile(ref List<List<string>> level, string outfile) {
+		// saves level <level> to <outfile>
+		using(StreamWriter s_writer = new(outfile)) {
+			
+			s_writer.WriteLine($"{level[0].Count} {level.Count}\n\n");
+			
+			for(int i = 0; i<level.Count; i++) {
+				for(int j = 0; j<level[0].Count; j++) {
+					
+				}
 			}
 		}
 
+	}
+
+	private void SaveLevelToJSON(ref List<List<string>> level, string outfile) {
+		// save level <level> to a JSON file <outfile>
+		JsonWriter j_writer = new JsonTextWriter()
+		
 	}
 
 	private void PlaceObject(string obj_name, Godot.Vector2 pos) {

@@ -4,11 +4,11 @@ ROOM
 B B B B B B B B
 B - - - - - - -
 B - - - - - - -
+B - - - - - - -
 L - - - - - - -
 L - C - - - - -
 B B B - - - - -
 B B B B B - - -
 B B B B B B - -
-B B B B B B B -
 B B B B B B B -
 B B B B B B B B
