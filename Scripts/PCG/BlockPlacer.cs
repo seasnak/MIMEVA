@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
+using Mimeva.Utils;
 
 namespace Mimeva;
 
@@ -79,7 +80,7 @@ public partial class BlockPlacer : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-
+		
 	}
 
 	public void ReloadBlockDictionary() {
@@ -87,7 +88,7 @@ public partial class BlockPlacer : Area2D
 
 		UpdateBlockDict("P", "res://Prefabs/Player.tscn");
 		UpdateBlockDict("S", "res://Prefabs/Objects/Spikeball.tscn");
-		UpdateBlockDict("E", "res://Prefabs/Enemies/Glorp.tscn");
+		// UpdateBlockDict("E", "res://Prefabs/Enemies/Glorp.tscn");
 		UpdateBlockDict("D", "res://Prefabs/Objects/door.tscn");
 		UpdateBlockDict("K", "res://Prefabs/Objects/key.tscn");
 		UpdateBlockDict("*", "res://Prefabs/Objects/coin.tscn");
@@ -206,6 +207,63 @@ public partial class BlockPlacer : Area2D
 		
 	}
 
+	private void BuildLevel(ref Level level) {
+		/* Builds level given an offset
+		@Params:
+			level : Level - A level object containing all information  
+		*/
+	}
+
+	// Signal Functions
+	private void OnBodyEntered(Node other) {
+		if(other is not Player || other == null) { return; }
+
+		// GD.Print("Player Entered!");
+		if(!tmp_generating_level) {
+			tmp_generating_level = true;
+			LoadNewRoomFromPartFiles();
+		}
+	}
+
+	// Helper Functions
+	private void UpdateTilemap(string new_tilemap_path) {
+		try {
+			tilemap = GetNode<TileMap>(new_tilemap_path);
+		}
+		catch(Exception e) {
+			GD.Print($"Error {e}: Could not change tilemap. \"{new_tilemap_path}\" does not exist, or is not a valid tilemap");	
+		}
+	}
+
+	private void UpdateTileset(string new_tileset_path) {
+		try{
+			tilemap.TileSet = ResourceLoader.Load<TileSet>(new_tileset_path);
+		}
+		catch(Exception e) {
+			GD.Print($"Error {e}: Could not cange tileset. \"{new_tileset_path}\" does not exist or is not a valid tileset");
+		}
+	}
+
+	private void PlaceObject(string obj_name, Godot.Vector2 pos) {
+		//Place an object of type <obj_name> at position <pos>
+		var obj = block_dict[obj_name].Instantiate();
+
+		((Node2D)obj).GlobalPosition = pos;
+	}
+
+	// DEBUG Functions
+	private void PrintRoom() {
+		string line;
+		foreach(var list in level_mat) {
+			line = "";
+			foreach(var obj in list) {
+				line += obj + " ";
+			}
+			GD.Print(line);
+		}
+	}
+
+	// Deprecated Functions
 	private void BuildLevelFromLevelMat() {
 		// loop through the level matrix
 		for(int i = 0; i < level_mat.Count; i++) {
@@ -246,46 +304,6 @@ public partial class BlockPlacer : Area2D
 		//update current offset
 		if(level_mat.Count == 0) { return; }
 		curr_offset += new Godot.Vector2(level_mat[0].Count, 0);
-	}
-
-	private void BuildLevel(ref List<List<string>> level, Godot.Vector2 curr_offset, Godot.Vector2 room_size) {
-		/* Builds level given an offset
-		@Params:
-			level (2-D List of string) :  
-		*/
-	}
-
-	private void SaveLevelToTxt(ref List<List<string>> level, string outfile) {
-		// saves level <level> to <outfile>
-		using StreamWriter s_writer = new(outfile);
-
-		s_writer.WriteLine($"{level[0].Count} {level.Count}\n\n");
-		
-		s_writer.WriteLine("ROOM\n");
-		string level_row = "";
-		for(int i = 0; i<level.Count; i++) {
-			for(int j = 0; j<level[0].Count; j++) {
-				level_row += level[i][j] + " ";
-			}
-			s_writer.WriteLine($"{level_row}\n");
-		}
-
-	}
-
-	private void SaveLevelToJSON(ref List<List<string>> level, string outfile) {
-		// save level <level> to a JSON file <outfile>
-		
-		
-	}
-
-	private void ConvertLevelTxtToJSON(string in_txt, string out_json) {
-        // converts a level txt file to a json level file
-        using StreamReader s_reader = new(in_txt);
-    }
-
-	private void ConvertLevelJSONToText(string in_json, string out_txt) {
-		// converts a json level file to a txt level file
-		
 	}
 
 	private List<List<string>> GetLevelMatFromTxtFile(string level_f) {
@@ -336,55 +354,6 @@ public partial class BlockPlacer : Area2D
 
 		// PrintRoom(); // DEBUG
 		return level_mat;
-	}
-
-	// Signal Functions
-	private void OnBodyEntered(Node other) {
-		if(other is not Player || other == null) { return; }
-
-		// GD.Print("Player Entered!");
-		if(!tmp_generating_level) {
-			tmp_generating_level = true;
-			LoadNewRoomFromPartFiles();
-		}
-	}
-
-	// Helper Functions
-	private void UpdateTilemap(string new_tilemap_path) {
-		try {
-			tilemap = GetNode<TileMap>(new_tilemap_path);
-		}
-		catch(Exception e) {
-			GD.Print($"Error {e}: Could not change tilemap. \"{new_tilemap_path}\" does not exist, or is not a valid tilemap");	
-		}
-	}
-
-	private void UpdateTileset(string new_tileset_path) {
-		try{
-			tilemap.TileSet = ResourceLoader.Load<TileSet>(new_tileset_path);
-		}
-		catch(Exception e) {
-			GD.Print($"Error {e}: Could not cange tileset. \"{new_tileset_path}\" does not exist or is not a valid tileset");
-		}
-	}
-
-	private void PlaceObject(string obj_name, Godot.Vector2 pos) {
-		//Place an object of type <obj_name> at position <pos>
-		var obj = block_dict[obj_name].Instantiate();
-
-		((Node2D)obj).GlobalPosition = pos;
-	}
-
-	// DEBUG Functions
-	private void PrintRoom() {
-		string line;
-		foreach(var list in level_mat) {
-			line = "";
-			foreach(var obj in list) {
-				line += obj + " ";
-			}
-			GD.Print(line);
-		}
 	}
 
 }
