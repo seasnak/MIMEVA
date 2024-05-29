@@ -1,9 +1,11 @@
 using Godot;
 using Godot.Collections;
+
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.IO;
+using System.Text.Json;
+
 
 namespace Mimeva;
 
@@ -132,7 +134,7 @@ public partial class BlockPlacer : Area2D
 
 	public void LoadRoomFromFile(string target_f) {
 		// Load in Levels and line up based on where we have left off
-		GetLevelMatFromFile(target_f);
+		GetLevelMatFromTxtFile(target_f);
 		BuildLevelFromLevelMat();
 	}
 
@@ -168,30 +170,30 @@ public partial class BlockPlacer : Area2D
 		// randomly pick room parts from parts dictionary
 		string diff_str = GetNewDifficulty();
 		int curr_parts_len = parts_dict["Left"+diff_str].Length;
-		// LoadPartFromFile($"{ parts_dict["Left"+diff_str][random.Next(0, curr_parts_len)] }"); // load left part
-		LoadPartFromFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt")); // changed to a default "left connector"
+		// LoadPartFromTxtFile($"{ parts_dict["Left"+diff_str][random.Next(0, curr_parts_len)] }"); // load left part
+		LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt")); // changed to a default "left connector"
 
 		for(int i=0; i<num_parts_in_room; i++) {
 			//load in middle room parts
 			diff_str = GetNewDifficulty();
 			curr_parts_len = parts_dict["Middle"+diff_str].Length;
-			LoadPartFromFile($"{parts_dict["Middle"+diff_str][random.Next(0, curr_parts_len)]}");		
+			LoadPartFromTxtFile($"{parts_dict["Middle"+diff_str][random.Next(0, curr_parts_len)]}");		
 		}
 
-		LoadPartFromFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Right/RT_10.txt")); // changed to a default "right connector"	
+		LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Right/RT_10.txt")); // changed to a default "right connector"	
 		
-		// LoadPartFromFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Middle/MH2_10.txt")); // DEBUG
+		// LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Middle/MH2_10.txt")); // DEBUG
 
 		diff_str = GetNewDifficulty();
 		curr_parts_len = parts_dict["Right"+diff_str].Length;
-		LoadPartFromFile($"{ parts_dict["Right"+diff_str][random.Next(0, curr_parts_len)] }");
+		LoadPartFromTxtFile($"{ parts_dict["Right"+diff_str][random.Next(0, curr_parts_len)] }");
 
 		// GD.Print($"Loading in {ProjectSettings.GlobalizePath(connector_room_path)}"); // DEBUG
-		LoadPartFromFile(ProjectSettings.GlobalizePath(connector_room_path));
+		LoadPartFromTxtFile(ProjectSettings.GlobalizePath(connector_room_path));
 
 	}
 
-	public void LoadPartFromFile(string part_f, int start_pos_x = -1, int start_pos_y = -1) {
+	public void LoadPartFromTxtFile(string part_f, int start_pos_x = -1, int start_pos_y = -1) {
 		// Load in a part of a level (based on what part we need)
 		if(start_pos_x < 0) {
 			start_pos_x = (int)curr_offset.X; 
@@ -199,14 +201,9 @@ public partial class BlockPlacer : Area2D
 		}
 		Godot.Vector2 start_pos = new(start_pos_x, start_pos_y);
 
-		GetLevelMatFromFile(part_f); // update level_mat to correct output
+		GetLevelMatFromTxtFile(part_f); // update level_mat to correct output
 		BuildLevelFromLevelMat(); // build the level given the current matrix
 		
-	}
-
-	private void BuildLevelFromLevelMat(Godot.Vector2 offset) {
-		// builds an entire level from the level matrix
-
 	}
 
 	private void BuildLevelFromLevelMat() {
@@ -258,35 +255,40 @@ public partial class BlockPlacer : Area2D
 		*/
 	}
 
-	private void SaveLevelToFile(ref List<List<string>> level, string outfile) {
+	private void SaveLevelToTxt(ref List<List<string>> level, string outfile) {
 		// saves level <level> to <outfile>
-		using(StreamWriter s_writer = new(outfile)) {
-			
-			s_writer.WriteLine($"{level[0].Count} {level.Count}\n\n");
-			
-			for(int i = 0; i<level.Count; i++) {
-				for(int j = 0; j<level[0].Count; j++) {
-					
-				}
+		using StreamWriter s_writer = new(outfile);
+
+		s_writer.WriteLine($"{level[0].Count} {level.Count}\n\n");
+		
+		s_writer.WriteLine("ROOM\n");
+		string level_row = "";
+		for(int i = 0; i<level.Count; i++) {
+			for(int j = 0; j<level[0].Count; j++) {
+				level_row += level[i][j] + " ";
 			}
+			s_writer.WriteLine($"{level_row}\n");
 		}
 
 	}
 
 	private void SaveLevelToJSON(ref List<List<string>> level, string outfile) {
 		// save level <level> to a JSON file <outfile>
-		JsonWriter j_writer = new JsonTextWriter()
+		
 		
 	}
 
-	private void PlaceObject(string obj_name, Godot.Vector2 pos) {
-		//Place an object of type <obj_name> at position <pos>
-		var obj = block_dict[obj_name].Instantiate();
+	private void ConvertLevelTxtToJSON(string in_txt, string out_json) {
+        // converts a level txt file to a json level file
+        using StreamReader s_reader = new(in_txt);
+    }
 
-		((Node2D)obj).GlobalPosition = pos;
+	private void ConvertLevelJSONToText(string in_json, string out_txt) {
+		// converts a json level file to a txt level file
+		
 	}
 
-	private void GetLevelMatFromFile(string level_f) {
+	private List<List<string>> GetLevelMatFromTxtFile(string level_f) {
 
 		// string[,] level_arr = {};
 		level_mat = new(); // clear level matrix
@@ -294,7 +296,7 @@ public partial class BlockPlacer : Area2D
 		// check to see if file exists
 		if (ResourceLoader.Exists(level_f)) {
 			GD.Print($"file \"{level_f}\" does not exist, or could not be found.");
-			return;
+			return null;
 		}
 		
 		// load level from file
@@ -333,19 +335,7 @@ public partial class BlockPlacer : Area2D
 		}
 
 		// PrintRoom(); // DEBUG
-		
-		return;
-	}
-
-	private void PrintRoom() {
-		string line;
-		foreach(var list in level_mat) {
-			line = "";
-			foreach(var obj in list) {
-				line += obj + " ";
-			}
-			GD.Print(line);
-		}
+		return level_mat;
 	}
 
 	// Signal Functions
@@ -359,6 +349,7 @@ public partial class BlockPlacer : Area2D
 		}
 	}
 
+	// Helper Functions
 	private void UpdateTilemap(string new_tilemap_path) {
 		try {
 			tilemap = GetNode<TileMap>(new_tilemap_path);
@@ -376,4 +367,24 @@ public partial class BlockPlacer : Area2D
 			GD.Print($"Error {e}: Could not cange tileset. \"{new_tileset_path}\" does not exist or is not a valid tileset");
 		}
 	}
+
+	private void PlaceObject(string obj_name, Godot.Vector2 pos) {
+		//Place an object of type <obj_name> at position <pos>
+		var obj = block_dict[obj_name].Instantiate();
+
+		((Node2D)obj).GlobalPosition = pos;
+	}
+
+	// DEBUG Functions
+	private void PrintRoom() {
+		string line;
+		foreach(var list in level_mat) {
+			line = "";
+			foreach(var obj in list) {
+				line += obj + " ";
+			}
+			GD.Print(line);
+		}
+	}
+
 }
