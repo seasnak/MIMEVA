@@ -1,0 +1,16 @@
+10 13
+
+INSIZE 10
+OUTSIZE 10
+
+ROOM
+B B B B B B B B B B B B B
+- - B - - - - - B - - - -
+- - B - - - - - B - - - -
+- - B - - S - - B - - - -
+- - B - - B - - B - - B -
+- - B - - B - - B - - B -
+- - - - - B - - - - - B -
+- - - - - B - - - - - B -
+- - S S S B S S B S S B -
+B B B B B B B B B B B B B

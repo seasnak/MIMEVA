@@ -6,9 +6,8 @@ B - - - - - - -
 B - - - - - - -
 B - - - - - - -
 L - - - - - - -
-L - C - - - - -
+L - - - - - - -
 B B B - - - - -
 B B B B B - - -
-B B B B B B - -
 B B B B B B B -
 B B B B B B B B

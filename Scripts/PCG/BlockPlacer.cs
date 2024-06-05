@@ -36,8 +36,8 @@ public partial class BlockPlacer : Area2D
 	private bool is_unix = true;
 	private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
 	private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
-	private float difficulty = 10f; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
-	private int num_parts_in_room = 5; // the number of parts that will make up the room.
+	private float difficulty = 5f; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
+	private int num_parts_in_room = 3; // the number of parts that will make up the room.
 	
 	// Booleans for level generation
 	private bool is_key_room = false;
@@ -88,7 +88,7 @@ public partial class BlockPlacer : Area2D
 
 		UpdateBlockDict("P", "res://Prefabs/Player.tscn");
 		UpdateBlockDict("S", "res://Prefabs/Objects/Spikeball.tscn");
-		// UpdateBlockDict("E", "res://Prefabs/Enemies/Glorp.tscn");
+		UpdateBlockDict("E", "res://Prefabs/Enemies/Glorp.tscn");
 		UpdateBlockDict("D", "res://Prefabs/Objects/door.tscn");
 		UpdateBlockDict("K", "res://Prefabs/Objects/key.tscn");
 		UpdateBlockDict("*", "res://Prefabs/Objects/coin.tscn");
@@ -169,9 +169,12 @@ public partial class BlockPlacer : Area2D
 		}
 
 		// randomly pick room parts from parts dictionary
+		int curr_parts_len;
 		string diff_str = GetNewDifficulty();
-		int curr_parts_len = parts_dict["Left"+diff_str].Length;
+
+		//curr_parts_len = parts_dict["Left"+diff_str].Length;
 		// LoadPartFromTxtFile($"{ parts_dict["Left"+diff_str][random.Next(0, curr_parts_len)] }"); // load left part
+		GD.Print(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt"));
 		LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt")); // changed to a default "left connector"
 
 		for(int i=0; i<num_parts_in_room; i++) {

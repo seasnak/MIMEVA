@@ -1,12 +1,12 @@
 10 6
 
 ROOM
-- - - - - -
-- - - - - -
-- - - - - -
-- - - - - -
+B B B B B B
+B - - - - B
+B - - - - B
+B - - - - B
 L - - - - R
-L - ! - - R
+L - ! C - R
 B B B B B B
 B B B B B B
 B B B B B B
