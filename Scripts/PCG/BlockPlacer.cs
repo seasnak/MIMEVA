@@ -43,10 +43,10 @@ public partial class BlockPlacer : Area2D
 	private bool is_key_room = false;
 
 	// Prefabs Dictionary
-	private Godot.Collections.Dictionary<string, PackedScene> block_dict;
+	private static Godot.Collections.Dictionary<string, PackedScene> block_dict;
 	
 	// levels dictionary
-	private Godot.Collections.Dictionary<string, string[]> parts_dict;
+	private static Godot.Collections.Dictionary<string, string[]> parts_dict;
 
 	// arrays for difficulty level difficulty and part files
 	private readonly string[] diff_arr = {"Easy", "Medium", "Hard"};

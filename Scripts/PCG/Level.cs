@@ -6,6 +6,8 @@ using Godot;
 
 namespace Mimeva.Utils;
 
+// NOTE: use a LevelKey object to set a custom key
+
 public partial class Level {
 
     private List<List<string>> layout;
@@ -13,6 +15,9 @@ public partial class Level {
     private int out_pos;
     private int in_size;
     private int out_size;
+    private int[] shape = new int[2];
+
+    private readonly Dictionary<string, string> level_key;
 
     // Getters Setters
     public List<List<string>> Layout { get => layout; set => SetLayout(ref value); }
@@ -21,6 +26,7 @@ public partial class Level {
     public int InSize { get => in_size; set => in_size = value; }
     public int OutSize { get => out_size; set => out_size = value; }
 
+    public int[] Shape { get => shape; set => shape = value; }
 
     public Level() {
         in_pos = 0;
@@ -67,11 +73,31 @@ public partial class Level {
         
         while(!sr.EndOfStream) {
             line = sr.ReadLine();
+            
             if(line.Length == 0) { continue; } // empty line
+            else if(line[..2] == "//") { continue; } // comment line
+
             switch(line.ToLower()[..3]) { // compare first 3 characters
                 case "":
                     break;
             }
+        }
+
+        return level;
+    }
+
+    public Level GetLevelFromTxtParts(string[] infiles) {
+        Level level = new();
+
+        int[] total_shape = new int[2]{0, 0};
+        // foreach(string infile in infiles) {
+        //     string[] infile_a = infile.Split('_');
+        //     total_shape[0] += infile[1];
+        //     total_shape[1] += infile[2];
+        // }
+
+        foreach(string infile in infiles) {
+            
         }
 
         return level;
@@ -87,7 +113,7 @@ public partial class Level {
 		// saves level <level> to <outfile>
 		using StreamWriter s_writer = new(outfile);
 
-		s_writer.WriteLine($"{this.layout[0].Count} {this.layout.Count}\n\n");
+		s_writer.WriteLine($"SHAPE {this.layout[0].Count} {this.layout.Count}\n\n");
 		
 		s_writer.WriteLine("ROOM\n");
 		string level_row = "";
@@ -122,8 +148,37 @@ public partial class Level {
 
         return level_str;
     }
-
-
-
-
 }
+
+
+/* SAMPLE LEVEL TEXT FILE
+// SHAPE -- contains the shape of the object
+SHAPE 5 5
+
+// KEY -- contains the connecting rooms (connections that don't exist can be ommited)
+// ie. this key can be rewritten as:
+// L level_1.txt
+// R level_2.txt
+//
+KEY
+L level_1.txt
+R level_2.txt
+U
+D
+
+// (optional) -- contains the input and output position of the room
+INPOS 3
+OUTPUS 3
+
+// (optional) -- contains the input and output size of the room
+INSIZE 5
+OUTSIZE 5
+
+ROOM
+B B B B B
+B - - - B
+- - - - -
+L - * - R
+B B B B B
+
+*/
