@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Net.Sockets;
 using Godot;
 
 namespace Mimeva.Utils;
@@ -13,6 +13,14 @@ public partial class Level {
     private int out_pos;
     private int in_size;
     private int out_size;
+
+    // Getters Setters
+    public List<List<string>> Layout { get => layout; set => SetLayout(ref value); }
+    public int InPos { get => in_pos; set => in_pos = value; }
+    public int OutPos { get => out_pos; set => out_pos = value; }
+    public int InSize { get => in_size; set => in_size = value; }
+    public int OutSize { get => out_size; set => out_size = value; }
+
 
     public Level() {
         in_pos = 0;
@@ -32,6 +40,12 @@ public partial class Level {
         out_size = _out_size;
 
         // deep copy level matrix
+        SetLayout(ref _layout);
+    }
+
+    public void SetLayout(ref List<List<string>> _layout) {
+        // creates a deep copy and sets it to layout field
+        
         for(int i = 0; i < _layout.Count; i++) {
             for(int j = 0; j < _layout[0].Count; j++) {
                 layout[i][j] = _layout[i][j];
@@ -41,9 +55,24 @@ public partial class Level {
 
 
     public Level GetLevelFromTxt(string infile) {
+        
+        if(!File.Exists(infile)) {
+            GD.PrintErr($"Error: File {infile} not found!");
+            return new();
+        }
+
         Level level = new();
-
-
+        string line;
+        using StreamReader sr = new(infile);
+        
+        while(!sr.EndOfStream) {
+            line = sr.ReadLine();
+            if(line.Length == 0) { continue; } // empty line
+            switch(line.ToLower()[..3]) { // compare first 3 characters
+                case "":
+                    break;
+            }
+        }
 
         return level;
     }

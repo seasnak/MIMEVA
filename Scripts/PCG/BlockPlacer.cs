@@ -63,7 +63,7 @@ public partial class BlockPlacer : Area2D
 		// initialize empty dictionaries
 		block_dict = new();
 		parts_dict = new();
-
+		
 		ReloadBlockDictionary();
 		ReloadLevelPartsDictionary(); // loads in the list of levels
 
@@ -86,6 +86,7 @@ public partial class BlockPlacer : Area2D
 	public void ReloadBlockDictionary() {
 		// string[] block_type_list = {"player", "spikeball", "enemy", "flying_enemy", "door", "key", "coin", "checkpoint"};
 
+		// TODO: add functionality for Enemies to be a variety of different enemy types
 		UpdateBlockDict("P", "res://Prefabs/Player.tscn");
 		UpdateBlockDict("S", "res://Prefabs/Objects/Spikeball.tscn");
 		UpdateBlockDict("E", "res://Prefabs/Enemies/Glorp.tscn");
@@ -93,6 +94,8 @@ public partial class BlockPlacer : Area2D
 		UpdateBlockDict("K", "res://Prefabs/Objects/key.tscn");
 		UpdateBlockDict("*", "res://Prefabs/Objects/coin.tscn");
 		UpdateBlockDict("C", "res://Prefabs/Objects/checkpoint.tscn");
+		// UpdateBlockDict("B", "res://Prefabs/Objects/button.tscn"); // todo: add button object for button doors
+		// UpdateBlockDict("BD", "res://Prefabs/Objects/button_door.tscn"); // todo: add button door object
 	}
 
 	public void UpdateBlockDict(string key, string val_path) {
@@ -144,7 +147,7 @@ public partial class BlockPlacer : Area2D
 		string diff = "Hard";
 		if(difficulty <= 3) { diff = "Easy"; }
 		else if(difficulty == 4 ) { 
-			diff = random.NextDouble() > 0.5 ? "Medium" : "Easy"; 
+			diff = random.NextDouble() > 0.5 ? "Medium" : "Easy";
 		}
 		else if(difficulty <= 7) { diff = "Medium"; }
 		else if(difficulty == 8) {
@@ -156,7 +159,7 @@ public partial class BlockPlacer : Area2D
 	public void LoadNewRoomFromPartFiles(int start_pos_x=-1, int start_pos_y=-1, int num_parts=-1) {
 		// Loads in Levels using Room Parts and lines it up based on where the previous room ended
 		Random random = new();
-
+		
 		// select a random amount of parts for the level
 		if(num_parts == -1) {
 			// select the minimum amount of rooms based on the current difficulty settin
@@ -215,6 +218,39 @@ public partial class BlockPlacer : Area2D
 		@Params:
 			level : Level - A level object containing all information  
 		*/
+		
+		// loop through level to build level
+		for(int i = 0; i < level.Layout.Count; i++) {
+			for(int j = 0; j < level.Layout.Count; j++) {
+
+				switch( level.Layout[i][j] ) {
+					case "-": break; // empty block -- do nothing
+					case "B":
+						tilemap.SetCellsTerrainConnect(0, new Godot.Collections.Array<Vector2I> {new Vector2I(j + (int)curr_offset.X, i + (int)curr_offset.Y)}, 0, 0);
+						break;
+					case "L":
+						left_connector_pos = new Godot.Vector2(i, j) + curr_offset;
+						break;
+					case "R":
+						right_connector_pos = new Godot.Vector2(i, j) + curr_offset;
+						break;
+					case "!": // case: update position of object
+						this.Position = new((j + (int)curr_offset.X)*BLOCK_SIZE + BLOCK_OFFSET, (i + (int)curr_offset.Y)*BLOCK_SIZE + BLOCK_OFFSET);
+						tmp_generating_level = false;
+						break;
+					default:
+						// case: place object from block dictionary
+						if(block_dict.ContainsKey(level.Layout[i][j])) {
+							var obj = block_dict[level.Layout[i][j]].Instantiate();
+							GetTree().Root.CallDeferred("add_child", obj);
+							((Node2D)obj).Position = new((j + (int)curr_offset.X)*BLOCK_SIZE + BLOCK_OFFSET, (i + (int)curr_offset.Y)*BLOCK_SIZE + BLOCK_OFFSET);
+						}
+						else { GD.Print($"Error: Block {level.Layout[i][j]} is not in block dict."); }
+						break;
+				}
+
+			}
+		}
 	}
 
 	// Signal Functions
