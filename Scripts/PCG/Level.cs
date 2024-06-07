@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using Godot;
 
@@ -86,19 +87,63 @@ public partial class Level {
         return level;
     }
 
-    public Level GetLevelFromTxtParts(string[] infiles) {
+    public Level GetLevelFromTxtParts(string[] infiles, bool is_horizontal = true) {
+        /*
+        Generates a level consisting of all level part files passed in with <infiles>
+        Note: all level parts must have the same x size (for vertically generated rooms), or same y size (for horizontally generated rooms)
+        */
         Level level = new();
-
         int[] total_shape = new int[2]{0, 0};
+
+        // // get total shape of output level
         // foreach(string infile in infiles) {
-        //     string[] infile_a = infile.Split('_');
-        //     total_shape[0] += infile[1];
-        //     total_shape[1] += infile[2];
+        //     using StreamReader sr = new(infile);
+        //     while(!sr.EndOfStream) {
+        //         output = sr.ReadLine();
+        //         if(output[..5] == "SHAPE") {
+        //             total_shape[0] += output.Split(' ')[1].ToInt();
+        //             total_shape[1] += output.Split(' ')[2].ToInt();
+        //             break;
+        //         }
+        //     }
         // }
 
+        string[] output_arr;
         foreach(string infile in infiles) {
-            
+            using StreamReader sr = new(infile);
+            while(!sr.EndOfStream) {
+                output_arr = sr.ReadLine().Split(' ');
+                switch(output_arr[0]) {
+                    case "SHAPE": // update the shape of the level
+                        level.shape = new int[2]{level.shape[0] + output_arr[1].ToInt(), level.shape[1] + output_arr[2].ToInt()};
+                        break;
+                    case "INSIZE":
+                        if(level.out_size == 0 || level.out_size != output_arr[1].ToInt()) {
+
+                        }
+                        break;
+                    case "OUTSIZE":
+                        level.out_size = output_arr[1].ToInt();
+                        break; 
+                    case "INPOS":
+                        level.in_pos = output_arr[1].ToInt();
+                        break;
+                    case "OUTPOS":
+                        level.out_pos = output_arr[1].ToInt();
+                        break;
+                    case "ROOM":
+                        int depth = 0;
+                        while(output_arr.Length != 0) {
+                            // build room
+                            
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
+        
 
         return level;
     }
