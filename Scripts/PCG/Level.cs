@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -109,17 +110,22 @@ public partial class Level {
         // }
 
         string[] output_arr;
+        int level_part_rows = 0;
+
         foreach(string infile in infiles) {
             using StreamReader sr = new(infile);
             while(!sr.EndOfStream) {
                 output_arr = sr.ReadLine().Split(' ');
                 switch(output_arr[0]) {
                     case "SHAPE": // update the shape of the level
+                        level_part_rows = output_arr[1].ToInt();
                         level.shape = new int[2]{level.shape[0] + output_arr[1].ToInt(), level.shape[1] + output_arr[2].ToInt()};
                         break;
                     case "INSIZE":
-                        if(level.out_size == 0 || level.out_size != output_arr[1].ToInt()) {
-
+                        if(level.out_size > 0 && level.out_size != output_arr[1].ToInt()) {
+                            // error occurred -- mismatch on sizes
+                            Console.Write("Error generating level using level parts -- mismatched level parts.");
+                            throw new Exception("Level Part Mismatch"); // TODO: change to non-generic exception
                         }
                         break;
                     case "OUTSIZE":
@@ -133,9 +139,11 @@ public partial class Level {
                         break;
                     case "ROOM":
                         int depth = 0;
-                        while(output_arr.Length != 0) {
-                            // build room
-                            
+                        output_arr = sr.ReadLine().Split(' ');
+                        while(depth < level.shape[0] && output_arr.Length != 0) { // append room part to level
+                            level.layout[depth].AddRange( output_arr.ToList() );
+                            depth += 1;
+                            output_arr = sr.ReadLine().Split(' ');
                         }
                         break;
                     default:
