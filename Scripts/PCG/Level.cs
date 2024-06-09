@@ -195,14 +195,25 @@ public partial class Level {
 	}
 
     public string PrintLevel() {
+        // Prints out current level
         string level_str = "";
-
-
-
+        
+        for(int i = 0; i < this.layout[0].Count; i++) {
+            for(int j = 0; j < this.layout.Count; j++) {
+                level_str += this.layout[i][j] + " ";
+            }
+            level_str += "\n";
+        }
+        
+        
         return level_str;
     }
-}
 
+    // test ship
+    private static void Main() {
+        // debug -- call some functions
+    }
+}
 
 /* SAMPLE LEVEL TEXT FILE
 // SHAPE -- contains the shape of the object
