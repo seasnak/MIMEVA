@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using Godot;
+// using Godot;
 
 namespace Mimeva.Utils;
 
@@ -108,14 +109,16 @@ public partial class Level {
         //         }
         //     }
         // }
-
+        
         string[] output_arr;
         int level_part_rows = 0;
 
         foreach(string infile in infiles) {
             using StreamReader sr = new(infile);
             while(!sr.EndOfStream) {
+
                 output_arr = sr.ReadLine().Split(' ');
+                if(output_arr[0][..2] == "//") { continue; } // comment line so skip -- checking first for efficiency
                 switch(output_arr[0]) {
                     case "SHAPE": // update the shape of the level
                         level_part_rows = output_arr[1].ToInt();
@@ -130,7 +133,7 @@ public partial class Level {
                         break;
                     case "OUTSIZE":
                         level.out_size = output_arr[1].ToInt();
-                        break; 
+                        break;
                     case "INPOS":
                         level.in_pos = output_arr[1].ToInt();
                         break;
@@ -207,11 +210,6 @@ public partial class Level {
         
         
         return level_str;
-    }
-
-    // test ship
-    private static void Main() {
-        // debug -- call some functions
     }
 }
 
