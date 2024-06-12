@@ -36,7 +36,7 @@ public partial class BlockPlacer : Area2D
 	private bool is_unix = true;
 	private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
 	private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
-	private float difficulty = 5f; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
+	private float difficulty; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
 	private int num_parts_in_room = 3; // the number of parts that will make up the room.
 	
 	// Booleans for level generation
@@ -75,6 +75,8 @@ public partial class BlockPlacer : Area2D
 
 		// add signals
 		BodyEntered += OnBodyEntered;
+
+		difficulty = PlayerVariables.LevelDifficulty;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -371,14 +373,13 @@ public partial class BlockPlacer : Area2D
 			
 			string[] contents = line.Split(' ');
 
-			if(l == 0) { // initialize array
+			if(contents[0] == "SHAPE") { // initialize array
 				// GD.Print($"creating matrix of size ({contents[0]},{contents[1]})");
-				level_mat = new List<List<string>>(contents[0].ToInt());
-				for(int i=0; i<contents[0].ToInt(); i++) {
-					level_mat.Add( new List<string>(contents[1].ToInt()) );
+				level_mat = new List<List<string>>(contents[1].ToInt());
+				for(int i=0; i<contents[1].ToInt(); i++) {
+					level_mat.Add( new List<string>(contents[2].ToInt()) );
 				}
 				// GD.Print(level_mat.Count, " ", level_mat[0].Count);
-				
 			}
 			else if(line == "ROOM") {
 				in_room_contents = true;

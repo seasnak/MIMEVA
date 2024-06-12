@@ -9,18 +9,21 @@ public partial class PlayerVariables : Node
 {
 
 
-	private static Checkpoint checkpoint = null;
+	private static Checkpoint curr_checkpoint = null;
 	private static string checkpoint_scene_path = null;
 	private static Node checkpoint_scene = null;
 
 	private static Godot.Vector2 player_starting_pos;
 
-	private static float level_diff = 5f;
+	private static float level_difficulty = 5f; // the level difficulty used to generate levels
+	private static int num_rooms_completed = 0; // the number of rooms the player has completed in the current level
+	private static int num_levels_completed = 0; // the number of levels the player has completed in total
+	private static int num_deaths = 0; // the number of player deaths
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		
+	
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,18 +45,18 @@ public partial class PlayerVariables : Node
 	// }
 
 	// Getters and Setters
+
+	public static int NumDeaths { get => num_deaths; set => num_deaths = value; }
 	public static Checkpoint GetCheckpoint() {
-		return checkpoint;
+		return curr_checkpoint;
+	}
+    public static void SetCheckpoint(Checkpoint new_checkpoint) {
+		curr_checkpoint = new_checkpoint;
 	}
 
 	public static Godot.Vector2 GetCheckpointPos() {
-		return checkpoint.GlobalPosition;
+		return curr_checkpoint.GlobalPosition;
 	}
-
-	public static void SetCheckpoint(Checkpoint new_checkpoint) {
-		checkpoint = new_checkpoint;
-	}
-
 
 	public static Node GetCheckpointScene() {
 		return checkpoint_scene;
@@ -65,7 +68,6 @@ public partial class PlayerVariables : Node
 	public static string GetCheckpointScenePath() {
 		return checkpoint_scene_path;
 	}
-
 	public static void SetCheckpointScenePath(string scene_path) {
 		checkpoint_scene_path = scene_path;
 	}
@@ -73,17 +75,20 @@ public partial class PlayerVariables : Node
 	public static Godot.Vector2 GetPlayerStartingPos() {
 		return player_starting_pos;
 	}
-
 	public static void SetPlayerStartingPos(Godot.Vector2 pos) {
 		player_starting_pos = pos;
 	}
 
 	public static void SetLevelDifficulty(float diff) {
-		level_diff = diff;
+		level_difficulty = diff;
 	}
-
 	public static float GetLevelDifficulty() {
-		return level_diff;
+		return level_difficulty;
 	}
+	public static float LevelDifficulty { get => level_difficulty; set => level_difficulty = value; }
+	
+	public static int NumRoomsCompleted { get => num_rooms_completed; set => num_rooms_completed = value; }
+
+	public static int NumLevelsCompleted { get => num_levels_completed; set => num_levels_completed = value; }
 
 }

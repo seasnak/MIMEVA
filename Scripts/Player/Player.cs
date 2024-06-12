@@ -12,12 +12,10 @@ public partial class Player : CharacterBody2D
 	private int curr_health = 100;
 	private int max_stamina = 100;
 	private int curr_stamina = 100;
-
-	private int death_count = 0;
 	
-	private int coins = 0;
-	private int keys = 0;
-	private int cool_coins = 0; // the harder to get bonus coins
+	private int num_coins = 0;
+	private int num_keys = 0;
+	private int num_cool_coins = 0; // the harder to get bonus coins
 
 	// Movement Values	
 	private const int movespeed = 60;
@@ -138,7 +136,7 @@ public partial class Player : CharacterBody2D
 				// GD.Print("Player Died!"); // DEBUG
 				sprite.Play("death");
 				is_dead = true;
-				death_count += 1;
+				PlayerVariables.NumDeaths += 1;
 			}
 			else if(!sprite.IsPlaying()) {
 				Die();
@@ -352,27 +350,34 @@ public partial class Player : CharacterBody2D
 		return velocity;
 	}
 
-	public void AddCurrency(int val) { this.coins += val; }
+	public void AddCurrency(int val) { this.num_coins += val; }
 	public void DealDamage(int val) { this.curr_health -= val; }
 
 	// Getters and Setters
+	// TODO: remove old getter setter functions
+	public int NumCoins { get => this.num_coins; set => this.num_coins = value; }
 	public void SetClimb(bool val) { this.can_climb = val; }
 	public bool GetClimb() { return this.can_climb; }
 
-	public int GetKeys() { return keys; }
-	public void SetKeys(int val) { keys = val; }
-	public void AddKeys(int val) { keys += val; }
+	public bool CanClimb { get => this.can_climb; set => this.can_climb = value; }
+
+	public int GetKeys() { return num_keys; }
+	public void SetKeys(int val) { num_keys = val; }
+	public int NumKeys { get => this.num_keys; set => this.num_keys = value; }
+	public void AddKeys(int val) { num_keys += val; }
 
 	public int GetCurrHealth() { return this.curr_health; }
 	public void SetCurrHealth(int val) { this.curr_health = val; }
 	
+	public int CurrHealth { get => this.curr_health; set => this.curr_health = value; }
+
 	public int GetMaxHealth() { return this.max_health; }
 	public void SetMaxHealth(int val) { this.max_health = val; }
-
-	public int GetCoins() { return this.coins; }
-	public void SetCoins(int val) { this.coins = val; }
-
-	public bool IsAttacking() { return is_attacking; }
-	public void SetAttacking(bool val) { is_attacking = val; }
-	
+	public int MaxHealth { get => this.max_health; set => this.max_health = value; }
+	public int GetCoins() { return this.num_coins; }
+	public void SetCoins(int val) { this.num_coins = val; }
+	public int Coins { get => this.num_coins; set => this.num_coins = value; }
+	public bool GetIsAttacking() { return is_attacking; }
+	public void SetIsAttacking(bool val) { is_attacking = val; }
+	public bool IsAttacking { get => this.is_attacking; set => this.is_attacking = value; }
 }
