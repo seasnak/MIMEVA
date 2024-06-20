@@ -7,17 +7,12 @@ using System.Numerics;
 namespace Mimeva;
 public partial class PlayerVariables : Node
 {
-
-
+	
 	private static Checkpoint curr_checkpoint = null;
 	private static string checkpoint_scene_path = null;
 	private static Node checkpoint_scene = null;
 
 	private static Godot.Vector2 player_starting_pos;
-
-	private static float level_difficulty = 5f; // the level difficulty used to generate levels
-	private static int num_rooms_completed = 0; // the number of rooms the player has completed in the current level
-	private static int num_levels_completed = 0; // the number of levels the player has completed in total
 	private static int num_deaths = 0; // the number of player deaths
 
 	// Called when the node enters the scene tree for the first time.
@@ -78,17 +73,5 @@ public partial class PlayerVariables : Node
 	public static void SetPlayerStartingPos(Godot.Vector2 pos) {
 		player_starting_pos = pos;
 	}
-
-	public static void SetLevelDifficulty(float diff) {
-		level_difficulty = diff;
-	}
-	public static float GetLevelDifficulty() {
-		return level_difficulty;
-	}
-	public static float LevelDifficulty { get => level_difficulty; set => level_difficulty = value; }
-	
-	public static int NumRoomsCompleted { get => num_rooms_completed; set => num_rooms_completed = value; }
-
-	public static int NumLevelsCompleted { get => num_levels_completed; set => num_levels_completed = value; }
 
 }

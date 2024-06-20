@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 DialogueManager="*res://Scripts/Singletons/DialogueManager.cs"
 PlayerVariables="*res://Scripts/Singletons/PlayerVariables.cs"
+LevelGenVariables="*res://Scripts/Singletons/LevelGenVariables.cs"
 
 [display]
 

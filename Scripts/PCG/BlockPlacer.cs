@@ -76,7 +76,7 @@ public partial class BlockPlacer : Area2D
 		// add signals
 		BodyEntered += OnBodyEntered;
 
-		difficulty = PlayerVariables.LevelDifficulty;
+		difficulty = LevelGenVariables.LevelDifficulty;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -96,6 +96,8 @@ public partial class BlockPlacer : Area2D
 		UpdateBlockDict("K", "res://Prefabs/Objects/key.tscn");
 		UpdateBlockDict("*", "res://Prefabs/Objects/coin.tscn");
 		UpdateBlockDict("C", "res://Prefabs/Objects/checkpoint.tscn");
+		
+		// not yet implemented objects
 		// UpdateBlockDict("B", "res://Prefabs/Objects/button.tscn"); // todo: add button object for button doors
 		// UpdateBlockDict("BD", "res://Prefabs/Objects/button_door.tscn"); // todo: add button door object
 	}
@@ -168,17 +170,19 @@ public partial class BlockPlacer : Area2D
 			int min_parts = 3;
 			int max_parts = (int)Math.Floor(difficulty/3) + 3;
 			num_parts_in_room = random.Next(min_parts, max_parts+1); 
-		} 
+		}
 		else { 
 			num_parts_in_room = num_parts; 
 		}
 
+		// manage level variables
+		LevelGenVariables.NumRoomsCompleted += 1;
+
 		// randomly pick room parts from parts dictionary
 		int curr_parts_len;
 		string diff_str = GetNewDifficulty();
+		
 
-		//curr_parts_len = parts_dict["Left"+diff_str].Length;
-		// LoadPartFromTxtFile($"{ parts_dict["Left"+diff_str][random.Next(0, curr_parts_len)] }"); // load left part
 		GD.Print(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt"));
 		LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt")); // changed to a default "left connector"
 
@@ -191,13 +195,10 @@ public partial class BlockPlacer : Area2D
 
 		LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Right/RT_10.txt")); // changed to a default "right connector"	
 		
-		// LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Middle/MH2_10.txt")); // DEBUG
-
 		diff_str = GetNewDifficulty();
 		curr_parts_len = parts_dict["Right"+diff_str].Length;
 		LoadPartFromTxtFile($"{ parts_dict["Right"+diff_str][random.Next(0, curr_parts_len)] }");
 
-		// GD.Print($"Loading in {ProjectSettings.GlobalizePath(connector_room_path)}"); // DEBUG
 		LoadPartFromTxtFile(ProjectSettings.GlobalizePath(connector_room_path));
 
 	}
@@ -212,7 +213,6 @@ public partial class BlockPlacer : Area2D
 
 		GetLevelMatFromTxtFile(part_f); // update level_mat to correct output
 		BuildLevelFromLevelMat(); // build the level given the current matrix
-		
 	}
 
 	private void BuildLevel(ref Level level) {
