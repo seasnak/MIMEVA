@@ -223,7 +223,7 @@ public partial class Player : CharacterBody2D
 		if(input_dir.X != 0 && !is_attacking && !is_dashing) {
 			sprite.FlipH = input_dir.X < 0;
 			collider.Position = new Godot.Vector2(-0.5 * input_dir.X > 0 ? -1 : 1, collider.Position.Y);
-
+			
 			weapon.GetSprite().FlipH = sprite.FlipH;
 			if(input_dir.X > 0) { weapon.Position = new Godot.Vector2(8, 5); }
 			else { weapon.Position = new Godot.Vector2(-5, 5); }
@@ -333,7 +333,7 @@ public partial class Player : CharacterBody2D
 		var result = spaceState.IntersectRay(query);
 		
 		if( result.Count > 0 ) {
-			return (ulong)result["collider_id"]==GetNode<TileMap>("/root/World/TileMap").GetInstanceId() && !is_grounded;
+			return (ulong)result["collider_id"]==GetNode<TileMapLayer>("/root/World/TileMap/Platforms").GetInstanceId() && !is_grounded;
 		}
 		return IsOnWallOnly();
 	}

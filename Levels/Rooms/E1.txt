@@ -1,4 +1,4 @@
-20 10
+SHAPE 20 10
 
 B B B B B B B B B B B B B B B B B B B B
 B - - - B - - - - - - - - - - - - - - B

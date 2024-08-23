@@ -1,4 +1,4 @@
-10 10
+SHAPE 10 10
 
 ROOM
 B B B B B B B B B B

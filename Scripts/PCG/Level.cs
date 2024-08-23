@@ -13,16 +13,25 @@ namespace Mimeva.Utils;
 
 public partial class Level {
 
+    // level details
     private List<List<string>> layout;
-    private int in_pos;
-    private int out_pos;
-    private int in_size;
-    private int out_size;
-    private int[] shape = new int[2];
+    private int in_pos; // the position of the opening for the entrance to the level (relative to the level and not to the world)
+    private int out_pos; // the position of the opening for the exit to the level
+    private int in_size; // the size of the opening for the entrance
+    private int out_size; // the size of the opening for the exit
+    private int[] shape = new int[2]; // the size of the level (x, y)
 
-    private readonly Dictionary<string, string> level_key;
+    // Block and Level-Building Related Variables
+    private Dictionary<string, PackedScene> level_object_dict; // dictionary that links the strings found in each level with their object representation. (ie. {"C":<Coin Prefab>} would place a coin wherever "C" appears in Level.layout)
+    private string block_key = "B"; // default string that represents a tilemap block in the level
+    private string empty_key = "-"; // default string that represents and empty tile in the level
+    private TileMapLayer block_tilemap; // tilemap to construct the level out of
+    private TileMapLayer fg_tilemap; // tilemap for the foreground elements 
+    private TileMapLayer bg_tilemap; // tilemap for the background elements
+    private int BLOCK_SIZE = 8; // the size of each block (in pixels) -- default: 8x8 pixel tiles
+    private int BLOCK_OFFSET = 4; // the intial offset (in pixels) -- default: an offset of (4,4) pixels
 
-    // Getters Setters
+    // Getters and Setters
     public List<List<string>> Layout { get => layout; set => SetLayout(ref value); }
     public int InPos { get => in_pos; set => in_pos = value; }
     public int OutPos { get => out_pos; set => out_pos = value; }
@@ -30,6 +39,13 @@ public partial class Level {
     public int OutSize { get => out_size; set => out_size = value; }
 
     public int[] Shape { get => shape; set => shape = value; }
+
+    public string BlockKey { get => block_key; set => block_key = value; }
+    public string EmptyKey { get => empty_key; set => empty_key = value; }
+    public TileMapLayer BlockTilemap { get => block_tilemap; set => block_tilemap = value; }
+
+    public int BlockSize { get => BLOCK_SIZE; set => BLOCK_SIZE = value; }
+    public int BlockOffset { get => BLOCK_OFFSET; set => BLOCK_OFFSET = value; }
 
     public Level() {
         in_pos = 0;
@@ -52,6 +68,9 @@ public partial class Level {
         SetLayout(ref _layout);
     }
 
+    // -----------------------------------------------------
+    // Level Object Setters and Getters
+    // -----------------------------------------------------
     public void SetLayout(ref List<List<string>> _layout) {
         // creates a deep copy and sets it to layout field
         
@@ -197,6 +216,87 @@ public partial class Level {
 		
 	}
 
+    // Functions to Generate Levels from Level Object in Godot
+    
+    public void BuildLevel(ref SceneTree world, Godot.Vector2? start_pos = null) {
+        /*
+        Constructs level in Godot
+        <start_pos> is the offset at which to start building the level
+        */
+        if(start_pos == null) { start_pos = Godot.Vector2.Zero; }
+
+        for(int i = 0; i < this.shape[0]; i++) {
+            for(int j = 0; j < this.shape[1]; j++) {
+                string val = this.layout[i][j];
+
+                if(val == empty_key) { } // skip -- empty block
+                else if(val == block_key) {
+                    block_tilemap.SetCellsTerrainConnect(new Godot.Collections.Array<Vector2I> {new Vector2I(j + (int)((Godot.Vector2)start_pos).X, i + (int)((Godot.Vector2)start_pos).Y)}, 0, 0);
+                }
+                else if(val == "L") { // TODO: change to have a variable value for left connector
+                       
+                }
+                else if(val == "R") { // TODO: change to have a variable value for right connector
+                    
+                }
+                else {
+                    if(level_object_dict.ContainsKey(val)) {
+                        var obj = level_object_dict[val].Instantiate();
+                        world.Root.CallDeferred("add_child", obj);
+                        ((Node2D)obj).Position = new(
+                            j + (int)((Godot.Vector2)start_pos).X*BLOCK_SIZE + BLOCK_OFFSET,
+                            i + (int)((Godot.Vector2)start_pos).Y*BLOCK_SIZE + BLOCK_OFFSET
+                        );
+                    }
+                    else { GD.Print($"Error: Block {val} is not in block dict."); }
+                }
+            }
+        }
+
+    }
+
+    // -----------------------------------------------------
+    // Functions to Manipulate Blocks and the BlockDictionary
+    // -----------------------------------------------------
+    public void UpdateLevelObjectDict(string key, string val_path) {
+		if(level_object_dict.ContainsKey(key)) {
+			level_object_dict[key] = ResourceLoader.Load<PackedScene>(val_path);
+		}
+		else {
+			level_object_dict.Add(key, ResourceLoader.Load<PackedScene>(val_path));
+		}
+	}
+    public void UpdateLevelObjectDict(string key, PackedScene scene) {
+        if(level_object_dict.ContainsKey(key)) {
+            level_object_dict[key] = scene;
+        }
+        else {
+            level_object_dict.Add(key, scene);
+        }
+    }
+    public void ClearLevelObjectDict() { level_object_dict.Clear(); }
+    public void SetLevelObjectDict(ref Dictionary<string, PackedScene> bd) {
+        level_object_dict.Clear();
+        foreach (string key in bd.Keys) { level_object_dict.Add(key, bd[key]); }
+    }
+    public void AppendToLevelObjectDict(ref Dictionary<string, PackedScene> bd, bool overwrite_duplicate_keys = false) {
+        /*
+        Append all keys and values from <bd> to <Level.level_object_dict>
+        If <overwrite_duplicate_keys> is false, keys that already exist in <Level.level_object_dict> are skipped
+        */
+        foreach (string key in bd.Keys) {
+            if(level_object_dict.ContainsKey(key)) {
+                if(overwrite_duplicate_keys) {
+                    level_object_dict[key] = bd[key];
+                }
+            }
+            else { 
+                level_object_dict.Add(key, bd[key]); 
+            }
+        }
+    }
+
+    // Utility Functions
     public string PrintLevel() {
         // Prints out current level
         string level_str = "";
@@ -211,7 +311,9 @@ public partial class Level {
         
         return level_str;
     }
+
 }
+
 
 /* SAMPLE LEVEL TEXT FILE
 // SHAPE -- contains the shape of the object
@@ -230,7 +332,7 @@ D
 
 // (optional) -- contains the input and output position of the room
 INPOS 3
-OUTPUS 3
+OUTPOS 3
 
 // (optional) -- contains the input and output size of the room
 INSIZE 5

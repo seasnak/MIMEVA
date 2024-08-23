@@ -7,6 +7,7 @@ using System.IO;
 using System.Text.Json;
 
 using Mimeva.Utils;
+using System.Linq;
 
 namespace Mimeva;
 
@@ -18,7 +19,7 @@ public partial class BlockPlacer : Area2D
 	private List<List<string>> level_mat; // list representation of level
 
 	// Imported Nodes
-	private TileMap tilemap;
+	private TileMapLayer tilemap;
 	private Player player;
 
 	// private string tilemap_path = "/root/world/TileMap"; // where the TileMap is located
@@ -37,6 +38,7 @@ public partial class BlockPlacer : Area2D
 	private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
 	private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
 	private float difficulty; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
+	[Export] private float override_difficulty = 0; // if the override difficulty is between 1 and 10, then override difficulty to this value
 	private int num_parts_in_room = 3; // the number of parts that will make up the room.
 	
 	// Booleans for level generation
@@ -67,7 +69,7 @@ public partial class BlockPlacer : Area2D
 		ReloadBlockDictionary();
 		ReloadLevelPartsDictionary(); // loads in the list of levels
 
-		tilemap = GetNode<TileMap>("/root/World/TileMap"); // get tilemap node
+		tilemap = GetNode<TileMapLayer>("/root/World/TileMap/Platforms"); // get tilemap node
 
 		// default offsets based on starting level
 		curr_offset = new(8, -5);
@@ -75,8 +77,10 @@ public partial class BlockPlacer : Area2D
 
 		// add signals
 		BodyEntered += OnBodyEntered;
-
-		difficulty = LevelGenVariables.LevelDifficulty;
+		
+		// set difficulty
+		if(override_difficulty > 0) { difficulty = override_difficulty; }
+		else { difficulty = LevelGenVariables.LevelDifficulty; }
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -228,7 +232,7 @@ public partial class BlockPlacer : Area2D
 				switch( level.Layout[i][j] ) {
 					case "-": break; // empty block -- do nothing
 					case "B":
-						tilemap.SetCellsTerrainConnect(0, new Godot.Collections.Array<Vector2I> {new Vector2I(j + (int)curr_offset.X, i + (int)curr_offset.Y)}, 0, 0);
+						tilemap.SetCellsTerrainConnect(new Godot.Collections.Array<Vector2I> {new Vector2I(j + (int)curr_offset.X, i + (int)curr_offset.Y)}, 0, 0);
 						break;
 					case "L":
 						left_connector_pos = new Godot.Vector2(i, j) + curr_offset;
@@ -269,7 +273,7 @@ public partial class BlockPlacer : Area2D
 	// Helper Functions
 	private void UpdateTilemap(string new_tilemap_path) {
 		try {
-			tilemap = GetNode<TileMap>(new_tilemap_path);
+			tilemap = GetNode<TileMapLayer>(new_tilemap_path);
 		}
 		catch(Exception e) {
 			GD.Print($"Error {e}: Could not change tilemap. \"{new_tilemap_path}\" does not exist, or is not a valid tilemap");	
@@ -310,7 +314,7 @@ public partial class BlockPlacer : Area2D
 		for(int i = 0; i < level_mat.Count; i++) {
 			for(int j = 0; j < level_mat[0].Count; j++) {
 				if(level_mat[i][j] == "B") {
-					tilemap.SetCellsTerrainConnect(0, new Godot.Collections.Array<Vector2I> {new Vector2I(j + (int)curr_offset.X, i + (int)curr_offset.Y)}, 0, 0);
+					tilemap.SetCellsTerrainConnect(new Godot.Collections.Array<Vector2I> {new Vector2I(j + (int)curr_offset.X, i + (int)curr_offset.Y)}, 0, 0);
 				}
 				else {
 					Vector2 obj_pos = new((j + (int)curr_offset.X)*BLOCK_SIZE + BLOCK_OFFSET, (i + (int)curr_offset.Y)*BLOCK_SIZE + BLOCK_OFFSET);
@@ -379,7 +383,7 @@ public partial class BlockPlacer : Area2D
 				for(int i=0; i<contents[1].ToInt(); i++) {
 					level_mat.Add( new List<string>(contents[2].ToInt()) );
 				}
-				// GD.Print(level_mat.Count, " ", level_mat[0].Count);
+				GD.Print(level_mat.Count, " ", contents[2].ToInt());
 			}
 			else if(line == "ROOM") {
 				in_room_contents = true;
