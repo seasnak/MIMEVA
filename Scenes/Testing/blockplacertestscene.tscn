@@ -82,9 +82,7 @@ animations = [{
 [node name="Player" parent="." instance=ExtResource("1_b8nu8")]
 position = Vector2(-35, 0)
 
-[node name="TileMap" type="TileMap" parent="."]
-tile_set = ExtResource("2_npq2r")
-format = 2
+[node name="TileMap" type="Node2D" parent="."]
 
 [node name="Platforms" type="TileMapLayer" parent="TileMap"]
 use_parent_material = true

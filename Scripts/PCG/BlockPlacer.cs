@@ -39,7 +39,9 @@ public partial class BlockPlacer : Area2D
 	private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
 	private float difficulty; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
 	[Export] private float override_difficulty = 0; // if the override difficulty is between 1 and 10, then override difficulty to this value
-	private int num_parts_in_room = 3; // the number of parts that will make up the room.
+	[Export] private int num_parts_in_room = 3; // the number of parts that will make up the room.
+	[Export] private int num_rooms_to_generate = 3; // the number of rooms to generate before ending the level
+	private int num_romms_generated = 0; // the number of rooms generated so far
 	
 	// Booleans for level generation
 	private bool is_key_room = false;

@@ -224,7 +224,7 @@ public partial class Level {
         <start_pos> is the offset at which to start building the level
         */
         if(start_pos == null) { start_pos = Godot.Vector2.Zero; }
-
+        
         for(int i = 0; i < this.shape[0]; i++) {
             for(int j = 0; j < this.shape[1]; j++) {
                 string val = this.layout[i][j];
