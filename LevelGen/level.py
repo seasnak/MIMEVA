@@ -11,7 +11,7 @@ class Level():
     
     def __init__(self, shape:tuple = (10, 10)):
         self.shape = shape
-        self.layout = [[]]
+        self.layout = [] # 2D array containing the level
         self.surrounding = {}
         pass
 
