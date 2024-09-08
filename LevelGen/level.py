@@ -61,6 +61,22 @@ class Level():
     
     def save(self, level_f:str):
         # save this level to <level_f> file
+        # see below for an example level file
+
+        level_file = open(level_f, 'w')
+
+        level_file.write(f'SHAPE {self.shape[0]},{self.shape[1]}\n\n')
+        
+        level_file.write(f'INSIZE ')
+        level_file.write(f'OUTSIZE ')
+
+        level_file.write(f'INPOS ')
+        level_file.write(f'OUTPOS ')
+
+        level_file.write(f'ROOM\n')
+        for i in range(self.shape[0]):
+            level_file.write(f'{' '.join(self.layout[i])}')
+
         pass
 
     def print(self):
