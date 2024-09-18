@@ -33,12 +33,16 @@ public partial class LevelGenVariables : Node
         player_death_pos_list.Add(pos);
     }
 
-    public static void AddNewDeath(Player player) {
+    public static void AddNewDeath(ref Player player) {
         player_death_count += 1;
         player_death_pos_list.Add((player.Position.X, player.Position.Y));
     }
 
     public static void CalculateNewDifficulty() {
+        
+    }
+
+    public static void DisplayPlayerDeaths() {
 
     }
 

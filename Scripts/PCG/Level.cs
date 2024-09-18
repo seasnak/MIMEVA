@@ -22,7 +22,7 @@ public partial class Level {
     private int[] shape = new int[2]; // the size of the level (x, y)
 
     // Block and Level-Building Related Variables
-    private Dictionary<string, PackedScene> level_object_dict; // dictionary that links the strings found in each level with their object representation. (ie. {"C":<Coin Prefab>} would place a coin wherever "C" appears in Level.layout)
+    private Dictionary<string, PackedScene> level_object_dict = new(); // dictionary that links the strings found in each level with their object representation. (ie. {"C":<Coin Prefab>} would place a coin wherever "C" appears in Level.layout)
     private string block_key = "B"; // default string that represents a tilemap block in the level
     private string empty_key = "-"; // default string that represents and empty tile in the level
     private TileMapLayer block_tilemap; // tilemap to construct the level out of
@@ -46,7 +46,7 @@ public partial class Level {
 
     public int BlockSize { get => BLOCK_SIZE; set => BLOCK_SIZE = value; }
     public int BlockOffset { get => BLOCK_OFFSET; set => BLOCK_OFFSET = value; }
-
+    
     public Level() {
         in_pos = 0;
         out_pos = 0;
@@ -115,19 +115,6 @@ public partial class Level {
         */
         Level level = new();
         int[] total_shape = new int[2]{0, 0};
-
-        // // get total shape of output level
-        // foreach(string infile in infiles) {
-        //     using StreamReader sr = new(infile);
-        //     while(!sr.EndOfStream) {
-        //         output = sr.ReadLine();
-        //         if(output[..5] == "SHAPE") {
-        //             total_shape[0] += output.Split(' ')[1].ToInt();
-        //             total_shape[1] += output.Split(' ')[2].ToInt();
-        //             break;
-        //         }
-        //     }
-        // }
         
         string[] output_arr;
         int level_part_rows = 0;
@@ -137,7 +124,7 @@ public partial class Level {
             while(!sr.EndOfStream) {
 
                 output_arr = sr.ReadLine().Split(' ');
-                if(output_arr[0][..2] == "//") { continue; } // comment line so skip -- checking first for efficiency
+                if(output_arr[0][..2] == "//") { continue; } // comment line so skip -- checking this first for efficiency
                 switch(output_arr[0]) {
                     case "SHAPE": // update the shape of the level
                         level_part_rows = output_arr[1].ToInt();

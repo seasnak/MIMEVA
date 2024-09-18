@@ -146,6 +146,10 @@ public partial class Player : CharacterBody2D
     }
 
     private void Die() {
+		
+		// add death to player death map
+		LevelGenVariables.AddNewDeath((this.GlobalPosition.X, this.GlobalPosition.Y));
+		
 		try{
 			// if() {
 			// 	GD.Print("loading scene");

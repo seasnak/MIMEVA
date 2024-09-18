@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://bw47fxkfhthqi"]
+[gd_scene load_steps=21 format=4 uid="uid://bw47fxkfhthqi"]
 
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="1_b8nu8"]
 [ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="2_npq2r"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c444v4l648t7r" path="res://Prefabs/UI/PlayerUI.tscn" id="6_6x6ar"]
 [ext_resource type="Script" path="res://Scripts/PCG/BlockPlacer.cs" id="7_v6fbu"]
 [ext_resource type="Texture2D" uid="uid://cxbnyyagsqsfj" path="res://Sprites/Objects/Structures/Computer/computer_idle-Sheet.png" id="8_aa7b0"]
+[ext_resource type="Texture2D" uid="uid://uumnihb2x6d1" path="res://Sprites/UI/controls.png" id="10_r0wme"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tfnuq"]
 size = Vector2(12, 46)
@@ -80,13 +81,13 @@ animations = [{
 [node name="World" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_b8nu8")]
-position = Vector2(-35, 0)
+position = Vector2(-186, 22)
 
 [node name="TileMap" type="Node2D" parent="."]
 
 [node name="Platforms" type="TileMapLayer" parent="TileMap"]
 use_parent_material = true
-tile_map_data = PackedByteArray("AAD3/wIAAAAIAAEAAAD4/wIAAAAIAAEAAAD5/wIAAAAIAAEAAAD6/wIAAAAMAAMAAAD6/wEAAAAHAAEAAAD7/wEAAAAIAAEAAAD8/wEAAAAJAAEAAAD8/wIAAAALAAMAAAD9/wIAAAAIAAEAAAD+/wIAAAAIAAEAAAD//wIAAAAIAAEAAAAAAAIAAAAIAAEAAAABAAIAAAAIAAEAAAACAAIAAAAIAAEAAAADAAIAAAAIAAEAAAAEAAIAAAAIAAEAAAAFAAIAAAAIAAEAAAAGAAIAAAAMAAMAAAAGAAEAAAAHAAEAAAAHAAEAAAAJAAEAAAAHAAIAAAAJAAIAAAD7/wIAAAAIAAIAAAD3/wMAAAAIAAMAAAD4/wMAAAAIAAMAAAD5/wMAAAAIAAMAAAD6/wMAAAAIAAMAAAD7/wMAAAAIAAMAAAD8/wMAAAAIAAMAAAD9/wMAAAAIAAMAAAD+/wMAAAAIAAMAAAD//wMAAAAIAAMAAAAAAAMAAAAIAAMAAAABAAMAAAAIAAMAAAACAAMAAAAIAAMAAAADAAMAAAAIAAMAAAAEAAMAAAAIAAMAAAAFAAMAAAAIAAMAAAAGAAMAAAAIAAMAAAAHAAMAAAAJAAMAAAD2/wIAAAAIAAEAAAD2/wMAAAAIAAMAAAAAAP3/AAAHAAMAAAABAP3/AAAJAAMAAAAAAPz/AAAHAAIAAAABAPz/AAAJAAIAAAD1/wIAAAAIAAEAAAD0/wIAAAAIAAEAAADz/wIAAAAIAAEAAADy/wIAAAAIAAEAAAD1/wMAAAAIAAMAAAD0/wMAAAAIAAMAAADz/wMAAAAIAAMAAADy/wMAAAAIAAMAAADx/wMAAAAHAAMAAADx/wIAAAAPAAUAAADx/wEAAAABAAIAAADx/wAAAAABAAIAAADx////AAABAAIAAADx//7/AAAFAAIAAADx//3/AAABAAIAAADx//z/AAADAAIAAADx//v/AAADAAEAAADy//v/AAAEAAUAAADz//v/AAAEAAEAAAD0//v/AAAEAAMAAAD1//v/AAAEAAUAAAAAAPv/AAARAAUAAAABAPv/AAAQAAUAAAD///v/AAAEAAUAAAD+//v/AAAEAAEAAAACAPv/AAAEAAMAAAADAPv/AAAEAAUAAAD2//v/AAAEAAMAAAD3//v/AAAEAAUAAAD4//v/AAAEAAEAAAD5//v/AAAEAAEAAAD6//v/AAAEAAUAAAD7//v/AAAEAAMAAAD8//v/AAAEAAMAAAD9//v/AAAEAAUAAAAEAPv/AAAEAAMAAAAFAPv/AAAEAAEAAAAGAPv/AAAEAAUAAAAHAPv/AAAFAAUAAAA=")
+tile_map_data = PackedByteArray("AAD3/wIAAAAIAAEAAAD4/wIAAAAIAAEAAAD5/wIAAAAIAAEAAAD6/wIAAAAMAAMAAAD6/wEAAAAHAAEAAAD7/wEAAAAIAAEAAAD8/wEAAAAJAAEAAAD8/wIAAAALAAMAAAD9/wIAAAAIAAEAAAD+/wIAAAAIAAEAAAD//wIAAAAIAAEAAAAAAAIAAAAIAAEAAAABAAIAAAAIAAEAAAACAAIAAAAIAAEAAAADAAIAAAAIAAEAAAAEAAIAAAAIAAEAAAAFAAIAAAAIAAEAAAAGAAIAAAAMAAMAAAAGAAEAAAAHAAEAAAAHAAEAAAAJAAEAAAAHAAIAAAAJAAIAAAD7/wIAAAAIAAIAAAD3/wMAAAAIAAMAAAD4/wMAAAAIAAMAAAD5/wMAAAAIAAMAAAD6/wMAAAAIAAMAAAD7/wMAAAAIAAMAAAD8/wMAAAAIAAMAAAD9/wMAAAAIAAMAAAD+/wMAAAAIAAMAAAD//wMAAAAIAAMAAAAAAAMAAAAIAAMAAAABAAMAAAAIAAMAAAACAAMAAAAIAAMAAAADAAMAAAAIAAMAAAAEAAMAAAAIAAMAAAAFAAMAAAAIAAMAAAAGAAMAAAAIAAMAAAAHAAMAAAAJAAMAAAD2/wIAAAAIAAEAAAD2/wMAAAAIAAMAAAAAAP3/AAAHAAMAAAABAP3/AAAJAAMAAAAAAPz/AAAHAAIAAAABAPz/AAAJAAIAAAD1/wIAAAAIAAEAAAD0/wIAAAAIAAEAAADz/wIAAAALAAMAAADy/wIAAAAMAAMAAAD1/wMAAAAIAAMAAAD0/wMAAAAIAAMAAADz/wMAAAAIAAMAAADy/wMAAAALAAIAAADy//v/AAAEAAUAAADz//v/AAAEAAEAAAD0//v/AAAEAAMAAAD1//v/AAAEAAUAAAAAAPv/AAARAAUAAAABAPv/AAAQAAUAAAD///v/AAAEAAUAAAD+//v/AAAEAAEAAAACAPv/AAAEAAMAAAADAPv/AAAEAAUAAAD2//v/AAAEAAMAAAD3//v/AAAEAAUAAAD4//v/AAAEAAEAAAD5//v/AAAEAAEAAAD6//v/AAAEAAUAAAD7//v/AAAEAAMAAAD8//v/AAAEAAMAAAD9//v/AAAEAAUAAAAEAPv/AAAEAAMAAAAFAPv/AAAEAAEAAAAGAPv/AAAEAAUAAAAHAPv/AAAFAAUAAADx//v/AAAEAAMAAADw//v/AAAEAAEAAADv//v/AAAEAAEAAADu//v/AAAEAAMAAADt//v/AAAEAAUAAADs//v/AAAEAAUAAADr//v/AAAEAAUAAADq//v/AAAEAAMAAADp//v/AAAEAAUAAADo//v/AAAEAAMAAADn//v/AAADAAEAAADn//z/AAABAAIAAADn//3/AAADAAIAAADn//7/AAAFAAIAAADn////AAABAAIAAADn/wAAAAABAAIAAADn/wEAAAABAAIAAADn/wIAAAADAAIAAADn/wMAAAABAAIAAADn/wQAAAADAAMAAADo/wQAAAAEAAUAAADp/wQAAAAEAAEAAADq/wQAAAAEAAEAAADr/wQAAAAEAAMAAADs/wQAAAAEAAMAAADt/wQAAAAEAAMAAADu/wQAAAARAAYAAADv/wQAAAAIAAMAAADw/wQAAAAIAAMAAADx/wQAAAAIAAMAAADy/wQAAAAJAAMAAADx/wIAAAAIAAEAAADw/wIAAAAIAAEAAADv/wIAAAAIAAEAAADu/wIAAAAHAAEAAADu/wMAAAAHAAIAAADv/wMAAAAIAAIAAADw/wMAAAAIAAIAAADx/wMAAAAIAAIAAADz/wEAAAAJAAEAAADy/wEAAAAHAAEAAAA=")
 tile_set = ExtResource("2_npq2r")
 
 [node name="Camera2D" parent="." instance=ExtResource("3_rir22")]
@@ -95,11 +96,25 @@ zoom = Vector2(5, 5)
 
 [node name="Spikes" type="Node2D" parent="."]
 
-[node name="Spikeball" parent="Spikes" instance=ExtResource("4_4oa5o")]
-position = Vector2(-60, 12)
+[node name="Spikeball6" parent="Spikes" instance=ExtResource("4_4oa5o")]
+position = Vector2(-117, 12)
 
-[node name="Spikeball2" parent="Spikes" instance=ExtResource("4_4oa5o")]
-position = Vector2(-52, 12)
+[node name="SpikeballGroup1" type="Node2D" parent="Spikes"]
+
+[node name="Spikeball5" parent="Spikes/SpikeballGroup1" instance=ExtResource("4_4oa5o")]
+position = Vector2(-53, 12)
+
+[node name="Spikeball4" parent="Spikes/SpikeballGroup1" instance=ExtResource("4_4oa5o")]
+position = Vector2(-62, 12)
+
+[node name="Spikeball" parent="Spikes/SpikeballGroup1" instance=ExtResource("4_4oa5o")]
+position = Vector2(-71, 12)
+
+[node name="Spikeball2" parent="Spikes/SpikeballGroup1" instance=ExtResource("4_4oa5o")]
+position = Vector2(-80, 12)
+
+[node name="Spikeball3" parent="Spikes/SpikeballGroup1" instance=ExtResource("4_4oa5o")]
+position = Vector2(-89, 12)
 
 [node name="Sign" parent="." instance=ExtResource("5_brqnw")]
 position = Vector2(-13, 10)
@@ -128,7 +143,11 @@ motion_mirroring = Vector2(100, 100)
 
 [node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 show_behind_parent = true
-position = Vector2(1.49997, 11.5)
+position = Vector2(40, 1)
 texture = ExtResource("2_xa832")
 region_enabled = true
 region_rect = Rect2(0, 0, 1500, 1500)
+
+[node name="Controls" type="Sprite2D" parent="."]
+position = Vector2(-240, 20)
+texture = ExtResource("10_r0wme")

@@ -12,7 +12,8 @@ using System.Linq;
 namespace Mimeva;
 
 /*
-Loads in levels from custom .txt file format (see examples in pcglevels folder)
+Loads in levels from a specifically formatted .txt file (see examples in Levels/Parts folder)
+TODO: modify to take in Level objects instead -- Level objects handle the text to Level object conversion
 */
 public partial class BlockPlacer : Area2D
 {
@@ -34,14 +35,13 @@ public partial class BlockPlacer : Area2D
 	[Export] private Godot.Vector2 curr_offset = Godot.Vector2.Zero; // offset for the next room
 	private Godot.Vector2 left_connector_pos = Godot.Vector2.Zero; // the location of the left connector
 	private Godot.Vector2 right_connector_pos = Godot.Vector2.Zero; // the location of the right connector
-	private bool is_unix = true;
 	private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
 	private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
 	private float difficulty; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
 	[Export] private float override_difficulty = 0; // if the override difficulty is between 1 and 10, then override difficulty to this value
 	[Export] private int num_parts_in_room = 3; // the number of parts that will make up the room.
 	[Export] private int num_rooms_to_generate = 3; // the number of rooms to generate before ending the level
-	private int num_romms_generated = 0; // the number of rooms generated so far
+	private int num_romms_generated = 0; // (counter) the number of rooms generated so far
 	
 	// Booleans for level generation
 	private bool is_key_room = false;
@@ -49,7 +49,7 @@ public partial class BlockPlacer : Area2D
 	// Prefabs Dictionary
 	private static Godot.Collections.Dictionary<string, PackedScene> block_dict;
 	
-	// levels dictionary
+	// Level parts dictionary
 	private static Godot.Collections.Dictionary<string, string[]> parts_dict;
 
 	// arrays for difficulty level difficulty and part files
@@ -59,8 +59,8 @@ public partial class BlockPlacer : Area2D
 	// dictionary for optional level adjustments
 
 	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
+	public override void _Ready() {
+
 		// play animations
 		GetNode<AnimatedSprite2D>("AnimatedSprite2D").Play("default");
 		
@@ -71,7 +71,8 @@ public partial class BlockPlacer : Area2D
 		ReloadBlockDictionary();
 		ReloadLevelPartsDictionary(); // loads in the list of levels
 
-		tilemap = GetNode<TileMapLayer>("/root/World/TileMap/Platforms"); // get tilemap node
+		// get tilemap node
+		tilemap = GetNode<TileMapLayer>("/root/World/TileMap/Platforms");
 
 		// default offsets based on starting level
 		curr_offset = new(8, -5);
@@ -85,27 +86,21 @@ public partial class BlockPlacer : Area2D
 		else { difficulty = LevelGenVariables.LevelDifficulty; }
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		
-	}
-
 	public void ReloadBlockDictionary() {
-		// string[] block_type_list = {"player", "spikeball", "enemy", "flying_enemy", "door", "key", "coin", "checkpoint"};
 
-		// TODO: add functionality for Enemies to be a variety of different enemy types
 		UpdateBlockDict("P", "res://Prefabs/Player.tscn");
 		UpdateBlockDict("S", "res://Prefabs/Objects/Spikeball.tscn");
-		UpdateBlockDict("E", "res://Prefabs/Enemies/Glorp.tscn");
+		UpdateBlockDict("GL", "res://Prefabs/Enemies/Glorp.tscn");
 		UpdateBlockDict("D", "res://Prefabs/Objects/door.tscn");
 		UpdateBlockDict("K", "res://Prefabs/Objects/key.tscn");
 		UpdateBlockDict("*", "res://Prefabs/Objects/coin.tscn");
 		UpdateBlockDict("C", "res://Prefabs/Objects/checkpoint.tscn");
 		
-		// not yet implemented objects
-		// UpdateBlockDict("B", "res://Prefabs/Objects/button.tscn"); // todo: add button object for button doors
+		// TODO: not yet implemented objects
+		// UpdateBlockDict("B", "res://Prefabs/Objects/block.tscn"); // todo: add pushable block object
+		// UpdateBlockDict("BT", "res://Prefabs/Objects/button.tscn"); // todo: add button object (for button doors)
 		// UpdateBlockDict("BD", "res://Prefabs/Objects/button_door.tscn"); // todo: add button door object
+		
 	}
 
 	public void UpdateBlockDict(string key, string val_path) {
@@ -154,15 +149,24 @@ public partial class BlockPlacer : Area2D
 
 	private string GetNewDifficulty() {
 		Random random = new();
-		string diff = "Hard";
-		if(difficulty <= 3) { diff = "Easy"; }
+		string diff;
+		
+		if(difficulty <= 3) { 
+			diff = "Easy"; 
+		}
 		else if(difficulty == 4 ) { 
 			diff = random.NextDouble() > 0.5 ? "Medium" : "Easy";
 		}
-		else if(difficulty <= 7) { diff = "Medium"; }
+		else if(difficulty <= 7) { 
+			diff = "Medium"; 
+		}
 		else if(difficulty == 8) {
 			diff = random.NextDouble() > 0.5 ? "Hard" : "Medium";
 		}
+		else { 
+			diff = "Hard";
+		}
+
 		return diff;
 	}
 
@@ -174,7 +178,7 @@ public partial class BlockPlacer : Area2D
 		if(num_parts == -1) {
 			// select the minimum amount of rooms based on the current difficulty settin
 			int min_parts = 3;
-			int max_parts = (int)Math.Floor(difficulty/3) + 3;
+			int max_parts = (int)Math.Floor((float)difficulty/3) + 3;
 			num_parts_in_room = random.Next(min_parts, max_parts+1); 
 		}
 		else { 
