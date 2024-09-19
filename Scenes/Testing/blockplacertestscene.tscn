@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://bw47fxkfhthqi"]
+[gd_scene load_steps=22 format=4 uid="uid://bw47fxkfhthqi"]
 
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="1_b8nu8"]
 [ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="2_npq2r"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Scripts/PCG/BlockPlacer.cs" id="7_v6fbu"]
 [ext_resource type="Texture2D" uid="uid://cxbnyyagsqsfj" path="res://Sprites/Objects/Structures/Computer/computer_idle-Sheet.png" id="8_aa7b0"]
 [ext_resource type="Texture2D" uid="uid://uumnihb2x6d1" path="res://Sprites/UI/controls.png" id="10_r0wme"]
+[ext_resource type="PackedScene" uid="uid://ckh066pydrfed" path="res://Prefabs/Objects/checkpoint.tscn" id="11_wr1hy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tfnuq"]
 size = Vector2(12, 46)
@@ -121,6 +122,7 @@ position = Vector2(-13, 10)
 text = PackedStringArray("Welcome!", "At the end of each level you will be asked a few questions.", "If you have any questions about controls, check the README file (or the text below if you are playing in browser).")
 
 [node name="UI" parent="." instance=ExtResource("6_6x6ar")]
+visible = false
 
 [node name="BlockPlacer" type="Area2D" parent="."]
 position = Vector2(10, 12)
@@ -151,3 +153,6 @@ region_rect = Rect2(0, 0, 1500, 1500)
 [node name="Controls" type="Sprite2D" parent="."]
 position = Vector2(-240, 20)
 texture = ExtResource("10_r0wme")
+
+[node name="Checkpoint" parent="." instance=ExtResource("11_wr1hy")]
+position = Vector2(-35, 3)
