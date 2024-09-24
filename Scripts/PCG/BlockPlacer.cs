@@ -381,7 +381,7 @@ public partial class BlockPlacer : Area2D
 
 			if(line.Length == 0) { continue; } // empty line so skip
 			
-			string[] contents = line.Split(' ');
+			string[] contents = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
 			if(contents[0] == "SHAPE") { // initialize array
 				// GD.Print($"creating matrix of size ({contents[0]},{contents[1]})");

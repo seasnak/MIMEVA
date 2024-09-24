@@ -294,11 +294,15 @@ public partial class Level {
             }
             level_str += "\n";
         }
-        
-        
+           
         return level_str;
     }
 
+    // ------------------------------------------------------------
+    // Functions for Decorations and Background/Foreground Tilemaps
+    // ------------------------------------------------------------
+    private void DecorateLevel() {
+    }
 }
 
 
