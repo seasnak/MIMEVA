@@ -9,10 +9,13 @@ path = Path(__file__).parent.resolve()
 
 class Level():
     
-    def __init__(self, shape:tuple = (10, 10)):
+    def __init__(self, shape:tuple = (5, 10)):
         self.shape = shape
-        self.layout = [] # 2D array containing the level
+        self.layout = [["-" for x in range(shape[0])] for y in range(shape[1])] # 2D array containing the level
+        self.background = [["-" for x in range(shape[0])] for y in range(shape[1])] # OPTIONAL: 2d array containing the background to the level
         self.surrounding = {}
+
+        print(self.layout)
         pass
 
     def load(self, level_f:str):
