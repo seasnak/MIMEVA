@@ -164,7 +164,7 @@ animations = [{
 size = Vector2(6, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rygms"]
-size = Vector2(6, 9)
+size = Vector2(7, 11)
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(1, 0)
@@ -185,7 +185,7 @@ script = ExtResource("4_wb1xm")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
-position = Vector2(-1, -1.5)
+position = Vector2(-0.5, -1.5)
 shape = SubResource("RectangleShape2D_rygms")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Sword"]

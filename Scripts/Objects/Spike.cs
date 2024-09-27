@@ -24,10 +24,10 @@ public partial class Spike : Area2D
 		// GD.Print("Something Entered!"); // DEBUG
 		
 		if (body is Player player) {
-			player.DealDamage(damage);
+			player.Damage(damage);
 		}
 		else if (body is Enemy enemy) {
-			enemy.DealDamage(damage);
+			enemy.Damage(damage);
 		}
 	}
 }

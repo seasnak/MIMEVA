@@ -67,7 +67,7 @@ public partial class Enemy : CharacterBody2D
 		
 	}
 
-	public virtual void DealDamage(int damage) { 
+	public virtual void Damage(int damage) { 
 		
 		GD.Print($"Dealing {damage} damage to enemy");
 

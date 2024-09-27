@@ -55,7 +55,7 @@ public partial class Flysp : Enemy
 		Velocity = velocity;
 	}
 
-	public override void DealDamage(int damage) {
-		base.DealDamage(damage);
+	public override void Damage(int damage) {
+		base.Damage(damage);
 	}
 }

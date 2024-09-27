@@ -143,6 +143,8 @@ public partial class Player : CharacterBody2D
 				is_dead = false;
 			}
 		}
+
+		
     }
 
     private void Die() {
@@ -355,7 +357,7 @@ public partial class Player : CharacterBody2D
 	}
 
 	public void AddCurrency(int val) { this.num_coins += val; }
-	public void DealDamage(int val) { this.curr_health -= val; }
+	public void Damage(int val) { this.curr_health -= val; }
 
 	// Getters and Setters
 	// TODO: remove old getter setter functions

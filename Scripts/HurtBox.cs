@@ -26,8 +26,8 @@ public partial class HurtBox : Area2D
 	public void OnAreaEntered(Area2D hitbox) {
 		if (hitbox == null || hitbox is not HitBox) { return; }
 		
-		if(Owner.HasMethod("DealDamage")) {
-			((Enemy)Owner).DealDamage( ((HitBox)hitbox).GetDamage() );
+		if(Owner.HasMethod("Damage")) {
+			((Enemy)Owner).Damage( ((HitBox)hitbox).GetDamage() );
 		}
 
 	}
