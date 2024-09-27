@@ -15,7 +15,8 @@ class Level():
         self.background = [["-" for x in range(shape[0])] for y in range(shape[1])] # OPTIONAL: 2d array containing the background to the level
         self.surrounding = {}
 
-        print(self.layout)
+        # print(self.layout)
+
         pass
 
     def load(self, level_f:str):
@@ -26,17 +27,19 @@ class Level():
 
         level_contents = open(level_f, 'r').readlines()
         for i, line in enumerate(level_contents):
-            contents = line.split(' ')
+            contents = line.strip().split(' ')
+            
             # Read through level file line by line and construct a Level Object from it
             if len(line) == 0: # case: emtpy line
                 continue
-            elif i == 0: # case: first line contains the shape of the level
-                self.shape = (int(contents[0]), int(contents[1]))
+            elif "SHAPE" in line: # case: first line contains the shape of the level
+                self.shape = (int(contents[1]), int(contents[2]))
                 print(f"Creating new level of size {self.shape}")
 
                 # build empty level
                 try:
                     self.layout = [["-" for x in range(self.shape[0])] for y in range(self.shape[1])]
+                    self.background = [["-" for x in range(self.shape[0])] for y in range(self.shape[1])]
                 except Exception as e:
                     print(f"Error: {e} -> load()")
                     return
@@ -52,8 +55,9 @@ class Level():
                     continue
                 self.surrounding[contents[0]] = contents[1]
                 pass
-            elif "ROOM" in line:
+            elif "ROOM" in line: # case: room
                 is_room = True
+                pass
             elif is_room:
                 if len(contents) == 0: # finished checking room
                     is_room = False
@@ -92,7 +96,19 @@ class Level():
                 row_str += val + " "
             print(f"{(i+1):02}: {row_str}")
             row_str = ""
+        
+        print(f"=====================================")
+        print(f"-- Printing background of size {self.shape} --")
+        print(f"=====================================")
+        row_str = ""
+        for i, row in enumerate(self.background):
+            for val in row:
+                row_str += val + " "
+            print(f"{(i+1):02}: {row_str}")
+            row_str = ""
         pass
+
+
 
 if __name__ == "__main__":
     # DEBUG: Sample Usage
