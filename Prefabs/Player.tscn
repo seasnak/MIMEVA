@@ -189,19 +189,21 @@ animation = &"walk"
 position = Vector2(0.5, 4.5)
 shape = SubResource("RectangleShape2D_2os0o")
 
-[node name="Sword" type="Area2D" parent="."]
+[node name="Sword" type="Node2D" parent="."]
 position = Vector2(8, 5)
-script = ExtResource("4_wb1xm")
 metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
-position = Vector2(-0.5, -1.5)
-shape = SubResource("RectangleShape2D_rygms")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Sword"]
 position = Vector2(-2, -2)
 sprite_frames = ExtResource("5_mqjgn")
 animation = &"slash"
+
+[node name="Area2D" type="Area2D" parent="Sword"]
+script = ExtResource("4_wb1xm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sword/Area2D"]
+position = Vector2(-0.5, -1.5)
+shape = SubResource("RectangleShape2D_rygms")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 script = ExtResource("7_2u7ll")

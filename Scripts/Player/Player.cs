@@ -66,6 +66,7 @@ public partial class Player : CharacterBody2D
 	private CollisionShape2D collider;
 	private PlayerVariables p_vars;
 	private HitBox weapon;
+	private AnimatedSprite2D weapon_sprite;
 
 	// Debug Nodes
 	private Godot.Collections.Dictionary<string,Line2D> debugline_dict;
@@ -79,9 +80,11 @@ public partial class Player : CharacterBody2D
 		p_vars = (PlayerVariables)GetNode("/root/PlayerVariables");
 		
 		// set sword hitbox
-		weapon = (HitBox)GetNode("Sword");
+		weapon = GetNode<HitBox>("Sword/Area2D");
 		weapon.SetDamage(30);
-		weapon.GetSprite().Frame = 4;
+		// weapon.GetNode<Sprite2D>("AnimatedSprite2D");
+		weapon_sprite = weapon.GetParent().GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		weapon_sprite.Frame = 4;
 
 		collider = GetNode<CollisionShape2D>("CollisionShape2D");
 		debugline_dict = new Godot.Collections.Dictionary<string,Line2D>();
@@ -187,7 +190,7 @@ public partial class Player : CharacterBody2D
 			is_attacking = true;
 			// sprite.Play("attack");
 			weapon.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
-			weapon.GetNode<AnimatedSprite2D>("AnimatedSprite2D").Play("slash");
+			weapon_sprite.Play("slash");
 			curr_attack_time = Time.GetTicksMsec();
 		}
 
@@ -242,7 +245,7 @@ public partial class Player : CharacterBody2D
 			sprite.FlipH = input_dir.X < 0;
 			collider.Position = new Godot.Vector2(-0.5 * input_dir.X > 0 ? -1 : 1, collider.Position.Y);
 			
-			weapon.GetSprite().FlipH = sprite.FlipH;
+			weapon_sprite.FlipH = sprite.FlipH;
 			if(input_dir.X > 0) { weapon.Position = new Godot.Vector2(8, 5); }
 			else { weapon.Position = new Godot.Vector2(-5, 5); }
 		}
