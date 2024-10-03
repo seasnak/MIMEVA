@@ -28,7 +28,7 @@ class Level():
         level_contents = open(level_f, 'r').readlines()
         for i, line in enumerate(level_contents):
             contents = line.strip().split(' ')
-            
+
             # Read through level file line by line and construct a Level Object from it
             if len(line) == 0: # case: emtpy line
                 continue
@@ -106,6 +106,7 @@ class Level():
                 row_str += val + " "
             print(f"{(i+1):02}: {row_str}")
             row_str = ""
+            
         pass
 
 

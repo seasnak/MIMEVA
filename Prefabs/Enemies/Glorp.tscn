@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://dywogtpi22sqn"]
+[gd_scene load_steps=20 format=3 uid="uid://dywogtpi22sqn"]
 
 [ext_resource type="Texture2D" uid="uid://bnetufevg31hp" path="res://Sprites/Enemies/Glorp/glorp-idle.png" id="1_qwop4"]
 [ext_resource type="Texture2D" uid="uid://devdmaf4n51uy" path="res://Sprites/Enemies/Glorp/glorp-walking.png" id="2_7u7l7"]
 [ext_resource type="Shader" path="res://Shaders/hitflash.gdshader" id="2_kdmi1"]
 [ext_resource type="Script" path="res://Scripts/Enemy/Glorp.cs" id="3_3s2jc"]
 [ext_resource type="Script" path="res://Scripts/HurtBox.cs" id="4_04uan"]
+[ext_resource type="Script" path="res://Scripts/HitBox.cs" id="6_b2csq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qmvag"]
 resource_local_to_scene = true
@@ -89,6 +90,9 @@ size = Vector2(6, 6)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yqodc"]
 size = Vector2(7, 6)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_idxsj"]
+size = Vector2(7, 7)
+
 [node name="Glorp" type="CharacterBody2D"]
 script = ExtResource("3_3s2jc")
 
@@ -108,3 +112,11 @@ script = ExtResource("4_04uan")
 position = Vector2(-0.5, 2)
 shape = SubResource("RectangleShape2D_yqodc")
 debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="HitBox" type="Area2D" parent="."]
+script = ExtResource("6_b2csq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(-0.5, 1.5)
+shape = SubResource("RectangleShape2D_idxsj")
+debug_color = Color(0, 1, 0, 0.392157)

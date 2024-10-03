@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
+using System.Threading;
 
 namespace Mimeva;
 public partial class Player : CharacterBody2D
@@ -36,6 +37,9 @@ public partial class Player : CharacterBody2D
 	private ulong curr_dash_time = 0; // current dash time for timer purposes
 	private ulong curr_walljump_time = 0;
 
+	private ulong hitflash_start_time = 0;
+	private const int hitflash_dur = 1000; // duration of hitflash in msec
+
 	// Player Boolean Checks
 	private bool is_grounded = true;
 	private bool is_held_jump = false;
@@ -47,6 +51,7 @@ public partial class Player : CharacterBody2D
 	private bool dash_is_airdash = false; // determines whether the dash was an airdash
 	private bool is_jumping = false;
 	private bool is_walljumping = false;
+	private bool hitflash_is_active = false;
 
 	private bool can_dash = true; // check for player can only dash once while in the air
 	private bool can_jump = true; // check to see if player can jump
@@ -82,6 +87,8 @@ public partial class Player : CharacterBody2D
 		debugline_dict = new Godot.Collections.Dictionary<string,Line2D>();
 
 		PlayerVariables.SetPlayerStartingPos(this.Position);
+
+		
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -142,6 +149,11 @@ public partial class Player : CharacterBody2D
 				Die();
 				is_dead = false;
 			}
+		}
+
+		if(hitflash_is_active && Time.GetTicksMsec() - hitflash_start_time >= hitflash_dur) {
+			hitflash_is_active = false;
+			(sprite.Material as ShaderMaterial).SetShaderParameter("active", false); // deactivate hitflash
 		}
 
 		
@@ -356,8 +368,24 @@ public partial class Player : CharacterBody2D
 		return velocity;
 	}
 
+	// private void FlashSprite(int dur_msec = 500, Material mat = null) {
+	// 	// flashes the sprite
+		
+	// 	mat ??= sprite.Material; // if mat is null, then set it to sprite.Material
+
+	// 	(mat as ShaderMaterial).SetShaderParameter("active", true); // activate hitflash
+	// 	Thread.Sleep(dur_msec);
+	// 	(mat as ShaderMaterial).SetShaderParameter("active", false);
+	// }
+
 	public void AddCurrency(int val) { this.num_coins += val; }
-	public void Damage(int val) { this.curr_health -= val; }
+	public void Damage(int val) {
+		hitflash_is_active = true;
+		hitflash_start_time = Time.GetTicksMsec();
+		(sprite.Material as ShaderMaterial).SetShaderParameter("active", true); // activate hitflash
+		
+		this.curr_health -= val;
+	}
 
 	// Getters and Setters
 	// TODO: remove old getter setter functions

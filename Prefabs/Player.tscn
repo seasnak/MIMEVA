@@ -1,10 +1,16 @@
-[gd_scene load_steps=27 format=3 uid="uid://bir77neou5gur"]
+[gd_scene load_steps=31 format=3 uid="uid://bir77neou5gur"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_iacww"]
+[ext_resource type="Shader" path="res://Shaders/hitflash.gdshader" id="2_0s4p7"]
 [ext_resource type="Texture2D" uid="uid://cnwe2ivgu1hl0" path="res://Sprites/CharacterAnims/death-Sheet.png" id="3_2m0sm"]
 [ext_resource type="Script" path="res://Scripts/HitBox.cs" id="4_wb1xm"]
 [ext_resource type="SpriteFrames" uid="uid://ceoihqb7aul24" path="res://Animations/SwordAnim.tres" id="5_mqjgn"]
 [ext_resource type="Texture2D" uid="uid://cimta3cuosdgj" path="res://Sprites/Player/RobotPlayer/robot_short_walk-Sheet.png" id="5_p1x8c"]
+[ext_resource type="Script" path="res://Scripts/HurtBox.cs" id="7_2u7ll"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wp2xy"]
+shader = ExtResource("2_0s4p7")
+shader_parameter/active = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ybqb"]
 atlas = ExtResource("5_p1x8c")
@@ -161,22 +167,26 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2os0o"]
-size = Vector2(6, 7)
+size = Vector2(5, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rygms"]
 size = Vector2(7, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u2a1s"]
+size = Vector2(8, 8)
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(1, 0)
 script = ExtResource("1_iacww")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_wp2xy")
 position = Vector2(0, 2)
 sprite_frames = SubResource("SpriteFrames_5yp52")
 animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 4.5)
+position = Vector2(0.5, 4.5)
 shape = SubResource("RectangleShape2D_2os0o")
 
 [node name="Sword" type="Area2D" parent="."]
@@ -192,3 +202,11 @@ shape = SubResource("RectangleShape2D_rygms")
 position = Vector2(-2, -2)
 sprite_frames = ExtResource("5_mqjgn")
 animation = &"slash"
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("7_2u7ll")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_u2a1s")
+debug_color = Color(1, 0, 0, 0.392157)
