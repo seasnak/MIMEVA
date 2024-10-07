@@ -17,8 +17,10 @@ public partial class Enemy : CharacterBody2D
 	protected int movespeed = 20;
 	protected int max_fallspeed = (int)(gravity * 10);
 	
+	// components
 	protected AnimatedSprite2D sprite;
 	protected Material mat;
+	protected HitBox hitbox;
 
 	// Enemy Conditionals
 	private bool is_blinking_state = false;
@@ -32,6 +34,9 @@ public partial class Enemy : CharacterBody2D
 	{
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		AddToGroup("enemy");
+
+		hitbox = GetNode<HitBox>("HitBox");
+		hitbox.SetDamage(10);
 
 		mat = sprite.Material;
 	}

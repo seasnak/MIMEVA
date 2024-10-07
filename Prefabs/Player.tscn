@@ -8,6 +8,15 @@
 [ext_resource type="Texture2D" uid="uid://cimta3cuosdgj" path="res://Sprites/Player/RobotPlayer/robot_short_walk-Sheet.png" id="5_p1x8c"]
 [ext_resource type="Script" path="res://Scripts/HurtBox.cs" id="7_2u7ll"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2os0o"]
+size = Vector2(5, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rygms"]
+size = Vector2(7, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u2a1s"]
+size = Vector2(8, 8)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wp2xy"]
 shader = ExtResource("2_0s4p7")
 shader_parameter/active = false
@@ -166,24 +175,9 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2os0o"]
-size = Vector2(5, 7)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rygms"]
-size = Vector2(7, 11)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_u2a1s"]
-size = Vector2(8, 8)
-
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(1, 0)
 script = ExtResource("1_iacww")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-material = SubResource("ShaderMaterial_wp2xy")
-position = Vector2(0, 2)
-sprite_frames = SubResource("SpriteFrames_5yp52")
-animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 4.5)
@@ -198,12 +192,13 @@ position = Vector2(-2, -2)
 sprite_frames = ExtResource("5_mqjgn")
 animation = &"slash"
 
-[node name="Area2D" type="Area2D" parent="Sword"]
+[node name="Hitbox" type="Area2D" parent="Sword"]
 script = ExtResource("4_wb1xm")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sword/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sword/Hitbox"]
 position = Vector2(-0.5, -1.5)
 shape = SubResource("RectangleShape2D_rygms")
+debug_color = Color(0, 1, 0, 0.392157)
 
 [node name="Hurtbox" type="Area2D" parent="."]
 script = ExtResource("7_2u7ll")
@@ -212,3 +207,9 @@ script = ExtResource("7_2u7ll")
 position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_u2a1s")
 debug_color = Color(1, 0, 0, 0.392157)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_wp2xy")
+position = Vector2(0, 2)
+sprite_frames = SubResource("SpriteFrames_5yp52")
+animation = &"walk"

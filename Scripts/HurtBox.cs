@@ -28,7 +28,13 @@ public partial class HurtBox : Area2D
 		if(hitbox.Owner == this.Owner) { return; } // ignore if both have sample parent
 		GD.Print(hitbox.Owner, this.Owner);
 		if(Owner.HasMethod("Damage")) {
-			((Enemy)Owner).Damage( ((HitBox)hitbox).GetDamage() );
+			if(Owner is Enemy enemy)
+            {
+				enemy.Damage( ((HitBox)hitbox).GetDamage() );
+			}
+			else if(Owner is Player player) {
+				player.Damage( ((HitBox)hitbox).GetDamage() );
+			}
 		}
 
 	}

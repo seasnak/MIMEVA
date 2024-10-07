@@ -38,7 +38,7 @@ public partial class Player : CharacterBody2D
 	private ulong curr_walljump_time = 0;
 
 	private ulong hitflash_start_time = 0;
-	private const int hitflash_dur = 1000; // duration of hitflash in msec
+	private const int hitflash_dur = 100; // duration of hitflash in msec
 
 	// Player Boolean Checks
 	private bool is_grounded = true;
@@ -52,6 +52,7 @@ public partial class Player : CharacterBody2D
 	private bool is_jumping = false;
 	private bool is_walljumping = false;
 	private bool hitflash_is_active = false;
+	private bool touched_wall = false;
 
 	private bool can_dash = true; // check for player can only dash once while in the air
 	private bool can_jump = true; // check to see if player can jump
@@ -80,9 +81,10 @@ public partial class Player : CharacterBody2D
 		p_vars = (PlayerVariables)GetNode("/root/PlayerVariables");
 		
 		// set sword hitbox
-		weapon = GetNode<HitBox>("Sword/Area2D");
+		weapon = GetNode<HitBox>("Sword/Hitbox");
 		weapon.SetDamage(30);
-		// weapon.GetNode<Sprite2D>("AnimatedSprite2D");
+		weapon.SetActive(false);
+
 		weapon_sprite = weapon.GetParent().GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		weapon_sprite.Frame = 4;
 
@@ -116,7 +118,7 @@ public partial class Player : CharacterBody2D
 		}
 
 		// Temp safety net in case player breaks the game
-		if(!is_grounded) { 
+		if(!is_grounded || !touched_wall) {
 			time_falling += delta;
 			// GD.Print("Time Falling: ", time_falling); // DEBUG
 			if(time_falling > 2) {   // player free-falling so queue death
@@ -189,7 +191,8 @@ public partial class Player : CharacterBody2D
 		if(Input.IsActionJustPressed("attack") && !is_attacking) {
 			is_attacking = true;
 			// sprite.Play("attack");
-			weapon.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
+			weapon.SetActive(true);
+			weapon_sprite.Frame = 0;
 			weapon_sprite.Play("slash");
 			curr_attack_time = Time.GetTicksMsec();
 		}
@@ -246,8 +249,9 @@ public partial class Player : CharacterBody2D
 			collider.Position = new Godot.Vector2(-0.5 * input_dir.X > 0 ? -1 : 1, collider.Position.Y);
 			
 			weapon_sprite.FlipH = sprite.FlipH;
-			if(input_dir.X > 0) { weapon.Position = new Godot.Vector2(8, 5); }
-			else { weapon.Position = new Godot.Vector2(-5, 5); }
+			weapon_sprite.Position = new(input_dir.X > 0 ? 0 : -15, weapon_sprite.Position.Y);
+			if(input_dir.X > 0) { weapon.Position = new Godot.Vector2(1, 0); }
+			else { weapon.Position = new Godot.Vector2(-15, 0); }
 		}
 
 		// handle dash movement
@@ -354,8 +358,12 @@ public partial class Player : CharacterBody2D
 		var result = spaceState.IntersectRay(query);
 		
 		if( result.Count > 0 ) {
-			return (ulong)result["collider_id"]==GetNode<TileMapLayer>("/root/World/TileMap/Platforms").GetInstanceId() && !is_grounded;
+
+			touched_wall = (ulong)result["collider_id"]==GetNode<TileMapLayer>("/root/World/TileMap/Platforms").GetInstanceId() && !is_grounded;
+			return touched_wall; 
 		}
+
+
 		return IsOnWallOnly();
 	}
 

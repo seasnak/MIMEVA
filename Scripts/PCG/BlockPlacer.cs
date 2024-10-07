@@ -198,14 +198,14 @@ public partial class BlockPlacer : Area2D
 
 		for(int i=0; i<num_parts_in_room; i++) {
 			//load in middle room parts
-			diff_str = GetNewDifficulty();
+			// diff_str = GetNewDifficulty();
 			curr_parts_len = parts_dict["Middle"+diff_str].Length;
 			LoadPartFromTxtFile($"{parts_dict["Middle"+diff_str][random.Next(0, curr_parts_len)]}");		
 		}
 
 		LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Right/RT_10.txt")); // changed to a default "right connector"	
 		
-		diff_str = GetNewDifficulty();
+		// diff_str = GetNewDifficulty();
 		curr_parts_len = parts_dict["Right"+diff_str].Length;
 		LoadPartFromTxtFile($"{ parts_dict["Right"+diff_str][random.Next(0, curr_parts_len)] }");
 

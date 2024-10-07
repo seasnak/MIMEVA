@@ -17,7 +17,6 @@ public partial class HitBox : Area2D
 		this.CollisionMask = 0;
 
 		hitbox = GetNode<CollisionShape2D>("CollisionShape2D");
-		hitbox.Disabled = true;
 
 		// sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
@@ -29,5 +28,6 @@ public partial class HitBox : Area2D
 	public int GetDamage() { return damage; }
 	public void SetDamage(int val) { damage = val; }
 	// public AnimatedSprite2D GetSprite() { return sprite; }
+	public void SetActive(bool val) { hitbox.Disabled = !val; }
 	
 }

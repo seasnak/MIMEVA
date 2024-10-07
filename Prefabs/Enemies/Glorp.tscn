@@ -7,6 +7,15 @@
 [ext_resource type="Script" path="res://Scripts/HurtBox.cs" id="4_04uan"]
 [ext_resource type="Script" path="res://Scripts/HitBox.cs" id="6_b2csq"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pqkgv"]
+size = Vector2(6, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yqodc"]
+size = Vector2(7, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_idxsj"]
+size = Vector2(7, 7)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qmvag"]
 resource_local_to_scene = true
 shader = ExtResource("2_kdmi1")
@@ -84,22 +93,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pqkgv"]
-size = Vector2(6, 6)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yqodc"]
-size = Vector2(7, 6)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_idxsj"]
-size = Vector2(7, 7)
-
 [node name="Glorp" type="CharacterBody2D"]
 script = ExtResource("3_3s2jc")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-material = SubResource("ShaderMaterial_qmvag")
-sprite_frames = SubResource("SpriteFrames_rlmgx")
-animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)
@@ -109,7 +104,7 @@ shape = SubResource("RectangleShape2D_pqkgv")
 script = ExtResource("4_04uan")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(-0.5, 2)
+position = Vector2(-0.5, 1.5)
 shape = SubResource("RectangleShape2D_yqodc")
 debug_color = Color(1, 0, 0, 0.419608)
 
@@ -120,3 +115,8 @@ script = ExtResource("6_b2csq")
 position = Vector2(-0.5, 1.5)
 shape = SubResource("RectangleShape2D_idxsj")
 debug_color = Color(0, 1, 0, 0.392157)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_qmvag")
+sprite_frames = SubResource("SpriteFrames_rlmgx")
+animation = &"walk"
