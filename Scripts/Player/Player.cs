@@ -7,10 +7,10 @@ using System.Threading;
 namespace Mimeva;
 public partial class Player : CharacterBody2D
 {
-	
+
 	// Player Stats
-	private int max_health = 100;
-	private int curr_health = 100;
+	[Export] private int max_health = 100;
+	[Export] private int curr_health = 100;
 	private int max_stamina = 100;
 	private int curr_stamina = 100;
 	
@@ -118,7 +118,7 @@ public partial class Player : CharacterBody2D
 		}
 
 		// Temp safety net in case player breaks the game
-		if(!is_grounded || !touched_wall) {
+		if(!is_grounded && !touched_wall) {
 			time_falling += delta;
 			// GD.Print("Time Falling: ", time_falling); // DEBUG
 			if(time_falling > 2) {   // player free-falling so queue death
@@ -130,7 +130,7 @@ public partial class Player : CharacterBody2D
 		
 		// Update player variables
 		is_grounded = IsOnFloor();
-		
+
 		Godot.Vector2 input_dir = new(Input.GetAxis("ui_left", "ui_right"), Input.GetAxis("ui_up", "ui_down"));
 		HandleMove(input_dir, (float) delta);
 		HandleJump(input_dir);

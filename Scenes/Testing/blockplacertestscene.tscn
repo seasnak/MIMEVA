@@ -88,6 +88,8 @@ animations = [{
 
 [node name="Player" parent="." instance=ExtResource("1_b8nu8")]
 position = Vector2(-247, 24)
+max_health = 10000
+curr_health = 10000
 
 [node name="TileMap" type="Node2D" parent="."]
 

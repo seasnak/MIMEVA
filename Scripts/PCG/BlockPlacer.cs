@@ -18,7 +18,7 @@ TODO: modify to take in Level objects instead -- Level objects handle the text t
 public partial class BlockPlacer : Area2D
 {
 	private List<List<string>> level_mat; // list representation of level
-
+	
 	// Imported Nodes
 	private TileMapLayer tilemap;
 	private Player player;
@@ -41,7 +41,7 @@ public partial class BlockPlacer : Area2D
 	[Export] private float override_difficulty = 0; // if the override difficulty is between 1 and 10, then override difficulty to this value
 	[Export] private int num_parts_in_room = 3; // the number of parts that will make up the room.
 	[Export] private int num_rooms_to_generate = 3; // the number of rooms to generate before ending the level
-	private int num_romms_generated = 0; // (counter) the number of rooms generated so far
+	private int num_rooms_generated = 0; // (counter) the number of rooms generated so far
 	
 	// Booleans for level generation
 	private bool is_key_room = false;
@@ -210,7 +210,6 @@ public partial class BlockPlacer : Area2D
 		LoadPartFromTxtFile($"{ parts_dict["Right"+diff_str][random.Next(0, curr_parts_len)] }");
 
 		LoadPartFromTxtFile(ProjectSettings.GlobalizePath(connector_room_path));
-
 	}
 
 	public void LoadPartFromTxtFile(string part_f, int start_pos_x = -1, int start_pos_y = -1) {
@@ -358,6 +357,7 @@ public partial class BlockPlacer : Area2D
 	}
 
 	private List<List<string>> GetLevelMatFromTxtFile(string level_f) {
+		// Generates a level from a series of text files
 
 		// string[,] level_arr = {};
 		level_mat = new(); // clear level matrix
@@ -373,7 +373,7 @@ public partial class BlockPlacer : Area2D
 		int room_y = 0; // line in the room or part of room
 
 		bool in_room_contents = false; // if true, then currently reading through the room text representation
-
+		
 		using var file = Godot.FileAccess.Open(level_f, Godot.FileAccess.ModeFlags.Read);
 		string lines = file.GetAsText();
 		foreach (string line in lines.Split('\n')) {

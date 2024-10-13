@@ -1,4 +1,5 @@
 SHAPE 10 16
+FREQ 1
 
 INSIZE 10
 OUTSIZE 10
@@ -9,8 +10,8 @@ B B B B B B B B B B B B B B B B
 - - B - - - - - B - - - - - - -
 - - B - - S - - B - - - - - - -
 - - B - - B - * B - - B B - - -
-- - B - - B - - - - - B B C - -
+- - - - - B - - - - - B B * - -
 - - - - - B - - - - - B B B B -
 - - - - - B B - - - - B B B B -
-- - S S S B B S B S S B B B B -
+- - - S S B B S B S S B B B B -
 B B B B B B B B B B B B B B B B
