@@ -26,6 +26,7 @@ public partial class BlockPlacer : Area2D
 	// private string tilemap_path = "/root/world/TileMap"; // where the TileMap is located
 	private string level_folder = "res://Levels";
 	private string connector_room_path = "res://Levels/Rooms/C_10.txt";
+	private string final_room_path = "res://Levels/Rooms/X_10.txt";
 	
 	// Constants 
 	private const int BLOCK_SIZE = 8; // size of each tilemap block in pixels
@@ -95,6 +96,7 @@ public partial class BlockPlacer : Area2D
 		UpdateBlockDict("K", "res://Prefabs/Objects/key.tscn");
 		UpdateBlockDict("*", "res://Prefabs/Objects/coin.tscn");
 		UpdateBlockDict("C", "res://Prefabs/Objects/checkpoint.tscn");
+		UpdateBlockDict("F", "res://Prefabs/Objects/flag.tscn");
 		
 		// TODO: not yet implemented objects
 		// UpdateBlockDict("B", "res://Prefabs/Objects/block.tscn"); // todo: add pushable block object
@@ -208,8 +210,15 @@ public partial class BlockPlacer : Area2D
 		// diff_str = GetNewDifficulty();
 		curr_parts_len = parts_dict["Right"+diff_str].Length;
 		LoadPartFromTxtFile($"{ parts_dict["Right"+diff_str][random.Next(0, curr_parts_len)] }");
-
-		LoadPartFromTxtFile(ProjectSettings.GlobalizePath(connector_room_path));
+		
+		// load either connector room or final room
+		num_rooms_generated += 1;
+		if(num_rooms_generated < num_rooms_to_generate) {
+			LoadPartFromTxtFile(ProjectSettings.GlobalizePath(connector_room_path));
+		}
+		else {
+			LoadPartFromTxtFile(ProjectSettings.GlobalizePath(final_room_path));
+		}
 	}
 
 	public void LoadPartFromTxtFile(string part_f, int start_pos_x = -1, int start_pos_y = -1) {
@@ -294,7 +303,7 @@ public partial class BlockPlacer : Area2D
 		}
 	}
 
-	private void PlaceObject(string obj_name, Godot.Vector2 pos) {
+	private static void PlaceObject(string obj_name, Godot.Vector2 pos) {
 		//Place an object of type <obj_name> at position <pos>
 		var obj = block_dict[obj_name].Instantiate();
 

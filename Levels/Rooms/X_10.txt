@@ -1,0 +1,13 @@
+SHAPE 10 6
+
+ROOM
+B B B B B B
+B - - - - B
+B - - - - B
+B - - - - B
+L - - - - B
+L - - F - B
+B B B B B B
+B B B B B B
+B B B B B B
+B B B B B B

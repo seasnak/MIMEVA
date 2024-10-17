@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://chpuvsx0yybmd"]
+
+[ext_resource type="Texture2D" uid="uid://gdts1w0vxu3q" path="res://Sprites/Objects/Structures/Endpoint/flag.png" id="1_l3upb"]
+[ext_resource type="Script" path="res://Scripts/Objects/Flag.cs" id="1_qnf0k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5o32e"]
+size = Vector2(10, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s8tql"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_l3upb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Flag" type="Area2D"]
+script = ExtResource("1_qnf0k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3, -1)
+shape = SubResource("RectangleShape2D_5o32e")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_s8tql")
