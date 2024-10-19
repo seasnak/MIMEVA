@@ -98,7 +98,8 @@ public partial class BlockPlacer : Area2D
 		UpdateBlockDict("C", "res://Prefabs/Objects/checkpoint.tscn");
 		UpdateBlockDict("F", "res://Prefabs/Objects/flag.tscn");
 		
-		// TODO: not yet implemented objects
+		// TODO: not yet implemented objects and enemies
+		// UpdateBlockDict("FL", "res://Prefabs/Enemies/Fleep.tscn");
 		// UpdateBlockDict("B", "res://Prefabs/Objects/block.tscn"); // todo: add pushable block object
 		// UpdateBlockDict("BT", "res://Prefabs/Objects/button.tscn"); // todo: add button object (for button doors)
 		// UpdateBlockDict("BD", "res://Prefabs/Objects/button_door.tscn"); // todo: add button door object

@@ -85,6 +85,7 @@ animations = [{
 }]
 
 [node name="World" type="Node2D"]
+position = Vector2(1, 0)
 
 [node name="Player" parent="." instance=ExtResource("1_b8nu8")]
 position = Vector2(-247, 24)
