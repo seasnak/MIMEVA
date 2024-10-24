@@ -1,17 +1,17 @@
-SHAPE 10 16
-FREQ 1
+SHAPE 10 6
 
-INSIZE 10
-OUTSIZE 10
+INPUT_S 10
+OUTPUT_S 10
+
 
 ROOM
-B B B B B B B B B B B B B B B B
-- - B * - - - - B * - - - - - -
-- - B - - - - - B - - - - - - -
-- - B - - S - - B - - - - - - -
-- - B - - B - * B - - B B - - -
-- - - - - B - - - - - B B * - -
-- - - - - B - - - - - B B B B -
-- - - - - B B - - - - B B B B -
-- - - S S B B S B S S B B B B -
-B B B B B B B B B B B B B B B B
+B B B B  B B
+- - - -  - -
+- - - -  - -
+- - - -  - - 
+- - - -  - -
+- - - -  - -
+- - - -  - -
+- S - -  - -
+- B - GL - -
+B B B B B B

@@ -1,0 +1,16 @@
+SHAPE 10 12
+
+INPUT_S 10
+OUTPUT_S 10
+
+ROOM
+B B B B B B B  B B B B  B
+- - - - - - -  - - - -  -
+- - - - - - -  - - - -  -
+- - - - - - -  - - - -  -
+- - - - - - -  - - - -  -
+- - - B B B -  - - - -  -
+- - - - - - -  B B - -  -
+- - - - - - GL B B - -  -
+- - B B B B B  B B B GL -
+B B B B B B B  B B B B  B

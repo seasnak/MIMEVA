@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rld02gvktebf"
-path="res://.godot/imported/fleep.png-7e409c32caad97d083a6e92317819c19.ctex"
+uid="uid://cnt1in68ls8o2"
+path="res://.godot/imported/fleep_flying-Sheet.png-bd2e00b4665d743b03f30b8ba7cd0746.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Enemies/Fleep/fleep.png"
-dest_files=["res://.godot/imported/fleep.png-7e409c32caad97d083a6e92317819c19.ctex"]
+source_file="res://Sprites/Enemies/Fleep/fleep_flying-Sheet.png"
+dest_files=["res://.godot/imported/fleep_flying-Sheet.png-bd2e00b4665d743b03f30b8ba7cd0746.ctex"]
 
 [params]
 

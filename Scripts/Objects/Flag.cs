@@ -11,7 +11,7 @@ public partial class Flag : Area2D
     }
 
     public override void _Process(double delta) {
-
+        
     }
 
     private void OnBodyEntered(Node2D other) {

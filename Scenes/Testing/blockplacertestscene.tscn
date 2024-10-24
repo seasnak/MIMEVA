@@ -89,8 +89,6 @@ position = Vector2(1, 0)
 
 [node name="Player" parent="." instance=ExtResource("1_b8nu8")]
 position = Vector2(-247, 24)
-max_health = 10000
-curr_health = 10000
 
 [node name="TileMap" type="Node2D" parent="."]
 
@@ -138,7 +136,7 @@ text = PackedStringArray("Welcome!", "At the end of each level you will be asked
 [node name="BlockPlacer" type="Area2D" parent="."]
 position = Vector2(10, 12)
 script = ExtResource("7_v6fbu")
-override_difficulty = 1.0
+override_difficulty = 10.0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BlockPlacer"]
