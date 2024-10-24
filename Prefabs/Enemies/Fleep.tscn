@@ -1,0 +1,85 @@
+[gd_scene load_steps=14 format=3 uid="uid://c5571an3gn2gr"]
+
+[ext_resource type="Script" path="res://Scripts/Enemy/Fleep.cs" id="1_ioafx"]
+[ext_resource type="Texture2D" uid="uid://cnt1in68ls8o2" path="res://Sprites/Enemies/Fleep/fleep_flying-Sheet.png" id="2_bubs8"]
+[ext_resource type="Script" path="res://Scripts/HurtBox.cs" id="2_hd65a"]
+[ext_resource type="Script" path="res://Scripts/HitBox.cs" id="3_8leck"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tyd0v"]
+size = Vector2(4, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tw3yd"]
+size = Vector2(4, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkq01"]
+atlas = ExtResource("2_bubs8")
+region = Rect2(0, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_woqjw"]
+atlas = ExtResource("2_bubs8")
+region = Rect2(12, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lkcd1"]
+atlas = ExtResource("2_bubs8")
+region = Rect2(24, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_apcj7"]
+atlas = ExtResource("2_bubs8")
+region = Rect2(36, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qkh6r"]
+atlas = ExtResource("2_bubs8")
+region = Rect2(48, 0, 12, 12)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ll8s0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vkq01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_woqjw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lkcd1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_apcj7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qkh6r")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_it1mr"]
+size = Vector2(4, 4)
+
+[node name="Fleep" type="CharacterBody2D"]
+script = ExtResource("1_ioafx")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 1.5)
+shape = SubResource("RectangleShape2D_tyd0v")
+
+[node name="HurtBox" type="Area2D" parent="."]
+script = ExtResource("2_hd65a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(-1, 1)
+shape = SubResource("RectangleShape2D_tw3yd")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ll8s0")
+
+[node name="HitBox" type="Area2D" parent="."]
+script = ExtResource("3_8leck")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(-1, 1)
+shape = SubResource("RectangleShape2D_it1mr")
+debug_color = Color(0, 1, 0, 0.392157)

@@ -12,7 +12,6 @@ public partial class Glorp : Enemy
 	public override void _Ready()
 	{
 		base._Ready();
-
 		sprite.SpeedScale = 1.5f;
 	}
 
