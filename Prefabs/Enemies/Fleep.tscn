@@ -1,15 +1,23 @@
-[gd_scene load_steps=14 format=3 uid="uid://c5571an3gn2gr"]
+[gd_scene load_steps=16 format=3 uid="uid://c5571an3gn2gr"]
 
 [ext_resource type="Script" path="res://Scripts/Enemy/Fleep.cs" id="1_ioafx"]
 [ext_resource type="Texture2D" uid="uid://cnt1in68ls8o2" path="res://Sprites/Enemies/Fleep/fleep_flying-Sheet.png" id="2_bubs8"]
 [ext_resource type="Script" path="res://Scripts/HurtBox.cs" id="2_hd65a"]
 [ext_resource type="Script" path="res://Scripts/HitBox.cs" id="3_8leck"]
+[ext_resource type="Shader" path="res://Shaders/hitflash.gdshader" id="4_f0vw1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tyd0v"]
 size = Vector2(4, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tw3yd"]
 size = Vector2(4, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_it1mr"]
+size = Vector2(4, 4)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ytwks"]
+shader = ExtResource("4_f0vw1")
+shader_parameter/active = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vkq01"]
 atlas = ExtResource("2_bubs8")
@@ -54,9 +62,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_it1mr"]
-size = Vector2(4, 4)
-
 [node name="Fleep" type="CharacterBody2D"]
 script = ExtResource("1_ioafx")
 metadata/_edit_group_ = true
@@ -73,9 +78,6 @@ position = Vector2(-1, 1)
 shape = SubResource("RectangleShape2D_tw3yd")
 debug_color = Color(1, 0, 0, 0.419608)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_ll8s0")
-
 [node name="HitBox" type="Area2D" parent="."]
 script = ExtResource("3_8leck")
 
@@ -83,3 +85,7 @@ script = ExtResource("3_8leck")
 position = Vector2(-1, 1)
 shape = SubResource("RectangleShape2D_it1mr")
 debug_color = Color(0, 1, 0, 0.392157)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_ytwks")
+sprite_frames = SubResource("SpriteFrames_ll8s0")
