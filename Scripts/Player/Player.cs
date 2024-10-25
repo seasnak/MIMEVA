@@ -160,8 +160,6 @@ public partial class Player : CharacterBody2D
 			hitflash_is_active = false;
 			(sprite.Material as ShaderMaterial).SetShaderParameter("active", false); // deactivate hitflash
 		}
-
-		
     }
 
     private void Die() {
@@ -176,7 +174,7 @@ public partial class Player : CharacterBody2D
 			// }
 			this.GlobalPosition = PlayerVariables.GetCheckpointPos(); // set player position to the position of the checkpoint
 		}
-		catch{ 
+		catch{
 			this.Position = PlayerVariables.GetPlayerStartingPos(); 
 		}
 		

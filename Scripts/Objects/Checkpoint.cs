@@ -54,6 +54,7 @@ public partial class Checkpoint : Area2D {
     {
         if(body == null || body is not Player) { return; }
         
+        ((Player)body).Heal();
         player_inside = true;
     }
 
