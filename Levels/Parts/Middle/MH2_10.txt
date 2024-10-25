@@ -1,17 +1,17 @@
-SHAPE 10 10
-FREQ 2
+SHAPE 10 8
 
 INSIZE 10
 OUTSIZE 10
 
+
 ROOM
-B B B B B B B B B B
-B - - - - - - - - -
-B - - - - - - - - -
-B - - - - - - - - -
-B - S - - - - - - -
-B - B B - - - - - -
-- - B B S S S B - -
-- - B B B B B B - -
-- - B * - - - - - -
-B B B B B B B B B B
+B B B B B  B B B
+- - - - -  - - -
+- - - - -  - - -
+- - - - -  - - -
+- - - - -  - - -
+- - - - GL - - -
+- B - B B  - B -
+- B - - -  - B -
+- B S S S  S B -
+B B B B B  B B B
