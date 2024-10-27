@@ -11,6 +11,7 @@ public partial class Player : CharacterBody2D
 	// Player Stats
 	[Export] private int max_health = 100;
 	[Export] private int curr_health = 100;
+
 	private int max_stamina = 100;
 	private int curr_stamina = 100;
 	
@@ -394,6 +395,10 @@ public partial class Player : CharacterBody2D
 		(sprite.Material as ShaderMaterial).SetShaderParameter("active", true); // activate hitflash
 		
 		this.curr_health -= val;
+	}
+	public void Heal(int val) {
+		this.curr_health += val;
+		if(this.curr_health > this.max_health) { this.curr_health = this.max_health; }
 	}
 
 	// Getters and Setters
