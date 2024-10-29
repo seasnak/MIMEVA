@@ -54,7 +54,7 @@ public partial class Glorp : Enemy
 		Velocity = velocity;
 	}
 
-	public override void Damage(int damage) {
-		base.Damage(damage);
+	public override void Damage(int damage, bool should_blink=false) {
+		base.Damage(damage, should_blink);
 	}
 }

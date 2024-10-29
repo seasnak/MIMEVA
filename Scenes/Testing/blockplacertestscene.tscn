@@ -137,7 +137,7 @@ text = PackedStringArray("Welcome!", "At the end of each level you will be asked
 [node name="BlockPlacer" type="Area2D" parent="."]
 position = Vector2(10, 12)
 script = ExtResource("7_v6fbu")
-override_difficulty = 10.0
+override_difficulty = 5.0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BlockPlacer"]

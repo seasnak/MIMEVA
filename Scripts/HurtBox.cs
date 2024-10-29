@@ -30,10 +30,10 @@ public partial class HurtBox : Area2D
 		if(Owner.HasMethod("Damage")) {
 			if(Owner is Enemy enemy)
             {
-				enemy.Damage( ((HitBox)hitbox).GetDamage() );
+				enemy.Damage( ((HitBox)hitbox).GetDamage(), true );
 			}
 			else if(Owner is Player player) {
-				player.Damage( ((HitBox)hitbox).GetDamage() );
+				player.Damage( ((HitBox)hitbox).GetDamage(), true );
 			}
 		}
 

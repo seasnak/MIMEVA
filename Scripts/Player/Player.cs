@@ -389,10 +389,13 @@ public partial class Player : CharacterBody2D
 	// }
 
 	public void AddCurrency(int val) { this.num_coins += val; }
-	public void Damage(int val) {
-		hitflash_is_active = true;
-		hitflash_start_time = Time.GetTicksMsec();
-		(sprite.Material as ShaderMaterial).SetShaderParameter("active", true); // activate hitflash
+	public void Damage(int val, bool should_blink=false) {
+
+		if(should_blink) {
+			hitflash_is_active = true;
+			hitflash_start_time = Time.GetTicksMsec();
+			(sprite.Material as ShaderMaterial).SetShaderParameter("active", true); // activate hitflash
+		}
 		
 		this.curr_health -= val;
 	}

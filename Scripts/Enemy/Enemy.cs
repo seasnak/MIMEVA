@@ -72,13 +72,15 @@ public partial class Enemy : CharacterBody2D
 		
 	}
 
-	public virtual void Damage(int damage) { 
+	public virtual void Damage(int damage, bool should_blink = false) { 
 		
 		GD.Print($"Dealing {damage} damage to enemy");
 
-		(mat as ShaderMaterial).SetShaderParameter("active", true); // activate hitflash
-		damage_blink_timer = Time.GetTicksMsec();
-		is_blinking_state = true;
+		if (should_blink) {
+			(mat as ShaderMaterial).SetShaderParameter("active", true); // activate hitflash
+			damage_blink_timer = Time.GetTicksMsec();
+			is_blinking_state = true;
+		}
 		this.curr_health -= damage;
 	}
 

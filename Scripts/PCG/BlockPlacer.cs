@@ -106,7 +106,7 @@ public partial class BlockPlacer : Area2D
 		
 	}
 
-	public void UpdateBlockDict(string key, string val_path) {
+	public static void UpdateBlockDict(string key, string val_path) {
 		if(block_dict.ContainsKey(key)) {
 			block_dict[key] = ResourceLoader.Load<PackedScene>(val_path);
 		}
