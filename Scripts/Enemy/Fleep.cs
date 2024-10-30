@@ -1,12 +1,13 @@
 using Godot;
 using System;
 using System.Numerics;
+using Mimeva.Projectiles;
 
 namespace Mimeva;
 public partial class Fleep : Enemy 
 {
 
-	[Export] private Area2D projectile; 
+	[Export] private PackedScene projectile; 
 
 	[Export] private int keepaway_dist = 30; // the minimum distance fleep keeps away from the player
 	[Export] private int alert_range = 60; // the minimum distance at which fleep is alerted to the player
@@ -16,11 +17,15 @@ public partial class Fleep : Enemy
 
 	// movement vars
 	private bool is_backingup = false;
-	private int backup_dur_msec = -1;
+	[Export] private int backup_dur_msec = -1;
 	private double backup_starttime = 0;
 	private bool is_passmove = false;
-	private int passmove_dur_msec = -1;
+	[Export] private int passmove_dur_msec = -1;
 	private double passmove_starttime = 0;
+
+	private bool has_attacked = false;
+	[Export] private int attack_cooldown_msec = 1000;
+	private double attackcd_starttime = 0;
 
 	public override void _Ready()
 	{
@@ -41,9 +46,7 @@ public partial class Fleep : Enemy
 	public override void _PhysicsProcess(global::System.Double delta)
 	{
 		base._PhysicsProcess(delta);
-		
 		SetMovementLogic();
-		
 		MoveAndSlide();
 	}
 
@@ -55,6 +58,7 @@ public partial class Fleep : Enemy
 
 		if(backup_starttime + backup_dur_msec <= Time.GetTicksMsec()) { is_backingup = false; }
 		if(passmove_starttime + passmove_dur_msec <= Time.GetTicksMsec()) { is_passmove = false; }
+		if(attackcd_starttime + attack_cooldown_msec <= Time.GetTicksMsec()) { has_attacked = false; }
 	}
 
 	protected override void SetMovementLogic()
@@ -77,6 +81,14 @@ public partial class Fleep : Enemy
 			backup_dur_msec = backup_dur_msec < 0 ? random.Next(0, 200) + 1000 : backup_dur_msec;
 			backup_starttime = Time.GetTicksMsec();
 			velocity = vec_to_player.Normalized() * movespeed;
+		}
+
+		int attack_chance = random.Next(100);
+		if(attack_chance > 70 && !has_attacked) {
+			has_attacked = true;
+			attackcd_starttime = Time.GetTicksMsec();
+			Projectile p = projectile.Instantiate() as Projectile;
+			this.AddChild(p);
 		}
 
 		GD.Print();

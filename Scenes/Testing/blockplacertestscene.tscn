@@ -166,6 +166,9 @@ position = Vector2(-35, 4)
 [node name="Glorp" parent="." instance=ExtResource("11_5dvie")]
 position = Vector2(-185, 25)
 
+[node name="Fleep" parent="." instance=ExtResource("17_30fe3")]
+position = Vector2(-120, -25)
+
 [node name="Controls" type="Node2D" parent="."]
 
 [node name="ControlsDpad" type="Sprite2D" parent="Controls"]
@@ -192,6 +195,3 @@ texture = ExtResource("14_2c0b5")
 z_index = -10
 position = Vector2(-167, 0)
 texture = ExtResource("15_tlxhf")
-
-[node name="Fleep" parent="." instance=ExtResource("17_30fe3")]
-position = Vector2(-120, -25)
