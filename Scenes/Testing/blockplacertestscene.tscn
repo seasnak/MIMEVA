@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=4 uid="uid://bw47fxkfhthqi"]
+[gd_scene load_steps=29 format=4 uid="uid://bw47fxkfhthqi"]
 
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="1_b8nu8"]
 [ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="2_npq2r"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://b7vtrg4ljc4c1" path="res://Sprites/UI/controls_attack.png" id="14_2c0b5"]
 [ext_resource type="Texture2D" uid="uid://drpwor4cuql2t" path="res://Sprites/UI/controls_jump.png" id="15_tlxhf"]
 [ext_resource type="PackedScene" uid="uid://c5571an3gn2gr" path="res://Prefabs/Enemies/Fleep.tscn" id="17_30fe3"]
+[ext_resource type="PackedScene" uid="uid://b37b1qb5fhs87" path="res://Prefabs/Projectiles/Bullet.tscn" id="18_rqp33"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tfnuq"]
 size = Vector2(12, 46)
@@ -195,3 +196,5 @@ texture = ExtResource("14_2c0b5")
 z_index = -10
 position = Vector2(-167, 0)
 texture = ExtResource("15_tlxhf")
+
+[node name="Bullet" parent="." instance=ExtResource("18_rqp33")]

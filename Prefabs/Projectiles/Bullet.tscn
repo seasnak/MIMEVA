@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://b37b1qb5fhs87"]
+
+[ext_resource type="Texture2D" uid="uid://cqh6oxtd77tlo" path="res://Sprites/Projectiles/small_projectile.png" id="1_xuudp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a4rqy"]
+size = Vector2(4, 4)
+
+[node name="Projectile" type="Area2D"]
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_xuudp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_a4rqy")

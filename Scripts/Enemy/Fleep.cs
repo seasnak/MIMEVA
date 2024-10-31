@@ -89,6 +89,8 @@ public partial class Fleep : Enemy
 			attackcd_starttime = Time.GetTicksMsec();
 			Projectile p = projectile.Instantiate() as Projectile;
 			this.AddChild(p);
+			
+			
 		}
 
 		GD.Print();
