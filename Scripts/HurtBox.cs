@@ -26,7 +26,7 @@ public partial class HurtBox : Area2D
 	public void OnAreaEntered(Area2D hitbox) {
 		if (hitbox == null || hitbox is not HitBox) { return; }
 		if(hitbox.Owner == this.Owner) { return; } // ignore if both have sample parent
-		GD.Print(hitbox.Owner, this.Owner);
+		// GD.Print(hitbox.Owner, this.Owner);
 		if(Owner.HasMethod("Damage")) {
 			if(Owner is Enemy enemy)
             {
@@ -35,6 +35,8 @@ public partial class HurtBox : Area2D
 			else if(Owner is Player player) {
 				player.Damage( ((HitBox)hitbox).GetDamage(), true );
 			}
+			
+			if( ((HitBox)hitbox).IsBreakable ) { ((HitBox)hitbox).Destroy(); }
 		}
 
 	}

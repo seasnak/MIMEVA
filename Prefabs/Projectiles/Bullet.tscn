@@ -1,15 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://b37b1qb5fhs87"]
+[gd_scene load_steps=6 format=3 uid="uid://b37b1qb5fhs87"]
 
+[ext_resource type="Script" path="res://Scripts/Projectiles/Bullet.cs" id="1_87phq"]
 [ext_resource type="Texture2D" uid="uid://cqh6oxtd77tlo" path="res://Sprites/Projectiles/small_projectile.png" id="1_xuudp"]
+[ext_resource type="PackedScene" uid="uid://b2ji2mi6jgcvd" path="res://Prefabs/Components/HitBox.tscn" id="2_l0uu4"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_a4rqy"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qsslh"]
+size = Vector2(4, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yxaeb"]
 size = Vector2(4, 4)
 
 [node name="Projectile" type="Area2D"]
+script = ExtResource("1_87phq")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_xuudp")
 
+[node name="HitBox" parent="." instance=ExtResource("2_l0uu4")]
+damage = 10
+is_breakable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("RectangleShape2D_qsslh")
+debug_color = Color(0, 1, 0, 0.419608)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_a4rqy")
+shape = SubResource("RectangleShape2D_yxaeb")

@@ -18,13 +18,13 @@ public partial class Flag : Area2D
         if(other == null) { return; }
         
         if(other is Player) {
-            GD.Print("Player Finished Level!");
+            // GD.Print("Player Finished Level!");
 
             try {
                 GetTree().ChangeSceneToFile(final_scene_path);
             }
             catch {
-                GD.Print($"Error: Could not load scene \"{final_scene_path}\"");
+                GD.PrintErr($"Error: Could not load scene \"{final_scene_path}\"");
                 throw;
             }
         }

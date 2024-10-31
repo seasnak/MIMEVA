@@ -235,7 +235,7 @@ public partial class Level {
                             i + (int)((Godot.Vector2)start_pos).Y*BLOCK_SIZE + BLOCK_OFFSET
                         );
                     }
-                    else { GD.Print($"Error: Block {val} is not in block dict."); }
+                    else { GD.PrintErr($"Error: Block {val} is not in block dict."); }
                 }
             }
         }

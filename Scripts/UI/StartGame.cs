@@ -23,7 +23,7 @@ public partial class StartGame : Label
 				GetTree().ChangeSceneToFile(starting_scene_path);
 			}
 			catch { 
-				GD.Print("error loading scene!"); 
+				GD.PrintErr("error loading scene!"); 
 				GetTree().Quit(); 
 			}
 		}

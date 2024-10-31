@@ -19,7 +19,7 @@ public partial class CoinCounter : RichTextLabel
 		// player = (Player)GetTree().Root.GetNode("Player");
 
 		Vector2 screensize = this.GetViewportRect().Size;
-		GD.Print(screensize);
+		// GD.Print(screensize);
 
 		this.ClipContents = false;
 		this.AutowrapMode = TextServer.AutowrapMode.Off;

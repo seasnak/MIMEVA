@@ -14,7 +14,7 @@ public partial class CameraController : Camera2D
 			player = GetNode<CharacterBody2D>("/root/World/Player");
 		}
 		catch {
-			GD.Print("Camera could not find Player");
+			GD.PrintErr("Camera could not find Player");
 			throw;
 		}
 		

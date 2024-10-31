@@ -140,7 +140,7 @@ public partial class BlockPlacer : Area2D
 			}
 		}
 		
-		GD.Print(parts_dict); // DEBUG
+		// GD.Print(parts_dict); // DEBUG
 		
 	}
 
@@ -196,7 +196,7 @@ public partial class BlockPlacer : Area2D
 		string diff_str = GetNewDifficulty();
 		
 
-		GD.Print(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt"));
+		// GD.Print(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt"));
 		LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt")); // changed to a default "left connector"
 
 		for(int i=0; i<num_parts_in_room; i++) {
@@ -266,7 +266,7 @@ public partial class BlockPlacer : Area2D
 							GetTree().Root.CallDeferred("add_child", obj);
 							((Node2D)obj).Position = new((j + (int)curr_offset.X)*BLOCK_SIZE + BLOCK_OFFSET, (i + (int)curr_offset.Y)*BLOCK_SIZE + BLOCK_OFFSET);
 						}
-						else { GD.Print($"Error: Block {level.Layout[i][j]} is not in block dict."); }
+						else { GD.PrintErr($"Error: Block {level.Layout[i][j]} is not in block dict."); }
 						break;
 				}
 
@@ -291,7 +291,7 @@ public partial class BlockPlacer : Area2D
 			tilemap = GetNode<TileMapLayer>(new_tilemap_path);
 		}
 		catch(Exception e) {
-			GD.Print($"Error {e}: Could not change tilemap. \"{new_tilemap_path}\" does not exist, or is not a valid tilemap");	
+			GD.PrintErr($"Error {e}: Could not change tilemap. \"{new_tilemap_path}\" does not exist, or is not a valid tilemap");	
 		}
 	}
 
@@ -300,14 +300,14 @@ public partial class BlockPlacer : Area2D
 			tilemap.TileSet = ResourceLoader.Load<TileSet>(new_tileset_path);
 		}
 		catch(Exception e) {
-			GD.Print($"Error {e}: Could not cange tileset. \"{new_tileset_path}\" does not exist or is not a valid tileset");
+			GD.PrintErr($"Error {e}: Could not cange tileset. \"{new_tileset_path}\" does not exist or is not a valid tileset");
 		}
 	}
 
 	private static void PlaceObject(string obj_name, Godot.Vector2 pos) {
 		//Place an object of type <obj_name> at position <pos>
 		var obj = block_dict[obj_name].Instantiate();
-
+		
 		((Node2D)obj).GlobalPosition = pos;
 	}
 
@@ -319,7 +319,7 @@ public partial class BlockPlacer : Area2D
 			foreach(var obj in list) {
 				line += obj + " ";
 			}
-			GD.Print(line);
+			// GD.Print(line);
 		}
 	}
 
@@ -335,7 +335,7 @@ public partial class BlockPlacer : Area2D
 					Vector2 obj_pos = new((j + (int)curr_offset.X)*BLOCK_SIZE + BLOCK_OFFSET, (i + (int)curr_offset.Y)*BLOCK_SIZE + BLOCK_OFFSET);
 					
 					try { block_dict.ContainsKey(level_mat[i][j]); }
-					catch(Exception e) { GD.Print($"Error {e}: could not find key {level_mat[i][j]}"); }
+					catch(Exception e) { GD.PrintErr($"Error {e}: could not find key {level_mat[i][j]}"); }
 
 					if(block_dict.ContainsKey(level_mat[i][j])) {
 						var obj = block_dict[level_mat[i][j]].Instantiate();
@@ -355,7 +355,7 @@ public partial class BlockPlacer : Area2D
 						tmp_generating_level = false;
 					}
 					else {
-						GD.Print($"Error: Block {level_mat[i][j]} not in block dictionary.");
+						GD.PrintErr($"Error: Block {level_mat[i][j]} not in block dictionary.");
 					}
 				}
 			}
@@ -374,7 +374,7 @@ public partial class BlockPlacer : Area2D
 		
 		// check to see if file exists
 		if (ResourceLoader.Exists(level_f)) {
-			GD.Print($"file \"{level_f}\" does not exist, or could not be found.");
+			GD.PrintErr($"file \"{level_f}\" does not exist, or could not be found.");
 			return null;
 		}
 		
@@ -399,7 +399,7 @@ public partial class BlockPlacer : Area2D
 				for(int i=0; i<contents[1].ToInt(); i++) {
 					level_mat.Add( new List<string>(contents[2].ToInt()) );
 				}
-				GD.Print(level_mat.Count, " ", contents[2].ToInt());
+				// GD.Print(level_mat.Count, " ", contents[2].ToInt());
 			}
 			else if(line == "ROOM") {
 				in_room_contents = true;

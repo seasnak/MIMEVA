@@ -7,7 +7,7 @@ namespace Mimeva;
 public partial class Fleep : Enemy 
 {
 
-	[Export] private PackedScene projectile; 
+	[Export] private PackedScene bullet; 
 
 	[Export] private int keepaway_dist = 30; // the minimum distance fleep keeps away from the player
 	[Export] private int alert_range = 60; // the minimum distance at which fleep is alerted to the player
@@ -23,8 +23,8 @@ public partial class Fleep : Enemy
 	[Export] private int passmove_dur_msec = -1;
 	private double passmove_starttime = 0;
 
-	private bool has_attacked = false;
-	[Export] private int attack_cooldown_msec = 1000;
+	private bool has_attacked = true;
+	[Export] private int attack_cooldown_msec = 3000;
 	private double attackcd_starttime = 0;
 
 	public override void _Ready()
@@ -61,7 +61,7 @@ public partial class Fleep : Enemy
 		if(attackcd_starttime + attack_cooldown_msec <= Time.GetTicksMsec()) { has_attacked = false; }
 	}
 
-	protected override void SetMovementLogic()
+	protected override async void SetMovementLogic()
 	{
 		Godot.Vector2 velocity = Velocity;
 		
@@ -87,13 +87,15 @@ public partial class Fleep : Enemy
 		if(attack_chance > 70 && !has_attacked) {
 			has_attacked = true;
 			attackcd_starttime = Time.GetTicksMsec();
-			Projectile p = projectile.Instantiate() as Projectile;
-			this.AddChild(p);
 			
-			
+			// instantiate a bullet
+			Bullet b = bullet.Instantiate() as Bullet;
+			// this.CallDeferred("add_sibling", b);
+			this.AddSibling(b);
+			b.Position = this.Position;
+			b.Target = player;
+			b.ResetTargetAngle();
 		}
-
-		GD.Print();
 		Velocity = velocity;
 	}
 

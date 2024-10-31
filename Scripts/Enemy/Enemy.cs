@@ -74,7 +74,7 @@ public partial class Enemy : CharacterBody2D
 
 	public virtual void Damage(int damage, bool should_blink = false) { 
 		
-		GD.Print($"Dealing {damage} damage to enemy");
+		// GD.Print($"Dealing {damage} damage to enemy");
 
 		if (should_blink) {
 			(mat as ShaderMaterial).SetShaderParameter("active", true); // activate hitflash
