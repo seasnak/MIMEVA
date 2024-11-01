@@ -166,9 +166,9 @@ position = Vector2(-35, 4)
 [node name="Glorp" parent="." instance=ExtResource("11_5dvie")]
 position = Vector2(-185, 25)
 
-[node name="Fleep" parent="." node_paths=PackedStringArray("player") instance=ExtResource("17_30fe3")]
+[node name="Fleep" parent="." instance=ExtResource("17_30fe3")]
 position = Vector2(-120, -25)
-player = NodePath("../Player")
+bullet = null
 
 [node name="Controls" type="Node2D" parent="."]
 

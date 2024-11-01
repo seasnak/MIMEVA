@@ -9,8 +9,8 @@ public partial class Fleep : Enemy
 
 	[Export] private PackedScene bullet; 
 
-	[Export] private int keepaway_dist = 30; // the minimum distance fleep keeps away from the player
-	[Export] private int alert_range = 60; // the minimum distance at which fleep is alerted to the player
+	[Export] private int keepaway_dist = 10; // the minimum distance fleep keeps away from the player
+	[Export] private int alert_range = 30; // the minimum distance at which fleep is alerted to the player
     [Export] private Player player = null; // player node for target
 
 	[Export] private int movespeed_override = -1;
@@ -61,7 +61,7 @@ public partial class Fleep : Enemy
 		if(attackcd_starttime + attack_cooldown_msec <= Time.GetTicksMsec()) { has_attacked = false; }
 	}
 
-	protected override async void SetMovementLogic()
+	protected override void SetMovementLogic()
 	{
 		Godot.Vector2 velocity = Velocity;
 		
@@ -83,18 +83,22 @@ public partial class Fleep : Enemy
 			velocity = vec_to_player.Normalized() * movespeed;
 		}
 
-		int attack_chance = random.Next(100);
-		if(attack_chance > 70 && !has_attacked) {
-			has_attacked = true;
-			attackcd_starttime = Time.GetTicksMsec();
-			
-			// instantiate a bullet
-			Bullet b = bullet.Instantiate() as Bullet;
-			// this.CallDeferred("add_sibling", b);
-			this.AddSibling(b);
-			b.Position = this.Position;
-			b.Target = player;
-			b.ResetTargetAngle();
+		if(!has_attacked) {
+			int attack_chance = random.Next(100);
+			GD.Print(attack_chance); // DEBUG
+
+			if(attack_chance > 50) {
+				has_attacked = true;
+				attackcd_starttime = Time.GetTicksMsec();
+				
+				// instantiate a bullet
+				Bullet b = bullet.Instantiate() as Bullet;
+				// this.CallDeferred("add_sibling", b);
+				this.AddSibling(b);
+				b.Position = this.Position;
+				b.Target = player;
+				b.ResetTargetAngle();
+			}
 		}
 		Velocity = velocity;
 	}
