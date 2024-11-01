@@ -194,6 +194,8 @@ sprite_frames = ExtResource("5_mqjgn")
 animation = &"slash"
 
 [node name="Hitbox" type="Area2D" parent="Sword"]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("4_wb1xm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword/Hitbox"]
@@ -202,6 +204,8 @@ shape = SubResource("RectangleShape2D_rygms")
 debug_color = Color(0, 1, 0, 0.392157)
 
 [node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("7_2u7ll")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]

@@ -9,8 +9,8 @@ public partial class HurtBox : Area2D
 
 	public override void _Ready() {
 		
-		this.CollisionLayer = 0;
-		this.CollisionMask = 2;
+		// this.CollisionLayer = 0;
+		// this.CollisionMask = 2;
 
 		hurtbox = GetNode<CollisionShape2D>("CollisionShape2D");
 		hurtbox.DebugColor = new Color(1, 0, 0, 1); // set hurtbox color to red
