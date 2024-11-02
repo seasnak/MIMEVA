@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace Mimeva;
+namespace Mimeva.UI;
 public partial class FlashText : Label
 {
 

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+namespace Mimeva.UI;
 public partial class SettingsMenu : Control 
 {
 

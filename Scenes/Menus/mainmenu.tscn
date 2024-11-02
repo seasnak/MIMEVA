@@ -21,6 +21,7 @@ scale = Vector2(0.6, 0.6)
 texture = ExtResource("1_u4bc3")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.4, 1.4)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -57,9 +58,9 @@ offset_top = -142.0
 offset_right = 576.5
 grow_horizontal = 2
 grow_vertical = 0
-text = "Press  'Z'  to  Start"
+text = "Press  'Z' (Jump) to  Start"
 label_settings = SubResource("LabelSettings_fr0aq")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("3_dla46")
-starting_scene_path = "res://Scenes/Testing/testscene.tscn"
+starting_scene_path = "res://Scenes/Testing/blockplacertestscene.tscn"

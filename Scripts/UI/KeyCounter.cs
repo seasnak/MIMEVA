@@ -3,7 +3,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel.DataAnnotations;
 
-namespace Mimeva;
+namespace Mimeva.UI;
 public partial class KeyCounter : RichTextLabel
 {
 

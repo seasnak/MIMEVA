@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Text.RegularExpressions;
 
-namespace Mimeva;
+namespace Mimeva.UI;
 
 public partial class DialogueBox : MarginContainer
 {
