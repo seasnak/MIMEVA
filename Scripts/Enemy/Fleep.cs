@@ -9,8 +9,8 @@ public partial class Fleep : Enemy
 
 	[Export] private PackedScene bullet; 
 
-	[Export] private int keepaway_dist = 10; // the minimum distance fleep keeps away from the player
-	[Export] private int alert_range = 30; // the minimum distance at which fleep is alerted to the player
+	[Export] private int keepaway_dist = 30; // the minimum distance fleep keeps away from the player
+	[Export] private int alert_range = 60; // the minimum distance at which fleep is alerted to the player
     [Export] private Player player = null; // player node for target
 
 	[Export] private int movespeed_override = -1;
@@ -53,9 +53,13 @@ public partial class Fleep : Enemy
 	public override void _Process(global::System.Double delta)
 	{
 		base._Process(delta);
+		
+		// GD.Print($"backup: {is_backingup}, passmove: {is_passmove}, attacked: {has_attacked}"); // DEBUG
 
-		sprite.FlipH = Velocity.X > 0;
-
+		Godot.Vector2 vec_to_player = this.GlobalPosition - player.GlobalPosition;
+		sprite.FlipH = is_backingup ? vec_to_player.Normalized().X < 0 : Velocity.X > 0;
+		
+		// manage movement and attack booleans
 		if(backup_starttime + backup_dur_msec <= Time.GetTicksMsec()) { is_backingup = false; }
 		if(passmove_starttime + passmove_dur_msec <= Time.GetTicksMsec()) { is_passmove = false; }
 		if(attackcd_starttime + attack_cooldown_msec <= Time.GetTicksMsec()) { has_attacked = false; }
@@ -64,28 +68,31 @@ public partial class Fleep : Enemy
 	protected override void SetMovementLogic()
 	{
 		Godot.Vector2 velocity = Velocity;
+
+		if(is_passmove) { return; }
 		
-		Godot.Vector2 vec_to_player = (this.GlobalPosition - player.GlobalPosition);
+		Godot.Vector2 vec_to_player = this.GlobalPosition - player.GlobalPosition;
 		Random random = new();
-		if(vec_to_player.Length() > alert_range && !is_passmove) { // passive movement
+		if(vec_to_player.Length() > alert_range) { // passive movement
 			is_passmove = true;
 			passmove_dur_msec = passmove_dur_msec < 0 ? random.Next(0, 200) + 1000 : passmove_dur_msec;
 			passmove_starttime = Time.GetTicksMsec();
-			velocity = new(movespeed * random.Next(-10, 10)/10, movespeed * random.Next(-10, 10)/20);
+
+			velocity = random.Next(100) > 50 ? Godot.Vector2.Zero : new(movespeed * random.Next(-10, 10)/10, movespeed * random.Next(-10, 10)/20);
 		}
 		else if(vec_to_player.Length() > keepaway_dist && !is_backingup) { // regular movement
 			velocity = -vec_to_player.Normalized() * movespeed;
 		}
-		else if(!is_passmove){ // not passive moving
+		else{ // backing up
 			is_backingup = true;
-			backup_dur_msec = backup_dur_msec < 0 ? random.Next(0, 200) + 1000 : backup_dur_msec;
+			backup_dur_msec = backup_dur_msec < 0 ? random.Next(0, 500) + 500 : backup_dur_msec;
 			backup_starttime = Time.GetTicksMsec();
 			velocity = vec_to_player.Normalized() * movespeed;
 		}
 
-		if(!has_attacked) {
+		if(!has_attacked && !is_passmove) {
 			int attack_chance = random.Next(100);
-			GD.Print(attack_chance); // DEBUG
+			// GD.Print(attack_chance); // DEBUG
 
 			if(attack_chance > 50) {
 				has_attacked = true;
