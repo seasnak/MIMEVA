@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://dslxinvbmoj8u"]
+
+[ext_resource type="Texture2D" uid="uid://4ohew37o6gkr" path="res://Sprites/Backgrounds/mainmenu-tmp.png" id="1_1uh1s"]
+[ext_resource type="LabelSettings" uid="uid://bia186th017o" path="res://Textures/DefaultUITitleFont.tres" id="2_14a6j"]
+[ext_resource type="LabelSettings" uid="uid://dpa660cn40on1" path="res://Textures/DefaultUIFont.tres" id="2_dm3s8"]
+
+[node name="Statscreen" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_1uh1s")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.85, 0.85)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -945.0
+offset_top = -470.0
+offset_right = 939.0
+offset_bottom = 467.0
+
+[node name="Stats" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 110.0
+offset_top = -405.0
+offset_right = 793.0
+grow_vertical = 0
+size_flags_horizontal = 0
+text = "===   POINTS   ===
+Deaths:     0
+Coins:     0
+Enemies      Killed:     0
+Difficulty:     5
+_____________________
+Total     Score:     0"
+label_settings = ExtResource("2_dm3s8")
+
+[node name="Title" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -470.0
+offset_right = 473.0
+offset_bottom = 295.0
+grow_horizontal = 2
+text = "stats     screen"
+label_settings = ExtResource("2_14a6j")
+horizontal_alignment = 1

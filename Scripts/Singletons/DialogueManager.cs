@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Reflection.Metadata;
+using Mimeva.UI;
 
 namespace Mimeva;
 public partial class DialogueManager : Node

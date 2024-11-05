@@ -7,24 +7,24 @@ namespace Mimeva;
 public partial class Fleep : Enemy 
 {
 
-	[Export] private PackedScene bullet; 
+	[Export] protected PackedScene bullet; 
 
-	[Export] private int keepaway_dist = 30; // the minimum distance fleep keeps away from the player
-	[Export] private int alert_range = 60; // the minimum distance at which fleep is alerted to the player
-    [Export] private Player player = null; // player node for target
+	[Export] protected int keepaway_dist = 30; // the minimum distance fleep keeps away from the player
+	[Export] protected int alert_range = 60; // the minimum distance at which fleep is alerted to the player
+    [Export] protected Player player = null; // player node for target
 
-	[Export] private int movespeed_override = -1;
+	[Export] protected int movespeed_override = -1;
 
 	// movement vars
 	private bool is_backingup = false;
-	[Export] private int backup_dur_msec = -1;
+	[Export] protected int backup_dur_msec = -1;
 	private double backup_starttime = 0;
 	private bool is_passmove = false;
-	[Export] private int passmove_dur_msec = -1;
+	[Export] protected int passmove_dur_msec = -1;
 	private double passmove_starttime = 0;
 
 	private bool has_attacked = true;
-	[Export] private int attack_cooldown_msec = 3000;
+	[Export] protected int attack_cooldown_msec = 3000;
 	private double attackcd_starttime = 0;
 
 	public override void _Ready()

@@ -24,7 +24,7 @@ public partial class Enemy : CharacterBody2D
 
 	// Enemy Conditionals
 	private bool is_blinking_state = false;
-
+  
 	// Enemy Timers
 	private float damage_blink_timer; // keeps track of player's health
 	private float damage_blink_dur = 100; // time (in ms) for how long enemy sprite blinks

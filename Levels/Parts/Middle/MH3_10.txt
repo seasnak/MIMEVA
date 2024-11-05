@@ -1,0 +1,17 @@
+SHAPE 10 8
+
+INPUT_S 10
+OUTPUT_S 10
+
+
+ROOM
+B B B B  B B B B
+- - - FL  - - - -
+- - - -  - - - -
+- - - -  - - - -
+- - - -  - - S -
+- - - -  - B B -
+- - - -  - B B -
+- B - -  - B B -
+- B - GL - B B -
+B B B B  B B B B

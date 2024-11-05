@@ -1,13 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://b0y160acsktsg"]
 
 [ext_resource type="Texture2D" uid="uid://4ohew37o6gkr" path="res://Sprites/Backgrounds/mainmenu-tmp.png" id="1_u4bc3"]
+[ext_resource type="LabelSettings" uid="uid://bia186th017o" path="res://Textures/DefaultUITitleFont.tres" id="2_0s6xf"]
 [ext_resource type="FontFile" uid="uid://bh1w584313oip" path="res://Fonts/monogram/monogram-extended.ttf" id="2_qt43n"]
 [ext_resource type="Script" path="res://Scripts/UI/StartGame.cs" id="3_dla46"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_55s55"]
-font = ExtResource("2_qt43n")
-font_size = 200
-outline_size = 5
 
 [sub_resource type="LabelSettings" id="LabelSettings_fr0aq"]
 font = ExtResource("2_qt43n")
@@ -41,7 +37,7 @@ offset_right = 575.5
 offset_bottom = 239.0
 grow_horizontal = 2
 text = "mimeva"
-label_settings = SubResource("LabelSettings_55s55")
+label_settings = ExtResource("2_0s6xf")
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true

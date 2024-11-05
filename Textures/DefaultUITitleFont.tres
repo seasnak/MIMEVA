@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://bia186th017o"]
+
+[ext_resource type="FontFile" uid="uid://c7bot0vp53gdl" path="res://Fonts/ARCADECLASSIC.TTF" id="1_5lulh"]
+
+[resource]
+font = ExtResource("1_5lulh")
+font_size = 120
+outline_size = 100
+outline_color = Color(0, 0, 0, 1)
