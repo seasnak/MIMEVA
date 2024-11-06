@@ -11,10 +11,10 @@ public partial class DifficultyLabel : RichTextLabel {
 	
 
 	public override void _Ready() {
-		this.Text = "Difficulty: ";
+		this.Text = "Difficulty:   ";
 	}
 
 	public override void _Process(double delta) {
-		this.Text = $"Difficulty: LevelGenVariables.LevelDifficulty";
+		this.Text = $"Difficulty:   LevelGenVariables.LevelDifficulty";
 	}
 }

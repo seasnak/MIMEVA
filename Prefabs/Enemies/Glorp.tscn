@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dywogtpi22sqn"]
+[gd_scene load_steps=21 format=3 uid="uid://dywogtpi22sqn"]
 
 [ext_resource type="Texture2D" uid="uid://bnetufevg31hp" path="res://Sprites/Enemies/Glorp/glorp-idle.png" id="1_qwop4"]
 [ext_resource type="Texture2D" uid="uid://devdmaf4n51uy" path="res://Sprites/Enemies/Glorp/glorp-walking.png" id="2_7u7l7"]
@@ -15,6 +15,9 @@ size = Vector2(7, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_idxsj"]
 size = Vector2(7, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u4g6o"]
+size = Vector2(1.5, 1.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qmvag"]
 resource_local_to_scene = true
@@ -93,8 +96,9 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Glorp" type="CharacterBody2D"]
+[node name="Glorp" type="CharacterBody2D" node_paths=PackedStringArray("ledge_check")]
 script = ExtResource("3_3s2jc")
+ledge_check = NodePath("LedgeCheck")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)
@@ -119,6 +123,13 @@ script = ExtResource("6_b2csq")
 position = Vector2(-0.5, 1.5)
 shape = SubResource("RectangleShape2D_idxsj")
 debug_color = Color(0, 1, 0, 0.392157)
+
+[node name="LedgeCheck" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeCheck"]
+position = Vector2(-4, 7)
+shape = SubResource("RectangleShape2D_u4g6o")
+debug_color = Color(1, 1, 0, 0.419608)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_qmvag")

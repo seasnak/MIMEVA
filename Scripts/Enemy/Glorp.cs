@@ -22,8 +22,10 @@ public partial class Glorp : Enemy
 			catch (Exception e) { GD.PrintErr($"{e}. Ledge Check could not be found."); }
 		}
 
-		ledge_check.AreaEntered += OnLedgeAreaEntered;
-		ledge_check.AreaExited += OnLedgeAreaExited;
+		// ledge_check.AreaEntered += OnLedgeAreaEntered;
+		// ledge_check.AreaExited += OnLedgeAreaExited;
+		ledge_check.BodyEntered += OnLedgeAreaEntered;
+		ledge_check.BodyExited += OnLedgeAreaExited;
 	}
 
 	public override void _PhysicsProcess(global::System.Double delta)
