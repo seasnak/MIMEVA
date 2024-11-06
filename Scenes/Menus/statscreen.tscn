@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dslxinvbmoj8u"]
+[gd_scene load_steps=5 format=3 uid="uid://dslxinvbmoj8u"]
 
 [ext_resource type="Texture2D" uid="uid://4ohew37o6gkr" path="res://Sprites/Backgrounds/mainmenu-tmp.png" id="1_1uh1s"]
 [ext_resource type="LabelSettings" uid="uid://bia186th017o" path="res://Textures/DefaultUITitleFont.tres" id="2_14a6j"]
+[ext_resource type="Script" path="res://Scripts/UI/StatsController.cs" id="2_covco"]
 [ext_resource type="LabelSettings" uid="uid://dpa660cn40on1" path="res://Textures/DefaultUIFont.tres" id="2_dm3s8"]
 
 [node name="Statscreen" type="Node2D"]
@@ -19,6 +20,7 @@ offset_left = -945.0
 offset_top = -470.0
 offset_right = 939.0
 offset_bottom = 467.0
+script = ExtResource("2_covco")
 
 [node name="Stats" type="Label" parent="Control"]
 layout_mode = 1
