@@ -67,6 +67,8 @@ animations = [{
 collision_mask = 5
 script = ExtResource("1_ioafx")
 bullet = ExtResource("2_uevm2")
+keepaway_dist = 20
+alert_range = 50
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -74,8 +76,8 @@ position = Vector2(-1, 1.5)
 shape = SubResource("RectangleShape2D_tyd0v")
 
 [node name="HurtBox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 0
+collision_layer = 0
+collision_mask = 4
 script = ExtResource("2_hd65a")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
@@ -84,6 +86,8 @@ shape = SubResource("RectangleShape2D_tw3yd")
 debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="HitBox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
 script = ExtResource("3_8leck")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]

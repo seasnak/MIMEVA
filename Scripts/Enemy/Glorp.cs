@@ -49,6 +49,7 @@ public partial class Glorp : Enemy
 		base._Process(delta);
 
 		sprite.FlipH = Velocity.X > 0;
+		ledge_check.GetNode<CollisionShape2D>("CollisionShape2D").Position = new(4 * Velocity.X > 0 ? 1 : -1, 7);
 		if(Velocity.X != 0) {
 			sprite.Play("walk");
 		}
@@ -64,7 +65,7 @@ public partial class Glorp : Enemy
 		if( IsOnWall() ) { movespeed = -movespeed; }
 		if( this.IsOnEdge ) { movespeed = -movespeed; }
 		velocity.X = movespeed;
-
+		
 		Velocity = velocity;
 	}
 
