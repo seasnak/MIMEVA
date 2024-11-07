@@ -10,7 +10,15 @@ public partial class Glorp : Enemy
 	private bool is_onedge = false;
 	public bool IsOnEdge { get => is_onedge; }
 
-	[Export] protected Area2D wall_check; // depracated
+	// knockback variables
+	private bool is_knockedback = false;
+	public bool IsKnockedBack{ get => is_knockedback; }
+	protected float knockback_dist = 3;
+	protected uint knockback_dur_msec = 500;
+	private ulong knockback_timer = 0;
+
+	// External Nodes
+	protected Player player;
  
 	public override void _Ready()
 	{
@@ -19,11 +27,18 @@ public partial class Glorp : Enemy
 
 		if (ledge_check == null) {
 			try { ledge_check = GetNode<Area2D>("LedgeCheck"); }
-			catch (Exception e) { GD.PrintErr($"{e}. Ledge Check could not be found."); }
+			catch (Exception e) { 
+				GD.PrintErr($"{e}. Ledge Check could not be found."); 
+				throw; 
+			}
+		}
+		
+		try { player = GetParent().GetNode<Player>("Player"); }
+		catch (Exception e) {
+			GD.PrintErr($"{e}. Player could not be found");
+			throw;
 		}
 
-		// ledge_check.AreaEntered += OnLedgeAreaEntered;
-		// ledge_check.AreaExited += OnLedgeAreaExited;
 		ledge_check.BodyEntered += OnLedgeAreaEntered;
 		ledge_check.BodyExited += OnLedgeAreaExited;
 	}
@@ -56,12 +71,13 @@ public partial class Glorp : Enemy
 		else {
 			sprite.Play("idle");
 		}
+
+		if(is_knockedback && Time.GetTicksMsec() >= knockback_timer + knockback_dur_msec) { is_knockedback = false; }
 	}
 
-	protected override void SetMovementLogic()
-	{
+	protected override void SetMovementLogic() {
 		Godot.Vector2 velocity = Velocity;
-		
+
 		if( IsOnWall() ) { movespeed = -movespeed; }
 		if( this.IsOnEdge ) { movespeed = -movespeed; }
 		velocity.X = movespeed;
@@ -71,6 +87,19 @@ public partial class Glorp : Enemy
 
 	public override void Damage(int damage, bool should_blink=false) {
 		base.Damage(damage, should_blink);
+		
+		// knockback handler
+		if(!is_knockedback) {
+			if(player.WeaponRotationDeg == 0) { this.Position -= new Godot.Vector2(-5, 0); }
+			else if(player.WeaponRotationDeg == 180) { this.Position -= new Godot.Vector2(5, 0); GD.Print("Glorp Knocked Back");}
+			else { return; } // player attacked from above or below
+			is_knockedback = true;
+			knockback_timer = Time.GetTicksMsec();
+		}
+
+		if(player.WeaponRotationDeg == 0) { this.Position -= new Godot.Vector2(-5, 0); }
+		else if(player.WeaponRotationDeg == 180) { this.Position -= new Godot.Vector2(5, 0); GD.Print("Glorp Knocked Back");}
+		else { return; } // player attacked from above or below
 	}
 
 	protected void OnLedgeAreaEntered(Node2D other) {

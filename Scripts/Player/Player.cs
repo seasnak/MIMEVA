@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Threading;
@@ -67,8 +68,13 @@ public partial class Player : CharacterBody2D
 	private AnimatedSprite2D sprite;
 	private CollisionShape2D collider;
 	private PlayerVariables p_vars;
+
+	// Weapon Vars
+	private Node2D weapon_node;
 	private HitBox weapon;
 	private AnimatedSprite2D weapon_sprite;
+	public float WeaponRotationDeg { get => weapon_node.RotationDegrees; }
+	private Godot.Collections.Array<Godot.Vector2> weapon_pos_arr = new() {new Godot.Vector2(-9, 2f), new Godot.Vector2(8, 5), new Godot.Vector2(0, 12), new Godot.Vector2(1, -6)}; // 0 = left, 1 = right, 2 = down, 3 = up
 
 	// Debug Nodes
 	private Godot.Collections.Dictionary<string,Line2D> debugline_dict;
@@ -78,11 +84,13 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {	
-		sprite = (AnimatedSprite2D)(GetNode("AnimatedSprite2D"));
+		sprite = (AnimatedSprite2D)GetNode("AnimatedSprite2D");
 		p_vars = (PlayerVariables)GetNode("/root/PlayerVariables");
 		
-		// set sword hitbox
-		weapon = GetNode<HitBox>("Sword/Hitbox");
+		// set sword + hitbox
+		weapon_node = GetNode<Node2D>("Sword");
+
+		weapon = weapon_node.GetNode<HitBox>("Hitbox");
 		weapon.SetDamage(30);
 		weapon.SetActive(false);
 
@@ -91,7 +99,7 @@ public partial class Player : CharacterBody2D
 
 		collider = GetNode<CollisionShape2D>("CollisionShape2D");
 		debugline_dict = new Godot.Collections.Dictionary<string,Line2D>();
-
+		
 		PlayerVariables.SetPlayerStartingPos(this.Position);
 
 		
@@ -133,9 +141,10 @@ public partial class Player : CharacterBody2D
 		is_grounded = IsOnFloor();
 
 		Godot.Vector2 input_dir = new(Input.GetAxis("ui_left", "ui_right"), Input.GetAxis("ui_up", "ui_down"));
+		// GD.Print(input_dir); // DEBUG
 		HandleMove(input_dir, (float) delta);
 		HandleJump(input_dir);
-		HandleAttack();
+		HandleAttack(input_dir);
 		
 		MoveAndSlide();
 	}
@@ -183,22 +192,59 @@ public partial class Player : CharacterBody2D
 		curr_health = max_health;
 	}
 
-	private void HandleAttack() {
+	private void HandleAttack(Godot.Vector2 input_dir) {
 		
 		if(is_dashing) { return; } // prevent player from attacking while dashing
 		
-		if(Input.IsActionJustPressed("attack") && !is_attacking) {
+		// handle attacking state and is_attacking
+		if(is_attacking && Time.GetTicksMsec() - curr_attack_time >= attack_dur ) {
+			is_attacking = false;
+			weapon.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
+		}
+		else if(is_attacking) { return; } // don't modify position if already attacking
+
+		// handle sword position
+		if(input_dir.Y > 0) { // swinging up and down take priority over swinging left or right
+			// case: swing down
+			weapon_node.Position = weapon_pos_arr[2];
+			weapon_node.RotationDegrees = 90f;
+			// weapon_sprite.RotationDegrees = 90f;
+			weapon_sprite.FlipV = false;
+		}
+		else if(input_dir.Y < 0) {
+			// case: swing up
+			weapon_node.Position = weapon_pos_arr[3];
+			weapon_node.RotationDegrees = -90f;
+			// weapon_sprite.RotationDegrees = -90f;
+			weapon_sprite.FlipV = true;
+		}
+		else if(input_dir.X > 0) {
+			// case: swing right
+			weapon_node.Position = weapon_pos_arr[1];
+			weapon_node.RotationDegrees = 0f;
+			// weapon_sprite.RotationDegrees = 0f;
+			weapon_sprite.FlipV = false;
+		}
+		else if(input_dir.X < 0){
+			// case: swing left
+			weapon_node.Position = weapon_pos_arr[0];
+			weapon_node.RotationDegrees = 180f;
+			// weapon_sprite.RotationDegrees = 180f;
+			weapon_sprite.FlipV = true;
+		}
+		else { // default: no input so just swing whatever direction player is facing
+			weapon_node.Position = sprite.FlipH ? weapon_pos_arr[0] : weapon_pos_arr[1];
+			weapon_node.RotationDegrees = sprite.FlipH ? 180 : 0;
+			// weapon_sprite.RotationDegrees = weapon.RotationDegrees;
+			weapon_sprite.FlipV = sprite.FlipH;
+		}
+
+		if(Input.IsActionJustPressed("attack")) {
 			is_attacking = true;
-			// sprite.Play("attack");
 			weapon.SetActive(true);
 			weapon_sprite.Frame = 0;
 			weapon_sprite.Play("slash");
 			curr_attack_time = Time.GetTicksMsec();
-		}
-
-		if(is_attacking && Time.GetTicksMsec() - curr_attack_time >= attack_dur ) {
-			is_attacking = false;
-			weapon.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
 		}
 		
 	}
@@ -247,10 +293,10 @@ public partial class Player : CharacterBody2D
 			sprite.FlipH = input_dir.X < 0;
 			collider.Position = new Godot.Vector2(-0.5 * input_dir.X > 0 ? -1 : 1, collider.Position.Y);
 			
-			weapon_sprite.FlipH = sprite.FlipH;
-			weapon_sprite.Position = new(input_dir.X > 0 ? 0 : -15, weapon_sprite.Position.Y);
-			if(input_dir.X > 0) { weapon.Position = new Godot.Vector2(1, 0); }
-			else { weapon.Position = new Godot.Vector2(-15, 0); }
+			// weapon_sprite.FlipH = sprite.FlipH;
+			// weapon_sprite.Position = new(input_dir.X > 0 ? 0 : -15, weapon_sprite.Position.Y);
+			// if(input_dir.X > 0) { weapon.Position = new Godot.Vector2(1, 0); }
+			// else { weapon.Position = new Godot.Vector2(-15, 0); }
 		}
 
 		// handle dash movement
@@ -377,16 +423,6 @@ public partial class Player : CharacterBody2D
 		
 		return velocity;
 	}
-
-	// private void FlashSprite(int dur_msec = 500, Material mat = null) {
-	// 	// flashes the sprite
-		
-	// 	mat ??= sprite.Material; // if mat is null, then set it to sprite.Material
-
-	// 	(mat as ShaderMaterial).SetShaderParameter("active", true); // activate hitflash
-	// 	Thread.Sleep(dur_msec);
-	// 	(mat as ShaderMaterial).SetShaderParameter("active", false);
-	// }
 
 	public void AddCurrency(int val) { this.num_coins += val; }
 	public void Damage(int val, bool should_blink=false) {
