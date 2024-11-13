@@ -12,6 +12,9 @@ public partial class DifficultyLabel : RichTextLabel {
 
 	public override void _Ready() {
 		this.Text = "Difficulty:   ";
+    
+    // Adjust Vars
+    this.Position = new(10, 20);
 	}
 
 	public override void _Process(double delta) {

@@ -1,9 +1,9 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Numerics;
-using System.Threading;
+/*using System.ComponentModel.DataAnnotations;*/
+/*using System.Numerics;*/
+/*using System.Threading;*/
 
 namespace Mimeva;
 public partial class Player : CharacterBody2D
@@ -82,8 +82,7 @@ public partial class Player : CharacterBody2D
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	private float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
-    public override void _Ready()
-    {	
+    public override void _Ready() {	
 		sprite = (AnimatedSprite2D)GetNode("AnimatedSprite2D");
 		p_vars = (PlayerVariables)GetNode("/root/PlayerVariables");
 		
