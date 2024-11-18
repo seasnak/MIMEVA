@@ -47,8 +47,8 @@ public partial class Enemy : CharacterBody2D
 		
 	}
 
-    public override void _Process(double delta)
-    {
+	public override void _Process(double delta)
+	{
 		// check death
 		if(curr_health <= 0) {
 			HandleDeath();
@@ -59,7 +59,7 @@ public partial class Enemy : CharacterBody2D
 			(mat as ShaderMaterial).SetShaderParameter("active", false);
 			is_blinking_state = false;
 		}
-    }
+	}
 	
 	private void HandleDeath() {
 

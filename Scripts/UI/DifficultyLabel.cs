@@ -1,23 +1,23 @@
 using Godot;
 using Mimeva;
 using System;
-using Mimeva;
 
 namespace Mimeva.UI;
 
 public partial class DifficultyLabel : RichTextLabel {
 
-	Player player;
-	
+	Player player;	
 
 	public override void _Ready() {
-		this.Text = "Difficulty:   ";
+    this.Text = "Difficulty:   ";
     
-    // Adjust Vars
-    this.Position = new(10, 20);
+    // Adjust Appearance
+    this.Position = new(10, 20); 
+    this.Size = new(100, 100);
+    this.ScrollActive = false;
 	}
 
 	public override void _Process(double delta) {
-		this.Text = $"Difficulty:   LevelGenVariables.LevelDifficulty";
+		this.Text = $"Current Difficulty: {LevelGenVariables.LevelDifficulty}";
 	}
 }
