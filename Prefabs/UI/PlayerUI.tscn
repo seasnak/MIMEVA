@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c444v4l648t7r"]
+[gd_scene load_steps=10 format=3 uid="uid://c444v4l648t7r"]
 
 [ext_resource type="Texture2D" uid="uid://pc0xvd7772dk" path="res://Sprites/UI/uibar_under.png" id="1_qj1t3"]
 [ext_resource type="Texture2D" uid="uid://e8ykpiyroghv" path="res://Sprites/UI/healthbar_progress.png" id="2_h5koc"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://d4na8s3sryi5v" path="res://Sprites/Objects/Pickups/key.png" id="5_3uepa"]
 [ext_resource type="Script" path="res://Scripts/UI/CoinCounter.cs" id="6_rd4kc"]
 [ext_resource type="Texture2D" uid="uid://djml406r0e135" path="res://Sprites/Objects/Pickups/coin.png" id="7_n4iae"]
+[ext_resource type="FontFile" uid="uid://bh1w584313oip" path="res://Fonts/monogram/monogram-extended.ttf" id="8_55oxr"]
 [ext_resource type="Script" path="res://Scripts/UI/DifficultyLabel.cs" id="8_qudg5"]
 
 [node name="UI" type="CanvasLayer"]
@@ -50,4 +51,5 @@ clip_contents = false
 offset_top = 2.0
 offset_right = 1.0
 offset_bottom = 2.0
+theme_override_fonts/normal_font = ExtResource("8_55oxr")
 script = ExtResource("8_qudg5")
