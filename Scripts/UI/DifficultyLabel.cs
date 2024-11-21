@@ -13,9 +13,11 @@ public partial class DifficultyLabel : Label //RichTextLabel
     {
         this.Text = "Difficulty:   ";
 
+        /*this.AddThemeFontOverride("", new Godot.Font("res://Fonts/monogram/monogram.ttf"));*/
+        /*this.AddThemeFontSizeOverride("", 20);*/
 
         // Adjust Appearance
-        this.Position = new(10, 40);
+        this.Position = new(15, 40);
         this.Size = new(100, 100);
 
     }
