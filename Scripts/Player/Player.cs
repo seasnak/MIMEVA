@@ -86,6 +86,7 @@ public partial class Player : CharacterBody2D
     {
         sprite = (AnimatedSprite2D)GetNode("AnimatedSprite2D");
         p_vars = (PlayerVariables)GetNode("/root/PlayerVariables");
+        sprite.ZIndex = 3;
 
         // set sword + hitbox
         weapon_node = GetNode<Node2D>("Sword");
@@ -96,7 +97,7 @@ public partial class Player : CharacterBody2D
 
         weapon_sprite = weapon.GetParent().GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         weapon_sprite.Frame = 4;
-
+        weapon_sprite.ZIndex = 3;
         collider = GetNode<CollisionShape2D>("CollisionShape2D");
         debugline_dict = new Godot.Collections.Dictionary<string, Line2D>();
 
