@@ -67,7 +67,6 @@ animations = [{
 collision_mask = 5
 script = ExtResource("1_ioafx")
 bullet = ExtResource("2_uevm2")
-keepaway_dist = 20
 alert_range = 50
 metadata/_edit_group_ = true
 
