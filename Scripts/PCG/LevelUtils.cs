@@ -5,28 +5,22 @@ using System.Collections.Generic;
 using System.IO;
 
 using Mimeva;
-/*using Level;*/
+using Mimeva.Utils;
 
 namespace Mimvea.Utils;
 
-public partial class LevelUtils : Node
+public partial class LevelUtils
 {
 
-    public override void _Ready()
+    // PCG Functions
+    public void ModifyLevel(ref Level level, int prev_diff, int new_diff)
     {
-        base._Ready();
-    }
+        /*
+        *  
+        */
 
-    public override void _Process(double delta)
-    {
-        base._Process(delta);
-    }
+        // edit specific blocks
 
-    public void ModifyLevel(ref Level level)
-    {
 
     }
 }
-
-
-

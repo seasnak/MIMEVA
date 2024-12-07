@@ -36,6 +36,8 @@ public partial class PlayerVariables : Node
         }
     }
 
+    public Dictionary<string, int> PlayerDeathsDict { get => player_deaths_dict; }
+
     public static void AddPlayerDeath(Godot.Vector2 pos, String cause_of_death, int curr_diff)
     {
         num_deaths += 1;

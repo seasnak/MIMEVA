@@ -31,7 +31,7 @@ public partial class Player : CharacterBody2D
     private const int max_fallspeed = 180;
 
     // Player Timer Values
-    private const int attack_dur = 240; // duration of the attack in milliseconds
+    private const int attack_dur = 200; // duration of the attack in milliseconds
     private const int dash_dur = 130; // dash duration in msec
     private const int dash_lockout_time = 200; // lockout on the dash
     private const int walljump_dur = 60; // the time for the player to be knocked back
