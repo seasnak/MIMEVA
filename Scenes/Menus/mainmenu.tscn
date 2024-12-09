@@ -2,13 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://4ohew37o6gkr" path="res://Sprites/Backgrounds/mainmenu-tmp.png" id="1_u4bc3"]
 [ext_resource type="LabelSettings" uid="uid://bia186th017o" path="res://Textures/DefaultUITitleFont.tres" id="2_0s6xf"]
-[ext_resource type="FontFile" uid="uid://bh1w584313oip" path="res://Fonts/monogram/monogram-extended.ttf" id="2_qt43n"]
 [ext_resource type="Script" path="res://Scripts/UI/StartGame.cs" id="3_dla46"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_fr0aq"]
-font = ExtResource("2_qt43n")
-font_size = 40
-outline_color = Color(0, 0, 0, 1)
+[ext_resource type="LabelSettings" uid="uid://0qisxlvgy2xq" path="res://Textures/MenuUIFont.tres" id="3_ons5m"]
+[ext_resource type="Script" path="res://Scripts/UI/LevelDifficulty.cs" id="5_xy46w"]
 
 [node name="MainMenu" type="Node2D"]
 
@@ -55,8 +51,18 @@ offset_right = 576.5
 grow_horizontal = 2
 grow_vertical = 0
 text = "Press  'Z' (Jump) to  Start"
-label_settings = SubResource("LabelSettings_fr0aq")
+label_settings = ExtResource("3_ons5m")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("3_dla46")
 starting_scene_path = "res://Scenes/Testing/blockplacertestscene.tscn"
+
+[node name="Level Difficulty" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 276.0
+offset_top = 513.0
+offset_right = 921.0
+offset_bottom = 557.0
+text = "Current Difficulty: 5 (Change with ↑ and ↓)"
+label_settings = ExtResource("3_ons5m")
+script = ExtResource("5_xy46w")

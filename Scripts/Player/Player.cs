@@ -188,6 +188,7 @@ public partial class Player : CharacterBody2D
 
         // add death to player death map
         LevelGenVariables.AddNewDeath((this.GlobalPosition.X, this.GlobalPosition.Y));
+        /*PlayerVariables.AddPlayerDeath(this.GlobalPosition, "", LevelGenVariables.curr_diff);*/
 
         try
         {

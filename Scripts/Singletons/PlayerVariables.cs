@@ -19,6 +19,7 @@ public partial class PlayerVariables : Node
     private static Godot.Collections.Array player_death_pos_arr = new();
     /*private static Godot.Collections.Dictionary player_deaths_dict = new(); // dict containing the name of the object that killed the player and the number of times said player has died to that object.*/
     private static System.Collections.Generic.Dictionary<string, int> player_deaths_dict = new();
+    public System.Collections.Generic.Dictionary<string, int> PlayerDeathsDict { get => player_deaths_dict; }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -35,8 +36,6 @@ public partial class PlayerVariables : Node
             GetTree().Quit();
         }
     }
-
-    public Dictionary<string, int> PlayerDeathsDict { get => player_deaths_dict; }
 
     public static void AddPlayerDeath(Godot.Vector2 pos, String cause_of_death, int curr_diff)
     {
