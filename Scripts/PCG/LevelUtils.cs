@@ -12,30 +12,30 @@ namespace Mimvea.Utils;
 public partial class LevelUtils
 {
 
-    // PCG Functions
-    public void ModifyLevel(ref Level level, int prev_diff, int new_diff)
-    {
-        /*
+	// PCG Functions
+	public void ModifyLevel(ref Level level, int prev_diff, int new_diff)
+	{
+		/*
 		*  
 		*/
 
-        // get the player death dictionary
-        System.Collections.Generic.Dictionary<string, int> player_deaths_dict = LevelGenVariables.PlayerDeathDict;
-        (string, int) target = ("", 0);
-        Random rng = new();
+		// get the player death dictionary
+		System.Collections.Generic.Dictionary<string, int> player_deaths_dict = LevelGenVariables.PlayerDeathDict;
+		(string, int) target = ("", 0);
+		Random rng = new();
 
-        foreach (string key in player_deaths_dict.Keys)
-        {
-            if (player_deaths_dict[key] > target.Item2)
-            {
-                target = (key, player_deaths_dict[key]);
-            }
-            else if (player_deaths_dict[key] == target.Item2 && rng.NextInt64(0, 100) > 50)
-            {
-                target = (key, player_deaths_dict[key]);
-            }
-        }
-        GD.Print($"max deaths to {target.Item1}: {target.Item2}");
+		foreach (string key in player_deaths_dict.Keys)
+		{
+			if (player_deaths_dict[key] > target.Item2)
+			{
+				target = (key, player_deaths_dict[key]);
+			}
+			else if (player_deaths_dict[key] == target.Item2 && rng.NextInt64(0, 100) > 50)
+			{
+				target = (key, player_deaths_dict[key]);
+			}
+		}
+		GD.Print($"max deaths to {target.Item1}: {target.Item2}");
 
-    }
+	}
 }
