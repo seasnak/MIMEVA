@@ -216,6 +216,12 @@ public partial class BlockPlacer : Area2D
             // diff_str = GetNewDifficulty();
             curr_parts_len = parts_dict["Middle" + diff_str].Length;
             LoadPartFromTxtFile($"{parts_dict["Middle" + diff_str][random.Next(0, curr_parts_len)]}");
+
+            // load in a spacer at random
+            if (random.Next(0, 3) == 0)
+            {
+                LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Middle/MX_10.txt"));
+            }
         }
 
         LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Right/RT_10.txt")); // changed to a default "right connector"	
@@ -234,10 +240,15 @@ public partial class BlockPlacer : Area2D
         {
             LoadPartFromTxtFile(ProjectSettings.GlobalizePath(final_room_path));
         }
+
+
     }
 
     public void LoadPartFromTxtFile(string part_f, int start_pos_x = -1, int start_pos_y = -1)
     {
+        // add level fname to level gen history dictionary
+        LevelGenVariables.AddRoomToLevelDict(part_f);
+
         // Load in a part of a level (based on what part we need)
         if (start_pos_x < 0)
         {

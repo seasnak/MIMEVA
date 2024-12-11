@@ -20,11 +20,11 @@ public partial class LevelUtils
 		*/
 
 		// get the player death dictionary
-		System.Collections.Generic.Dictionary<string, int> player_deaths_dict = LevelGenVariables.PlayerDeathDict;
-		(string, int) target = ("", 0);
+		System.Collections.Generic.Dictionary<int, int> player_deaths_dict = LevelGenVariables.PlayerDeathDict;
+		(int, int) target = (0, 0);
 		Random rng = new();
 
-		foreach (string key in player_deaths_dict.Keys)
+		foreach (int key in player_deaths_dict.Keys)
 		{
 			if (player_deaths_dict[key] > target.Item2)
 			{
