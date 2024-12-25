@@ -40,6 +40,10 @@ public partial class LevelGenVariables : Node
         player_death_count += 1;
         player_death_pos_list.Add(pos);
 
+        if (!player_death_dict.ContainsKey((int)Math.Round(level_difficulty, 0)))
+        {
+            player_death_dict.Add((int)Math.Round(level_difficulty, 0), 0);
+        }
         player_death_dict[(int)Math.Round(level_difficulty, 0)] += 1;
     }
 
