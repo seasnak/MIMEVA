@@ -7,20 +7,28 @@ namespace Mimeva.UI;
 public partial class StatsController : Control
 {
 
-    [Export] private Label stats_label;
+	[Export] private Label stats_label;
 
-    private string stats_header = "===   POINTS   ===\n";
-    private string final_stats_template = $"deaths:{PlayerVariables.NumDeaths}\n";
+	public override void _Ready()
+	{
+		stats_label = GetNode<Label>("Stats");
+		stats_label.Text = GenerateStatsLabel();
+	}
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        stats_label = GetNode<Label>("Stats");
-    }
+	public override void _Process(double delta)
+	{
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
+	}
 
-    }
+	private string GenerateStatsLabel()
+	{
+		int score = CalculateScore(PlayerVariables.NumDeaths, PlayerVariables.NumCoins, PlayerVariables.EnemyKillCount, LevelGenVariables.LevelDifficulty);
+		return $"===   POINTS   ===\nDeaths:     {PlayerVariables.NumDeaths}\nCoins:     {PlayerVariables.NumCoins}\nEnemies     Killed:      {PlayerVariables.EnemyKillCount}\nFinal     Difficulty:     {LevelGenVariables.LevelDifficulty}\n--------------------\nTotal    Score:     {score}";
+	}
+
+	private int CalculateScore(int deaths, int coins, int enemies_killed, float difficulty)
+	{
+		return (int)(difficulty * 10) + (coins * 2) + (enemies_killed * 5) - (deaths * 5);
+	}
+
 }

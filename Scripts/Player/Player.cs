@@ -158,6 +158,9 @@ public partial class Player : CharacterBody2D
 
     public override void _Process(double delta)
     {
+        // Update Player Variables
+        PlayerVariables.NumCoins = num_coins;
+
         // Handle Health and Death
         if (curr_health <= 0)
         {

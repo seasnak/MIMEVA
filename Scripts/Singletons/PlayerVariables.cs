@@ -13,7 +13,15 @@ public partial class PlayerVariables : Node
     private static Node checkpoint_scene = null;
 
     private static Godot.Vector2 player_starting_pos;
-    private static int num_deaths = 1; // the number of player deaths
+    private static int num_deaths = 0; // the number of player deaths
+    /*public static int NumDeaths { get => num_deaths; }*/
+
+    private static int enemy_killcount = 0; // the number of enemies that the player has killed
+    public static int EnemyKillCount { get => enemy_killcount; }
+
+    private static List<string> enemy_killlist = new(); // the list of all of his enemies
+    private static int num_coins = 0;
+    public static int NumCoins { set => num_coins = value; get => num_coins; }
 
     /*private static Vector2[] player_death_pos = {};/*/
     private static Godot.Collections.Array player_death_pos_arr = new();
@@ -53,12 +61,14 @@ public partial class PlayerVariables : Node
 
     }
 
-    // Getters and Setters
-    public static int NumDeaths
+    public static void AddEnemyKill(string enemy_name)
     {
-        get => num_deaths;
-        set => num_deaths = value;
+        enemy_killcount += 1;
+        enemy_killlist.Add(enemy_name);
     }
+
+    // Getters and Setters
+    public static int NumDeaths { get => num_deaths; set => num_deaths = value; }
 
     // Checkpoint Getter Setters
     public static Checkpoint GetCheckpoint()
