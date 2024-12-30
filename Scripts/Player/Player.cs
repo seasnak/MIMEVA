@@ -38,6 +38,8 @@ public partial class Player : CharacterBody2D
     private ulong curr_attack_time = 0; // current atk time for timer purposes
     private ulong curr_dash_time = 0; // current dash time for timer purposes
     private ulong curr_walljump_time = 0;
+    private ulong last_grounded_time = 0; // time that player touched the ground
+    private const int coyote_time = 150; // the time player has to perform coyote jump after leaving platform
 
     private ulong hitflash_start_time = 0;
     private const int hitflash_dur = 100; // duration of hitflash in msec
@@ -117,6 +119,7 @@ public partial class Player : CharacterBody2D
             // player is on floor so don't apply gravity
             is_jumping = false;
             is_walljumping = false;
+            last_grounded_time = Time.GetTicksMsec();
         }
         else if (is_dashing)
         {
@@ -392,7 +395,8 @@ public partial class Player : CharacterBody2D
         Godot.Vector2 velocity = Velocity; // tmp variable to make calculations easier 
 
         int dir = (int)input_dir.X;
-        // int wall_dir =  // Get wall direction
+        GD.Print($"{Time.GetTicksMsec() - last_grounded_time}");
+
 
         if (WallJumpCheck(dir))
         { // handle walljump
@@ -405,7 +409,7 @@ public partial class Player : CharacterBody2D
                 // return;
             }
         }
-        else if (is_grounded)
+        else if (is_grounded || (!is_jumping && Time.GetTicksMsec() - last_grounded_time <= coyote_time))
         { // handle regular jump
             has_fastfell = false;
             if (Input.IsActionJustPressed("jump"))
