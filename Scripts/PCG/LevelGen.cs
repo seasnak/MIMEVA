@@ -36,5 +36,10 @@ public partial class LevelGen : Node2D
 		};
 	}
 
+	public void ModifyPart()
+	{
+
+	}
+
 
 }

@@ -18,6 +18,11 @@ public partial class StatsController : Control
 	public override void _Process(double delta)
 	{
 
+		if (Input.IsActionPressed("jump"))
+		{
+			GetTree().ChangeSceneToFile("res://Scenes/UI/StartGame.tscn");
+		}
+
 	}
 
 	private string GenerateStatsLabel()

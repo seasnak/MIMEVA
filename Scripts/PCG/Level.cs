@@ -10,7 +10,6 @@ using Godot;
 namespace Mimeva.Utils;
 
 // NOTE: use a LevelKey object to set a custom key
-
 public partial class Level
 {
 

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/Enemy/Fleep.cs" id="1_ioafx"]
 [ext_resource type="Texture2D" uid="uid://cnt1in68ls8o2" path="res://Sprites/Enemies/Fleep/fleep_flying-Sheet.png" id="2_bubs8"]
 [ext_resource type="Script" path="res://Scripts/HurtBox.cs" id="2_hd65a"]
-[ext_resource type="PackedScene" uid="uid://b37b1qb5fhs87" path="res://Prefabs/Projectiles/Bullet.tscn" id="2_uevm2"]
+[ext_resource type="PackedScene" uid="uid://b37b1qb5fhs87" path="res://Levels/Bullet.tscn" id="2_uevm2"]
 [ext_resource type="Script" path="res://Scripts/HitBox.cs" id="3_8leck"]
 [ext_resource type="Shader" path="res://Shaders/hitflash.gdshader" id="4_f0vw1"]
 

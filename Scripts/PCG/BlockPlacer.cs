@@ -37,13 +37,15 @@ public partial class BlockPlacer : Area2D
     [Export] private Godot.Vector2 curr_offset = Godot.Vector2.Zero; // offset for the next room
     private Godot.Vector2 left_connector_pos = Godot.Vector2.Zero; // the location of the left connector
     private Godot.Vector2 right_connector_pos = Godot.Vector2.Zero; // the location of the right connector
-    private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
-    private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
+
     private float difficulty; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
     [Export] private float override_difficulty = 0; // if the override difficulty is between 1 and 10, then override difficulty to this value
-    [Export] private int num_parts_in_room = 3; // the number of parts that will make up the room.
+    [Export] private int num_parts_in_room = 5; // the number of parts that will make up the room.
     [Export] private int num_rooms_to_generate = 3; // the number of rooms to generate before ending the level
     private int num_rooms_generated = 0; // (counter) the number of rooms generated so far
+
+    private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
+    private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
 
     // Booleans for level generation
     private bool is_key_room = false;
@@ -95,6 +97,7 @@ public partial class BlockPlacer : Area2D
         UpdateBlockDict("P", "res://Prefabs/Player.tscn");
         UpdateBlockDict("S", "res://Prefabs/Objects/Spikeball.tscn");
         UpdateBlockDict("GL", "res://Prefabs/Enemies/Glorp.tscn");
+        UpdateBlockDict("FL", "res://Prefabs/Enemies/Fleep.tscn");
         UpdateBlockDict("D", "res://Prefabs/Objects/door.tscn");
         UpdateBlockDict("K", "res://Prefabs/Objects/key.tscn");
 
@@ -103,7 +106,6 @@ public partial class BlockPlacer : Area2D
         UpdateBlockDict("F", "res://Prefabs/Objects/flag.tscn");
 
         // TODO: not yet implemented objects and enemies
-        // UpdateBlockDict("FL", "res://Prefabs/Enemies/Fleep.tscn");
         // UpdateBlockDict("B", "res://Prefabs/Objects/block.tscn"); // todo: add pushable block object
         // UpdateBlockDict("BT", "res://Prefabs/Objects/button.tscn"); // todo: add button object (for button doors)
         // UpdateBlockDict("BD", "res://Prefabs/Objects/button_door.tscn"); // todo: add button door object
@@ -218,7 +220,7 @@ public partial class BlockPlacer : Area2D
             LoadPartFromTxtFile($"{parts_dict["Middle" + diff_str][random.Next(0, curr_parts_len)]}");
 
             // load in a spacer at random
-            if (random.Next(0, 3) == 0)
+            if (random.Next(0, 5) == 0)
             {
                 LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Middle/MX_10.txt"));
             }
@@ -240,7 +242,6 @@ public partial class BlockPlacer : Area2D
         {
             LoadPartFromTxtFile(ProjectSettings.GlobalizePath(final_room_path));
         }
-
 
     }
 
@@ -306,6 +307,7 @@ public partial class BlockPlacer : Area2D
         }
     }
 
+
     // Signal Functions
     private void OnBodyEntered(Node other)
     {
@@ -315,7 +317,9 @@ public partial class BlockPlacer : Area2D
         if (!tmp_generating_level)
         {
             tmp_generating_level = true;
-            LoadNewRoomFromPartFiles();
+
+            if (num_parts_in_room == 0) { LoadNewRoomFromPartFiles(); }
+            else { LoadNewRoomFromPartFiles(num_parts: num_parts_in_room); }
         }
     }
 

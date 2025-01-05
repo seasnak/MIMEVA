@@ -24,6 +24,7 @@ public partial class LevelGenVariables : Node
     private static List<(float, float)> player_death_pos_list = new(); // list of places player has died
 
     private static Dictionary<int, int> player_death_dict = new(); // dictionary containing player deaths per certain difficulty
+    /*public static List<string[]> level_gen_hist_list = new(); // list containing all generated levels*/
     public static Dictionary<int, List<string>> level_gen_hist_dict = new(); // dictionary containing all generated levels
     // Getters and Setters
     public static int PlayerDeathTolerance { get => player_death_tolerance; set => player_death_tolerance = value; }
@@ -33,6 +34,7 @@ public partial class LevelGenVariables : Node
     public static int NumRoomsCompleted { get => num_rooms_completed; set => num_rooms_completed = value; }
     public static int NumLevelsCompleted { get => num_levels_completed; set => num_levels_completed = value; }
     public static Dictionary<int, int> PlayerDeathDict { get => player_death_dict; }
+
     // Statistical Analysis Functions
 
     public static void AddNewDeath((float, float) pos)
@@ -57,6 +59,20 @@ public partial class LevelGenVariables : Node
         int last_idx = level_gen_hist_dict[num_rooms_completed].Count - 1;
         GD.Print(num_rooms_completed + ": " + level_gen_hist_dict[num_rooms_completed][last_idx]);
     }
+
+
+    /*
+    public static void AddRoomToLevelList(string[] level)
+    {
+        level_gen_hist_list.Add(level);
+    }
+
+    public static string[] GetRoomFromLevelList(int iteration)
+    {
+        return level_gen_hist_list[iteration];
+    }
+    */
+
 
     public static void AddNewDeath(ref Player player)
     {

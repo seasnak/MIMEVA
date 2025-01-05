@@ -10,8 +10,8 @@ public partial class Player : CharacterBody2D
 {
 
     // Player Stats
-    [Export] private int max_health = 100;
-    [Export] private int curr_health = 100;
+    [Export] private int max_health = 50;
+    [Export] private int curr_health = 50;
 
     private int max_stamina = 100;
     private int curr_stamina = 100;
@@ -39,7 +39,7 @@ public partial class Player : CharacterBody2D
     private ulong curr_dash_time = 0; // current dash time for timer purposes
     private ulong curr_walljump_time = 0;
     private ulong last_grounded_time = 0; // time that player touched the ground
-    private const int coyote_time = 150; // the time player has to perform coyote jump after leaving platform
+    private const int coyote_time = 130; // the time (msec) player has to perform coyote jump after leaving platform
 
     private ulong hitflash_start_time = 0;
     private const int hitflash_dur = 100; // duration of hitflash in msec
@@ -84,6 +84,9 @@ public partial class Player : CharacterBody2D
     // Get the gravity from the project settings to be synced with RigidBody nodes.
     private float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
+    // Signals
+    [Signal] public delegate void SwordClashedEventHandler();
+
     public override void _Ready()
     {
         sprite = (AnimatedSprite2D)GetNode("AnimatedSprite2D");
@@ -104,8 +107,6 @@ public partial class Player : CharacterBody2D
         debugline_dict = new Godot.Collections.Dictionary<string, Line2D>();
 
         PlayerVariables.SetPlayerStartingPos(this.Position);
-
-
     }
 
     public override void _PhysicsProcess(double delta)
@@ -228,8 +229,8 @@ public partial class Player : CharacterBody2D
 
         // handle sword position
         if (input_dir.Y > 0)
-        { // swinging up and down take priority over swinging left or right
-          // case: swing down
+        {   // swinging up and down take priority over swinging left or right
+            // case: swing down
             weapon_node.Position = weapon_pos_arr[2];
             weapon_node.RotationDegrees = 90f;
             // weapon_sprite.RotationDegrees = 90f;
@@ -274,6 +275,7 @@ public partial class Player : CharacterBody2D
             weapon_sprite.Frame = 0;
             weapon_sprite.Play("slash");
             curr_attack_time = Time.GetTicksMsec();
+
         }
 
     }
@@ -395,7 +397,7 @@ public partial class Player : CharacterBody2D
         Godot.Vector2 velocity = Velocity; // tmp variable to make calculations easier 
 
         int dir = (int)input_dir.X;
-        GD.Print($"{Time.GetTicksMsec() - last_grounded_time}");
+        /*GD.Print($"{Time.GetTicksMsec() - last_grounded_time}");*/
 
 
         if (WallJumpCheck(dir))
