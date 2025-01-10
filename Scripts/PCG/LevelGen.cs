@@ -36,14 +36,24 @@ public partial class LevelGen : Node2D
         };
     }
 
-    public void ModifyPart()
+    public string GenerateRhythm(int num_parts = 10, int difficulty = 5, string mode = "regular")
     {
+        // increased difficulty decreases the space between notes or introduces "difficulty" patterns with uneven spacing
+        string rhythm = "";
+        if (mode == "regular") // notes are evenly spaced
+        {
 
-    }
+        }
+        else if (mode == "swing") // notes have a "swing" beat to them
+        {
 
-    public void GenerateRhythm(int num_parts = 10, int difficulty = 5)
-    {
+        }
+        else
+        {
+            GD.Print("Invalid Rhythm mode.");
+        }
 
+        return rhythm;
     }
 
 }

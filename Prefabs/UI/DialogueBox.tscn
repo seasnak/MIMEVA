@@ -41,3 +41,4 @@ vertical_alignment = 1
 
 [node name="LetterDisplayTimer" type="Timer" parent="."]
 one_shot = true
+autostart = true
