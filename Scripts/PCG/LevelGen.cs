@@ -36,9 +36,12 @@ public partial class LevelGen : Node2D
         };
     }
 
+    private string[] beats = { "triplets", "quarter notes", "2x3 rhythm", "off beat", "" };
+
     public string GenerateRhythm(int num_parts = 10, int difficulty = 5, string mode = "regular")
     {
         // increased difficulty decreases the space between notes or introduces "difficulty" patterns with uneven spacing
+        // rhythm consists of jumps (^) and spaces (-)
         string rhythm = "";
         if (mode == "regular") // notes are evenly spaced
         {
