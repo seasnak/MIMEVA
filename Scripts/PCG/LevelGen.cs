@@ -36,16 +36,32 @@ public partial class LevelGen : Node2D
         };
     }
 
-    private string[] beats = { "triplets", "quarter notes", "2x3 rhythm", "off beat", "" };
+    /*private string[] beats = { "^ - -", "^ _ _", "^ _ -", "_ ^ _", "- _ -" };*/
 
-    public string GenerateRhythm(int num_parts = 10, int difficulty = 5, string mode = "regular")
+    public string GenerateRhythm(int num_measures = 2, int difficulty = 5, string mode = "regular", int measure_length = 4, bool repeat_measure = false, bool has_upbeat = false)
     {
         // increased difficulty decreases the space between notes or introduces "difficulty" patterns with uneven spacing
-        // rhythm consists of jumps (^) and spaces (-)
+        // rhythm consists of "emphasized" jumps (^) and "muted" jumps (-) and rests (_)
         string rhythm = "";
+        Random rand = new();
+
         if (mode == "regular") // notes are evenly spaced
         {
+            if (has_upbeat) rhythm += "- ";
+            int rhythm_gen_len = num_measures * measure_length; // the number of notes to generate
+            if (repeat_measure) { rhythm_gen_len = measure_length; }
 
+            for (int i = 0; i < rhythm_gen_len; i++)
+            {
+                if (i % measure_length == 0) { rhythm += "^ "; continue; } // first beat of measure is always the only "emphasized" jump
+
+                float rand_int = rand.NextSingle();
+                if (rand_int < 0.5) { rhythm += "- "; }
+                else { rhythm += "_ "; }
+            }
+
+            // repeate measure x times
+            if (repeat_measure) { for (int i = 0; i < num_measures; i++) rhythm += rhythm; }
         }
         else if (mode == "swing") // notes have a "swing" beat to them
         {
@@ -53,7 +69,7 @@ public partial class LevelGen : Node2D
         }
         else
         {
-            GD.Print("Invalid Rhythm mode.");
+            GD.Print("Invalid rhythm mode.");
         }
 
         return rhythm;
