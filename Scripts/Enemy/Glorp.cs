@@ -35,7 +35,7 @@ public partial class Glorp : Enemy
             }
         }
 
-        try { player = (Player)GetParent().GetNode("Player"); }
+        try { player = (Player)GetNode("/root/World/Player"); }
         catch (Exception e)
         {
             GD.PrintErr($"{e}. Player could not be found");
