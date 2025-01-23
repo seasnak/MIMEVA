@@ -1,10 +1,10 @@
 using System;
 using Godot;
 
-using Mimeva;
+/*using Mimeva;*/
 namespace Mimeva.PCG;
 
-public partial class LevelGen : Node2D
+public partial class LevelGen : Node
 {
 
     public override void _Ready()
@@ -38,7 +38,7 @@ public partial class LevelGen : Node2D
 
     /*private string[] beats = { "^ - -", "^ _ _", "^ _ -", "_ ^ _", "- _ -" };*/
 
-    public string GenerateRhythm(int num_measures = 2, int difficulty = 5, string mode = "regular", int measure_length = 4, bool repeat_measure = false, bool has_upbeat = false)
+    public string GenerateRhythm(int num_measures = 2, int difficulty = 5, string mode = "regular", int measure_length = 4, bool repeat_measure = true, bool has_upbeat = false)
     {
         // increased difficulty decreases the space between notes or introduces "difficulty" patterns with uneven spacing
         // rhythm consists of "emphasized" jumps (^) and "muted" jumps (-) and rests (_)
