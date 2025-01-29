@@ -29,7 +29,7 @@ public partial class BlockPlacer : Area2D
     private string connector_room_path = "res://Levels/Rooms/C_10.txt";
     private string final_room_path = "res://Levels/Rooms/X_10.txt";
 
-    // Constants 
+    // Constants
     private const int BLOCK_SIZE = 8; // size of each tilemap block in pixels
     private const int BLOCK_OFFSET = 4; // offset to place blocks at
 
@@ -42,7 +42,7 @@ public partial class BlockPlacer : Area2D
     [Export] private float override_difficulty = 0; // if the override difficulty is between 1 and 10, then override difficulty to this value
     [Export] private int num_parts_in_room = 5; // the number of parts that will make up the room.
     [Export] private int num_rooms_to_generate = 3; // the number of rooms to generate before ending the level
-    private int num_rooms_generated = 0; // (counter) the number of rooms generated so far
+    private int num_rooms_generated = 0; // (counter) the number of rooms generated so far (depracated -- use LevelGenVariables.NumRoomsCompleted instead)
 
     private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
     private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
@@ -79,6 +79,9 @@ public partial class BlockPlacer : Area2D
         // get tilemap node
         tilemap = GetNode<TileMapLayer>("/root/World/TileMap/Platforms");
 
+        // get player node
+        player = GetNode<Player>("/root/World/Player");
+
         // default offsets based on starting level
         curr_offset = new(8, -5);
         right_connector_pos = new(8, -5);
@@ -89,6 +92,19 @@ public partial class BlockPlacer : Area2D
         // set difficulty
         if (override_difficulty > 0) { difficulty = override_difficulty; }
         else { difficulty = LevelGenVariables.LevelDifficulty; }
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Input.IsKeyPressed(Godot.Key.P))
+        {
+            var player_death_count = LevelGenVariables.PlayerDeathCount;
+            LevelGenVariables.LevelDifficulty = Math.Max(1, LevelGenVariables.LevelDifficulty - 1 - LevelGenVariables.PlayerDeathCount / 10);
+            LevelGenVariables.NumRoomsCompleted -= 1;
+            player.GlobalPosition = this.GlobalPosition; // move player to this position
+
+        }
+
     }
 
     public void ReloadBlockDictionary()
@@ -126,7 +142,7 @@ public partial class BlockPlacer : Area2D
 
     public void ReloadLevelPartsDictionary(string path = "res://Levels/Parts/")
     {
-        // adds and sorts all level parts from 
+        // adds and sorts all level parts from
         string[] files = System.Array.Empty<string>();
         string global_path = ProjectSettings.GlobalizePath(path);
 
@@ -191,7 +207,7 @@ public partial class BlockPlacer : Area2D
         // select a random amount of parts for the level
         if (num_parts == -1)
         {
-            // select the minimum amount of rooms based on the current difficulty settin
+            // select the minimum amount of rooms based on the current difficulty setting
             int min_parts = 3;
             int max_parts = (int)Math.Floor((float)difficulty / 3) + 3;
             num_parts_in_room = random.Next(min_parts, max_parts + 1);
@@ -217,22 +233,6 @@ public partial class BlockPlacer : Area2D
         // GD.Print(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt"));
         LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt")); // changed to a default "left connector"
 
-        /*
-        for (int i = 0; i < num_parts_in_room; i++)
-        {
-            //load in middle room parts
-            // diff_str = GetNewDifficulty();
-            curr_parts_len = parts_dict["Middle" + diff_str].Length;
-            LoadPartFromTxtFile($"{parts_dict["Middle" + diff_str][random.Next(0, curr_parts_len)]}");
-
-            // load in a spacer at random
-            if (random.Next(0, 5) == 0)
-            {
-                LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Middle/MX_10.txt"));
-            }
-        }
-        */
-
         foreach (string part in rhythm.Split(' '))
         {
             if (part == "_")
@@ -247,15 +247,14 @@ public partial class BlockPlacer : Area2D
 
         }
 
-        LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Right/RT_10.txt")); // changed to a default "right connector"	
+        LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Right/RT_10.txt")); // changed to a default "right connector"
 
         // diff_str = GetNewDifficulty();
         curr_parts_len = parts_dict["Right" + diff_str].Length;
         LoadPartFromTxtFile($"{parts_dict["Right" + diff_str][random.Next(0, curr_parts_len)]}");
 
         // load either connector room or final room
-        num_rooms_generated += 1;
-        if (num_rooms_generated < num_rooms_to_generate)
+        if (LevelGenVariables.NumRoomsCompleted < num_rooms_to_generate)
         {
             LoadPartFromTxtFile(ProjectSettings.GlobalizePath(connector_room_path));
         }
@@ -287,7 +286,7 @@ public partial class BlockPlacer : Area2D
     {
         /* Builds level given an offset
         @Params:
-            level : Level - A level object containing all information  
+            level : Level - A level object containing all information
         */
 
         // loop through level to build level
@@ -323,11 +322,9 @@ public partial class BlockPlacer : Area2D
                         else { GD.PrintErr($"Error: Block {level.Layout[i][j]} is not in block dict."); }
                         break;
                 }
-
             }
         }
     }
-
 
     // Signal Functions
     private void OnBodyEntered(Node other)
@@ -338,6 +335,13 @@ public partial class BlockPlacer : Area2D
         if (!tmp_generating_level)
         {
             tmp_generating_level = true;
+            LevelGenVariables.NumRoomsCompleted += 1;
+
+            // Update Difficulty
+            if (LevelGenVariables.NumRoomsCompleted >= 1)
+            {
+                LevelGenVariables.LevelDifficulty = Math.Min(10, LevelGenVariables.LevelDifficulty + (1 - LevelGenVariables.PlayerDeathCount / 2) / (LevelGenVariables.NumRoomsCompleted));
+            }
 
             if (num_parts_in_room == 0) { LoadNewRoomFromPartFiles(); }
             else { LoadNewRoomFromPartFiles(num_parts: num_parts_in_room); }
@@ -502,5 +506,4 @@ public partial class BlockPlacer : Area2D
         // PrintRoom(); // DEBUG
         return level_mat;
     }
-
 }
