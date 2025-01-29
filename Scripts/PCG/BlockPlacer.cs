@@ -49,6 +49,7 @@ public partial class BlockPlacer : Area2D
 
     // Booleans for level generation
     private bool is_key_room = false;
+    private bool has_skipped_room = false;
 
     // Prefabs Dictionary
     private static Godot.Collections.Dictionary<string, PackedScene> block_dict;
@@ -101,7 +102,8 @@ public partial class BlockPlacer : Area2D
             var player_death_count = LevelGenVariables.PlayerDeathCount;
             LevelGenVariables.LevelDifficulty = Math.Max(1, LevelGenVariables.LevelDifficulty - 1 - LevelGenVariables.PlayerDeathCount / 10);
             LevelGenVariables.NumRoomsCompleted -= 1;
-            player.GlobalPosition = this.GlobalPosition; // move player to this position
+            this.has_skipped_room = true;
+            player.GlobalPosition = this.GlobalPosition - new Vector2(15, 5); // move player to this position
 
         }
 
@@ -335,6 +337,7 @@ public partial class BlockPlacer : Area2D
         if (!tmp_generating_level)
         {
             tmp_generating_level = true;
+            has_skipped_room = false;
             LevelGenVariables.NumRoomsCompleted += 1;
 
             // Update Difficulty
