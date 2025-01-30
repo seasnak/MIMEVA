@@ -1,6 +1,7 @@
 using Godot;
 /*using Godot.Collections;*/
 
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -225,7 +226,7 @@ public partial class BlockPlacer : Area2D
         GD.Print(rhythm);
 
         // manage level variables
-        LevelGenVariables.NumRoomsCompleted += 1;
+        // LevelGenVariables.NumRoomsCompleted += 1;
 
         // randomly pick room parts from parts dictionary
         int curr_parts_len;
@@ -337,14 +338,15 @@ public partial class BlockPlacer : Area2D
         if (!tmp_generating_level)
         {
             tmp_generating_level = true;
-            has_skipped_room = false;
+            // has_skipped_room = false;
             LevelGenVariables.NumRoomsCompleted += 1;
 
             // Update Difficulty
-            if (LevelGenVariables.NumRoomsCompleted >= 1)
+            if (LevelGenVariables.NumRoomsCompleted >= 1 && !has_skipped_room)
             {
                 LevelGenVariables.LevelDifficulty = Math.Min(10, LevelGenVariables.LevelDifficulty + (1 - LevelGenVariables.PlayerDeathCount / 2) / (LevelGenVariables.NumRoomsCompleted));
             }
+            has_skipped_room = false;
 
             if (num_parts_in_room == 0) { LoadNewRoomFromPartFiles(); }
             else { LoadNewRoomFromPartFiles(num_parts: num_parts_in_room); }

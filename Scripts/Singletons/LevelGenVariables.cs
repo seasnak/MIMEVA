@@ -18,7 +18,7 @@ public partial class LevelGenVariables : Node
     private static int player_death_tolerance = 5; // the tolerance of how many times a player can die before difficulty is increased
     private static float difficulty_change_scaling = 0.2f;
 
-    private static int num_rooms_completed = -1; // the number of rooms the player has completed in the current level
+    private static int num_rooms_completed = 0; // the number of rooms the player has completed in the current level
     private static int num_levels_completed = 0; // the number of levels the player has completed in total
     private static int player_death_count = 0; // the number of player deaths to determine level difficulty
     private static List<(float, float)> player_death_pos_list = new(); // list of places player has died
