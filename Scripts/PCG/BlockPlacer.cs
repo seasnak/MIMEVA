@@ -38,7 +38,6 @@ public partial class BlockPlacer : Area2D
     private Godot.Vector2 left_connector_pos = Godot.Vector2.Zero; // the location of the left connector
     private Godot.Vector2 right_connector_pos = Godot.Vector2.Zero; // the location of the right connector
 
-    private float difficulty; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
     [Export] private float override_difficulty = 0; // if the override difficulty is between 1 and 10, then override difficulty to this value
     [Export] private int num_parts_in_room = 5; // the number of parts that will make up the room.
     [Export] private int num_rooms_to_generate = 3; // the number of rooms to generate before ending the level
@@ -91,20 +90,17 @@ public partial class BlockPlacer : Area2D
         BodyEntered += OnBodyEntered;
 
         // set difficulty
-        if (override_difficulty > 0) { difficulty = override_difficulty; }
-        else { difficulty = LevelGenVariables.LevelDifficulty; }
+        if (override_difficulty > 0) { LevelGenVariables.LevelDifficulty = override_difficulty; }
     }
 
     public override void _Process(double delta)
     {
-        if (Input.IsKeyPressed(Godot.Key.P))
+        if (Input.IsActionJustPressed("skip"))
         {
-            var player_death_count = LevelGenVariables.PlayerDeathCount;
-            LevelGenVariables.LevelDifficulty = Math.Max(1, LevelGenVariables.LevelDifficulty - 1 - LevelGenVariables.PlayerDeathCount / 10);
-            LevelGenVariables.NumRoomsCompleted -= 1;
+            if (LevelGenVariables.NumRoomsCompleted >= 1) { LevelGenVariables.LevelDifficulty = Math.Max(1, LevelGenVariables.LevelDifficulty - 1 - LevelGenVariables.PlayerDeathCount / 10); }
+            LevelGenVariables.NumRoomsCompleted = Math.Max(0, LevelGenVariables.NumRoomsCompleted - 1);
             this.has_skipped_room = true;
             player.GlobalPosition = this.GlobalPosition - new Vector2(15, 5); // move player to this position
-
         }
 
     }
@@ -188,13 +184,13 @@ public partial class BlockPlacer : Area2D
         Random random = new();
         string diff;
 
-        if (difficulty <= 5)
+        if (LevelGenVariables.LevelDifficulty <= 5)
         {
-            diff = random.NextDouble() < (difficulty / 10) ? "Easy" : "Medium";
+            diff = random.NextDouble() < (LevelGenVariables.LevelDifficulty / 10) ? "Easy" : "Medium";
         }
-        else if (difficulty < 10)
+        else if (LevelGenVariables.LevelDifficulty < 10)
         {
-            diff = random.NextDouble() < (difficulty / 10) - 0.5 ? "Medium" : "Hard";
+            diff = random.NextDouble() < (LevelGenVariables.LevelDifficulty / 10) - 0.5 ? "Medium" : "Hard";
         }
         else { diff = "Hard"; }
 
@@ -211,7 +207,7 @@ public partial class BlockPlacer : Area2D
         {
             // select the minimum amount of rooms based on the current difficulty setting
             int min_parts = 3;
-            int max_parts = (int)Math.Floor((float)difficulty / 3) + 3;
+            int max_parts = (int)Math.Floor((float)LevelGenVariables.LevelDifficulty / 3) + 3;
             num_parts_in_room = random.Next(min_parts, max_parts + 1);
         }
         else
@@ -225,7 +221,7 @@ public partial class BlockPlacer : Area2D
         GD.Print(rhythm);
 
         // manage level variables
-        LevelGenVariables.NumRoomsCompleted += 1;
+        // LevelGenVariables.NumRoomsCompleted += 1;
 
         // randomly pick room parts from parts dictionary
         int curr_parts_len;
@@ -343,7 +339,9 @@ public partial class BlockPlacer : Area2D
             // Update Difficulty
             if (LevelGenVariables.NumRoomsCompleted >= 1)
             {
-                LevelGenVariables.LevelDifficulty = Math.Min(10, LevelGenVariables.LevelDifficulty + (1 - LevelGenVariables.PlayerDeathCount / 2) / (LevelGenVariables.NumRoomsCompleted));
+                float new_diff = LevelGenVariables.LevelDifficulty + (1 - LevelGenVariables.PlayerDeathCount / 2) / (LevelGenVariables.NumRoomsCompleted);
+                LevelGenVariables.LevelDifficulty = Math.Min(10, new_diff);
+                GD.Print($"New Level Difficulty: {new_diff}\nPlayer Deaths: {LevelGenVariables.PlayerDeathCount}");
             }
 
             if (num_parts_in_room == 0) { LoadNewRoomFromPartFiles(); }

@@ -129,7 +129,7 @@ position = Vector2(-89, 12)
 
 [node name="Sign" parent="." instance=ExtResource("5_brqnw")]
 position = Vector2(-13, 10)
-text = PackedStringArray("Welcome!", "At the end of each level you will be asked a few questions.", "If you have any questions about controls, check the README file (or the text below if you are playing in browser).")
+text = PackedStringArray("Welcome!", "At the end of each level you will be asked a few questions.", "If you are ever stuck, press \"P\" to skip to the next portion of the level.")
 
 [node name="UI" parent="." instance=ExtResource("6_6x6ar")]
 
