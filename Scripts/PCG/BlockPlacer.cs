@@ -61,6 +61,9 @@ public partial class BlockPlacer : Area2D
     private readonly string[] diff_arr = { "Easy", "Medium", "Hard" };
     private readonly string[] part_arr = { "Left", "Middle", "Right" };
 
+    // UI elements
+    [Export] private TextureRect skip_used_label;
+
     // dictionary for optional level adjustments
 
     // Called when the node enters the scene tree for the first time.
@@ -96,7 +99,7 @@ public partial class BlockPlacer : Area2D
 
     public override void _Process(double delta)
     {
-        if (Input.IsActionJustPressed("skip"))
+        if (Input.IsActionJustPressed("skip") && !has_skipped_room)
         {
             if (LevelGenVariables.NumRoomsCompleted >= 1) { LevelGenVariables.LevelDifficulty = Math.Max(1, LevelGenVariables.LevelDifficulty - 1 - LevelGenVariables.PlayerDeathCount / 10); }
             LevelGenVariables.NumRoomsCompleted = Math.Max(0, LevelGenVariables.NumRoomsCompleted - 1);

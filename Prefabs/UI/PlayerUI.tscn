@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c444v4l648t7r"]
+[gd_scene load_steps=11 format=3 uid="uid://c444v4l648t7r"]
 
 [ext_resource type="Texture2D" uid="uid://pc0xvd7772dk" path="res://Sprites/UI/uibar_under.png" id="1_qj1t3"]
 [ext_resource type="Texture2D" uid="uid://e8ykpiyroghv" path="res://Sprites/UI/healthbar_progress.png" id="2_h5koc"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/UI/CoinCounter.cs" id="6_rd4kc"]
 [ext_resource type="Texture2D" uid="uid://djml406r0e135" path="res://Sprites/Objects/Pickups/coin.png" id="7_n4iae"]
 [ext_resource type="Script" path="res://Scripts/UI/DifficultyLabel.cs" id="8_qudg5"]
+[ext_resource type="Texture2D" uid="uid://dbjqg5xograwq" path="res://Sprites/UI/skip_used.png" id="10_akn7s"]
 
 [node name="UI" type="CanvasLayer"]
 
@@ -57,3 +58,8 @@ offset_bottom = 25.0
 theme_override_fonts/font = ExtResource("4_7mdto")
 theme_override_font_sizes/font_size = 30
 script = ExtResource("8_qudg5")
+
+[node name="SkipUsedLabel" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("10_akn7s")
