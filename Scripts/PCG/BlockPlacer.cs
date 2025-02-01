@@ -49,7 +49,7 @@ public partial class BlockPlacer : Area2D
 
     // Booleans for level generation
     private bool is_key_room = false;
-    private bool has_skipped_room = false;
+    // private bool has_skipped_room = false;
 
     // Prefabs Dictionary
     private static Godot.Collections.Dictionary<string, PackedScene> block_dict;
@@ -62,7 +62,7 @@ public partial class BlockPlacer : Area2D
     private readonly string[] part_arr = { "Left", "Middle", "Right" };
 
     // UI elements
-    [Export] private TextureRect skip_used_label;
+    // [Export] private TextureRect skip_used_label;
 
     // dictionary for optional level adjustments
 
@@ -99,11 +99,11 @@ public partial class BlockPlacer : Area2D
 
     public override void _Process(double delta)
     {
-        if (Input.IsActionJustPressed("skip") && !has_skipped_room)
+        if (Input.IsActionJustPressed("skip") && !LevelGenVariables.PlayerHasSkipped)
         {
             if (LevelGenVariables.NumRoomsCompleted >= 1) { LevelGenVariables.LevelDifficulty = Math.Max(1, LevelGenVariables.LevelDifficulty - 1 - LevelGenVariables.PlayerDeathCount / 10); }
             LevelGenVariables.NumRoomsCompleted = Math.Max(0, LevelGenVariables.NumRoomsCompleted - 1);
-            this.has_skipped_room = true;
+            LevelGenVariables.PlayerHasSkipped = true;
             player.GlobalPosition = this.GlobalPosition - new Vector2(15, 5); // move player to this position
         }
 
@@ -341,13 +341,13 @@ public partial class BlockPlacer : Area2D
             LevelGenVariables.NumRoomsCompleted += 1;
 
             // Update Difficulty
-            if (LevelGenVariables.NumRoomsCompleted >= 1 && !has_skipped_room)
+            if (LevelGenVariables.NumRoomsCompleted >= 1 && !LevelGenVariables.PlayerHasSkipped)
             {
                 float new_diff = LevelGenVariables.LevelDifficulty + (1 - LevelGenVariables.PlayerDeathCount / 2) / (LevelGenVariables.NumRoomsCompleted);
                 LevelGenVariables.LevelDifficulty = Math.Min(10, new_diff);
                 GD.Print($"New Level Difficulty: {new_diff}\nPlayer Deaths: {LevelGenVariables.PlayerDeathCount}");
             }
-            has_skipped_room = false;
+            LevelGenVariables.PlayerHasSkipped = false;
 
             if (num_parts_in_room == 0) { LoadNewRoomFromPartFiles(); }
             else { LoadNewRoomFromPartFiles(num_parts: num_parts_in_room); }

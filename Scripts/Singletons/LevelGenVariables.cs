@@ -24,6 +24,10 @@ public partial class LevelGenVariables : Node
     private static List<(float, float)> player_death_pos_list = new(); // list of places player has died
     public static int PlayerDeathCount { get => player_death_count; }
 
+    // booleans
+    private static bool player_has_skipped = false;
+    public static bool PlayerHasSkipped { get => player_has_skipped; set => player_has_skipped = value; }
+
     private static Dictionary<int, int> player_death_dict = new(); // dictionary containing player deaths per certain difficulty
     /*public static List<string[]> level_gen_hist_list = new(); // list containing all generated levels*/
     public static Dictionary<int, List<string>> level_gen_hist_dict = new(); // dictionary containing all generated levels
