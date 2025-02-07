@@ -10,10 +10,10 @@ public partial class DialogueBox : MarginContainer
     // Properties
     private string text = "";
     private int let_idx = 0; // the current letter
-    private float let_time = 0.01f; // the time it takes each letter to appear
-    private float space_time = 0.02f; // the time it takes for spaces to appear
-    private float punct_time = 0.01f; // the time it takes for punctuation to appear
-    private float disappear_time = 1f;
+    private float let_time = 0.005f; // the time it takes each letter to appear
+    private float space_time = 0.01f; // the time it takes for spaces to appear
+    private float punct_time = 0.005f; // the time it takes for punctuation to appear
+    private float disappear_time = 0f;
 
     // Children Nodes
     private Label label;
