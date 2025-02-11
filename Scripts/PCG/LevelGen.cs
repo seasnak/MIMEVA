@@ -33,17 +33,18 @@ public partial class LevelGen : Node
             case 'M': diff_change = target_difficulty - 5; return;
             case 'H': diff_change = target_difficulty - 8; return;
             default: diff_change = 0; return;
-        };
+        }
+        ;
     }
 
     /*private string[] beats = { "^ - -", "^ _ _", "^ _ -", "_ ^ _", "- _ -" };*/
 
-    public string GenerateRhythm(int num_measures = 2, int difficulty = 5, string mode = "regular", int measure_length = 4, bool repeat_measure = true, bool has_upbeat = false)
+    public string GenerateRhythm(int num_measures = 2, int difficulty = 5, string mode = "regular", int measure_length = 4, bool repeat_measure = true, bool has_upbeat = false, int seed = -1)
     {
         // increased difficulty decreases the space between notes or introduces "difficulty" patterns with uneven spacing
         // rhythm consists of "emphasized" jumps (^) and "muted" jumps (-) and rests (_)
         string rhythm = "";
-        Random rand = new();
+        Random rand = seed == -1 ? new() : new(seed);
 
         if (mode == "regular") // notes are evenly spaced
         {
@@ -74,5 +75,7 @@ public partial class LevelGen : Node
 
         return rhythm;
     }
+
+
 
 }

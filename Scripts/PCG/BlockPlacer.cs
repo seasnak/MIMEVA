@@ -45,6 +45,8 @@ public partial class BlockPlacer : Area2D
 
     private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
     private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
+    private float excess_rate = 0.5f; // the rate at which to convert Os into spikes
+    private int num_keys = 0;
 
     // Booleans for level generation
     private bool is_key_room = false;
@@ -105,7 +107,6 @@ public partial class BlockPlacer : Area2D
             LevelGenVariables.PlayerHasSkipped = true;
             player.GlobalPosition = this.GlobalPosition - new Vector2(15, 5); // move player to this position
         }
-
     }
 
     public void ReloadBlockDictionary()
@@ -245,7 +246,6 @@ public partial class BlockPlacer : Area2D
                 curr_parts_len = parts_dict["Middle" + diff_str].Length;
                 LoadPartFromTxtFile($"{parts_dict["Middle" + diff_str][random.Next(0, curr_parts_len)]}");
             }
-
         }
 
         LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Right/RT_10.txt")); // changed to a default "right connector"
@@ -295,8 +295,7 @@ public partial class BlockPlacer : Area2D
         {
             for (int j = 0; j < level.Layout.Count; j++)
             {
-
-                switch (level.Layout[i][j])
+                switch (level.Layout[i][j]) // place respective block in level
                 {
                     case "-": break; // empty block -- do nothing
                     case "B":
@@ -311,6 +310,15 @@ public partial class BlockPlacer : Area2D
                     case "!": // case: update position of object
                         this.Position = new((j + (int)curr_offset.X) * BLOCK_SIZE + BLOCK_OFFSET, (i + (int)curr_offset.Y) * BLOCK_SIZE + BLOCK_OFFSET);
                         tmp_generating_level = false;
+                        break;
+                    case "K": // case: place key -- check to see if door being generated
+                        if (num_keys > 0)
+                        {
+                            var obj = block_dict["K"].Instantiate();
+                            GetTree().Root.CallDeferred("add_child", obj);
+                            ((Node2D)obj).Position = new((j + (int)curr_offset.X) * BLOCK_SIZE + BLOCK_OFFSET, (i + (int)curr_offset.Y) * BLOCK_SIZE + BLOCK_OFFSET);
+                            num_keys -= 1;
+                        }
                         break;
                     default:
                         // case: place object from block dictionary
@@ -344,7 +352,7 @@ public partial class BlockPlacer : Area2D
             {
                 float new_diff = LevelGenVariables.LevelDifficulty + (1 - LevelGenVariables.PlayerDeathCount / 2) / (LevelGenVariables.NumRoomsCompleted);
                 LevelGenVariables.LevelDifficulty = Math.Min(10, new_diff);
-                GD.Print($"New Level Difficulty: {new_diff}\nPlayer Deaths: {LevelGenVariables.PlayerDeathCount}");
+                // GD.Print($"New Level Difficulty: {new_diff}\nPlayer Deaths: {LevelGenVariables.PlayerDeathCount}");
             }
             LevelGenVariables.PlayerHasSkipped = false;
 
