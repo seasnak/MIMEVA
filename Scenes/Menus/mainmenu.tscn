@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0y160acsktsg"]
+[gd_scene load_steps=7 format=3 uid="uid://b0y160acsktsg"]
 
 [ext_resource type="Texture2D" uid="uid://4ohew37o6gkr" path="res://Sprites/Backgrounds/mainmenu-tmp.png" id="1_u4bc3"]
 [ext_resource type="LabelSettings" uid="uid://bia186th017o" path="res://Textures/DefaultUITitleFont.tres" id="2_0s6xf"]
 [ext_resource type="Script" path="res://Scripts/UI/StartGame.cs" id="3_dla46"]
 [ext_resource type="LabelSettings" uid="uid://0qisxlvgy2xq" path="res://Textures/MenuUIFont.tres" id="3_ons5m"]
 [ext_resource type="Script" path="res://Scripts/UI/LevelDifficulty.cs" id="5_xy46w"]
+[ext_resource type="Script" path="res://Scripts/UI/MainMenuList.cs" id="6_0mopg"]
 
 [node name="MainMenu" type="Node2D"]
 
@@ -71,9 +72,10 @@ script = ExtResource("5_xy46w")
 [node name="Menu" type="Label" parent="Control"]
 layout_mode = 0
 offset_left = 276.0
-offset_top = 300.0
+offset_top = 400.0
 offset_right = 876.0
-offset_bottom = 600.0
+offset_bottom = 700.0
 text = "Here is where the Menu goes!"
 label_settings = ExtResource("3_ons5m")
 horizontal_alignment = 1
+script = ExtResource("6_0mopg")

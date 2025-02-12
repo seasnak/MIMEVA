@@ -19,15 +19,6 @@ public partial class StartGame : Label
         curr_alpha += 2 * (float)delta;
         this.Modulate = new Godot.Color(this.Modulate.R, this.Modulate.G, this.Modulate.B, (1 + (float)Math.Sin(curr_alpha)) / 2);
 
-        if (Input.IsActionJustPressed("ui_up"))
-        { // increase difficulty
-            LevelGenVariables.LevelDifficulty = LevelGenVariables.LevelDifficulty < 10 ? LevelGenVariables.LevelDifficulty + 1 : 10;
-        }
-        else if (Input.IsActionJustPressed("ui_down"))
-        { // decrease difficulty
-            LevelGenVariables.LevelDifficulty = LevelGenVariables.LevelDifficulty > 0 ? LevelGenVariables.LevelDifficulty - 1 : 0;
-        }
-
         if (Input.IsActionJustPressed("jump"))
         {
             try

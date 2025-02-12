@@ -40,8 +40,8 @@ public partial class BlockPlacer : Area2D
 
     [Export] private float override_difficulty = 0; // if the override difficulty is between 1 and 10, then override difficulty to this value
     [Export] private int num_parts_in_room = 5; // the number of parts that will make up the room.
-    [Export] private int num_rooms_to_generate = 3; // the number of rooms to generate before ending the level
-    private int num_rooms_generated = 0; // (counter) the number of rooms generated so far (depracated -- use LevelGenVariables.NumRoomsCompleted instead)
+    [Export] private int num_rooms_to_generate = 3; // UNUSED the number of rooms to generate before ending the level
+    private int num_rooms_generated = 0; // UNUSED (counter) the number of rooms generated so far (depracated -- use LevelGenVariables.NumRoomsCompleted instead)
 
     private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
     private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
@@ -255,7 +255,7 @@ public partial class BlockPlacer : Area2D
         LoadPartFromTxtFile($"{parts_dict["Right" + diff_str][random.Next(0, curr_parts_len)]}");
 
         // load either connector room or final room
-        if (LevelGenVariables.NumRoomsCompleted < num_rooms_to_generate)
+        if (LevelGenVariables.NumRoomsCompleted < LevelGenVariables.NumRooms)
         {
             LoadPartFromTxtFile(ProjectSettings.GlobalizePath(connector_room_path));
         }

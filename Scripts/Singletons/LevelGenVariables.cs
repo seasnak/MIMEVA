@@ -18,10 +18,10 @@ public partial class LevelGenVariables : Node
     private static int player_death_tolerance = 5; // the tolerance of how many times a player can die before difficulty is increased
     private static float difficulty_change_scaling = 0.2f;
 
-    private static int num_rooms_completed = 0; // the number of rooms the player has completed in the current level
-    private static int num_levels_completed = 0; // the number of levels the player has completed in total
-    private static int num_levels = 3; // the number of levels to generate
-    public static int NumLevels { get => num_levels; set => num_levels = value; }
+    private static int num_parts_completed = 0; // the number of parts the player has completed in the current level
+    private static int num_rooms_completed = 0; // the number of rooms the player has completed in total
+    private static int num_rooms = 3; // the number of levels to generate
+    public static int NumRooms { get => num_rooms; set => num_rooms = value; }
     private static int num_rooms_per_level = 5; // the minimum number of rooms in each level
     private static int player_death_count = 0; // the number of player deaths to determine level difficulty
     private static List<(float, float)> player_death_pos_list = new(); // list of places player has died
@@ -40,7 +40,7 @@ public partial class LevelGenVariables : Node
 
     public static float LevelDifficulty { get => level_difficulty; set => level_difficulty = value; }
     public static int NumRoomsCompleted { get => num_rooms_completed; set => num_rooms_completed = value; }
-    public static int NumLevelsCompleted { get => num_levels_completed; set => num_levels_completed = value; }
+    public static int NumPartsCompleted { get => num_parts_completed; set => num_parts_completed = value; }
     public static Dictionary<int, int> PlayerDeathDict { get => player_death_dict; }
 
     // Statistical Analysis Functions
