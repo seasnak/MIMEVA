@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c444v4l648t7r"]
+[gd_scene load_steps=13 format=3 uid="uid://c444v4l648t7r"]
 
 [ext_resource type="Texture2D" uid="uid://pc0xvd7772dk" path="res://Sprites/UI/uibar_under.png" id="1_qj1t3"]
 [ext_resource type="Texture2D" uid="uid://e8ykpiyroghv" path="res://Sprites/UI/healthbar_progress.png" id="2_h5koc"]
@@ -9,6 +9,9 @@
 [ext_resource type="Script" path="res://Scripts/UI/CoinCounter.cs" id="6_rd4kc"]
 [ext_resource type="Texture2D" uid="uid://djml406r0e135" path="res://Sprites/Objects/Pickups/coin.png" id="7_n4iae"]
 [ext_resource type="Script" path="res://Scripts/UI/DifficultyLabel.cs" id="8_qudg5"]
+[ext_resource type="Texture2D" uid="uid://dbjqg5xograwq" path="res://Sprites/UI/skip_used.png" id="10_akn7s"]
+[ext_resource type="Script" path="res://Scripts/UI/SkipUsedLabel.cs" id="10_kdh1u"]
+[ext_resource type="Texture2D" uid="uid://cxcrya1lp7nif" path="res://Sprites/UI/skip_unused.png" id="10_n46d8"]
 
 [node name="UI" type="CanvasLayer"]
 
@@ -57,3 +60,12 @@ offset_bottom = 25.0
 theme_override_fonts/font = ExtResource("4_7mdto")
 theme_override_font_sizes/font_size = 30
 script = ExtResource("8_qudg5")
+
+[node name="SkipUsedLabel" type="TextureRect" parent="."]
+offset_left = 225.0
+offset_top = 1.0
+offset_right = 265.0
+offset_bottom = 41.0
+script = ExtResource("10_kdh1u")
+skip_used_sprite = ExtResource("10_akn7s")
+skip_notused_sprite = ExtResource("10_n46d8")

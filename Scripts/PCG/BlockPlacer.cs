@@ -1,7 +1,6 @@
 using Godot;
 /*using Godot.Collections;*/
 
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,7 +38,6 @@ public partial class BlockPlacer : Area2D
     private Godot.Vector2 left_connector_pos = Godot.Vector2.Zero; // the location of the left connector
     private Godot.Vector2 right_connector_pos = Godot.Vector2.Zero; // the location of the right connector
 
-    private float difficulty; // difficulty between 1 and 10. determines how many room parts are of "easy", "medium", or "hard" difficulty.
     [Export] private float override_difficulty = 0; // if the override difficulty is between 1 and 10, then override difficulty to this value
     [Export] private int num_parts_in_room = 5; // the number of parts that will make up the room.
     [Export] private int num_rooms_to_generate = 3; // the number of rooms to generate before ending the level
@@ -47,10 +45,12 @@ public partial class BlockPlacer : Area2D
 
     private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
     private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
+    private float excess_rate = 0.5f; // the rate at which to convert Os into spikes
+    private int num_keys = 0;
 
     // Booleans for level generation
     private bool is_key_room = false;
-    private bool has_skipped_room = false;
+    // private bool has_skipped_room = false;
 
     // Prefabs Dictionary
     private static Godot.Collections.Dictionary<string, PackedScene> block_dict;
@@ -61,6 +61,9 @@ public partial class BlockPlacer : Area2D
     // arrays for difficulty level difficulty and part files
     private readonly string[] diff_arr = { "Easy", "Medium", "Hard" };
     private readonly string[] part_arr = { "Left", "Middle", "Right" };
+
+    // UI elements
+    // [Export] private TextureRect skip_used_label;
 
     // dictionary for optional level adjustments
 
@@ -92,22 +95,18 @@ public partial class BlockPlacer : Area2D
         BodyEntered += OnBodyEntered;
 
         // set difficulty
-        if (override_difficulty > 0) { difficulty = override_difficulty; }
-        else { difficulty = LevelGenVariables.LevelDifficulty; }
+        if (override_difficulty > 0) { LevelGenVariables.LevelDifficulty = override_difficulty; }
     }
 
     public override void _Process(double delta)
     {
-        if (Input.IsKeyPressed(Godot.Key.P))
+        if (Input.IsActionJustPressed("skip") && !LevelGenVariables.PlayerHasSkipped)
         {
-            var player_death_count = LevelGenVariables.PlayerDeathCount;
-            LevelGenVariables.LevelDifficulty = Math.Max(1, LevelGenVariables.LevelDifficulty - 1 - LevelGenVariables.PlayerDeathCount / 10);
-            LevelGenVariables.NumRoomsCompleted -= 1;
-            this.has_skipped_room = true;
+            if (LevelGenVariables.NumRoomsCompleted >= 1) { LevelGenVariables.LevelDifficulty = Math.Max(1, LevelGenVariables.LevelDifficulty - 1 - LevelGenVariables.PlayerDeathCount / 10); }
+            LevelGenVariables.NumRoomsCompleted = Math.Max(0, LevelGenVariables.NumRoomsCompleted - 1);
+            LevelGenVariables.PlayerHasSkipped = true;
             player.GlobalPosition = this.GlobalPosition - new Vector2(15, 5); // move player to this position
-
         }
-
     }
 
     public void ReloadBlockDictionary()
@@ -189,13 +188,13 @@ public partial class BlockPlacer : Area2D
         Random random = new();
         string diff;
 
-        if (difficulty <= 5)
+        if (LevelGenVariables.LevelDifficulty <= 5)
         {
-            diff = random.NextDouble() < (difficulty / 10) ? "Easy" : "Medium";
+            diff = random.NextDouble() < (LevelGenVariables.LevelDifficulty / 10) ? "Easy" : "Medium";
         }
-        else if (difficulty < 10)
+        else if (LevelGenVariables.LevelDifficulty < 10)
         {
-            diff = random.NextDouble() < (difficulty / 10) - 0.5 ? "Medium" : "Hard";
+            diff = random.NextDouble() < (LevelGenVariables.LevelDifficulty / 10) - 0.5 ? "Medium" : "Hard";
         }
         else { diff = "Hard"; }
 
@@ -212,7 +211,7 @@ public partial class BlockPlacer : Area2D
         {
             // select the minimum amount of rooms based on the current difficulty setting
             int min_parts = 3;
-            int max_parts = (int)Math.Floor((float)difficulty / 3) + 3;
+            int max_parts = (int)Math.Floor((float)LevelGenVariables.LevelDifficulty / 3) + 3;
             num_parts_in_room = random.Next(min_parts, max_parts + 1);
         }
         else
@@ -247,7 +246,6 @@ public partial class BlockPlacer : Area2D
                 curr_parts_len = parts_dict["Middle" + diff_str].Length;
                 LoadPartFromTxtFile($"{parts_dict["Middle" + diff_str][random.Next(0, curr_parts_len)]}");
             }
-
         }
 
         LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Right/RT_10.txt")); // changed to a default "right connector"
@@ -297,8 +295,7 @@ public partial class BlockPlacer : Area2D
         {
             for (int j = 0; j < level.Layout.Count; j++)
             {
-
-                switch (level.Layout[i][j])
+                switch (level.Layout[i][j]) // place respective block in level
                 {
                     case "-": break; // empty block -- do nothing
                     case "B":
@@ -313,6 +310,15 @@ public partial class BlockPlacer : Area2D
                     case "!": // case: update position of object
                         this.Position = new((j + (int)curr_offset.X) * BLOCK_SIZE + BLOCK_OFFSET, (i + (int)curr_offset.Y) * BLOCK_SIZE + BLOCK_OFFSET);
                         tmp_generating_level = false;
+                        break;
+                    case "K": // case: place key -- check to see if door being generated
+                        if (num_keys > 0)
+                        {
+                            var obj = block_dict["K"].Instantiate();
+                            GetTree().Root.CallDeferred("add_child", obj);
+                            ((Node2D)obj).Position = new((j + (int)curr_offset.X) * BLOCK_SIZE + BLOCK_OFFSET, (i + (int)curr_offset.Y) * BLOCK_SIZE + BLOCK_OFFSET);
+                            num_keys -= 1;
+                        }
                         break;
                     default:
                         // case: place object from block dictionary
@@ -342,11 +348,13 @@ public partial class BlockPlacer : Area2D
             LevelGenVariables.NumRoomsCompleted += 1;
 
             // Update Difficulty
-            if (LevelGenVariables.NumRoomsCompleted >= 1 && !has_skipped_room)
+            if (LevelGenVariables.NumRoomsCompleted >= 1 && !LevelGenVariables.PlayerHasSkipped)
             {
-                LevelGenVariables.LevelDifficulty = Math.Min(10, LevelGenVariables.LevelDifficulty + (1 - LevelGenVariables.PlayerDeathCount / 2) / (LevelGenVariables.NumRoomsCompleted));
+                float new_diff = LevelGenVariables.LevelDifficulty + (1 - LevelGenVariables.PlayerDeathCount / 2) / (LevelGenVariables.NumRoomsCompleted);
+                LevelGenVariables.LevelDifficulty = Math.Min(10, new_diff);
+                // GD.Print($"New Level Difficulty: {new_diff}\nPlayer Deaths: {LevelGenVariables.PlayerDeathCount}");
             }
-            has_skipped_room = false;
+            LevelGenVariables.PlayerHasSkipped = false;
 
             if (num_parts_in_room == 0) { LoadNewRoomFromPartFiles(); }
             else { LoadNewRoomFromPartFiles(num_parts: num_parts_in_room); }

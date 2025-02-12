@@ -29,6 +29,9 @@ public partial class Enemy : CharacterBody2D
     private float damage_blink_timer; // keeps track of player's health
     private float damage_blink_dur = 100; // time (in ms) for how long enemy sprite blinks
 
+    // External Nodes
+    [Export] private Player player;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -61,6 +64,12 @@ public partial class Enemy : CharacterBody2D
             (mat as ShaderMaterial).SetShaderParameter("active", false);
             is_blinking_state = false;
         }
+
+        // Memory Handler
+        // if ((this.GlobalPosition - player.GlobalPosition).Length() >= 100)
+        // {
+        //     QueueFree();
+        // }
     }
 
     private void HandleDeath()
