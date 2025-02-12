@@ -58,6 +58,7 @@ script = ExtResource("3_dla46")
 starting_scene_path = "res://Scenes/Testing/blockplacertestscene.tscn"
 
 [node name="Level Difficulty" type="Label" parent="Control"]
+visible = false
 layout_mode = 0
 offset_left = 276.0
 offset_top = 513.0
@@ -66,3 +67,13 @@ offset_bottom = 557.0
 text = "Current Difficulty: 5 (Change with ↑ and ↓)"
 label_settings = ExtResource("3_ons5m")
 script = ExtResource("5_xy46w")
+
+[node name="Menu" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 276.0
+offset_top = 300.0
+offset_right = 876.0
+offset_bottom = 600.0
+text = "Here is where the Menu goes!"
+label_settings = ExtResource("3_ons5m")
+horizontal_alignment = 1
