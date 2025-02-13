@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=21 format=3 uid="uid://1kw0faq4s6kt"]
+[gd_resource type="SpriteFrames" load_steps=21 format=3 uid="uid://btyd1qyklohpn"]
 
 [ext_resource type="Texture2D" uid="uid://cimta3cuosdgj" path="res://Sprites/Player/RobotPlayer/robot_short_walk-Sheet.png" id="1_hwpuh"]
 [ext_resource type="Texture2D" uid="uid://cnwe2ivgu1hl0" path="res://Sprites/CharacterAnims/death-Sheet.png" id="2_rjtro"]
