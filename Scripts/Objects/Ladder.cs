@@ -1,8 +1,10 @@
 using Godot;
-using System;
 
-namespace Mimeva;
-public partial class Ladder : RigidBody2D {
+using Mimeva.Entity;
+
+namespace Mimeva.Object;
+public partial class Ladder : RigidBody2D
+{
 
     private bool is_active = false;
 
@@ -16,25 +18,31 @@ public partial class Ladder : RigidBody2D {
 
     public override void _Process(double delta)
     {
-        
+
     }
 
-    public void SpawnPlayer(Player target) {
+    public void SpawnPlayer(Player target)
+    {
         target.Position = this.Position;
     }
 
-    public void SpawnPlayer() {
+    public void SpawnPlayer()
+    {
         player.Position = this.Position;
     }
 
-    public void OnBodyEntered(Node body) {
-        if (body is Player) {
+    public void OnBodyEntered(Node body)
+    {
+        if (body is Player)
+        {
             ((Player)body).SetClimb(true);
         }
     }
 
-    public void OnBodyExited(Node body) {
-        if (body is Player) {
+    public void OnBodyExited(Node body)
+    {
+        if (body is Player)
+        {
             ((Player)body).SetClimb(false);
         }
     }

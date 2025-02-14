@@ -1,46 +1,51 @@
 using Godot;
-using System;
 
-namespace Mimeva;
-public partial class Door : Area2D {
+using Mimeva.Entity;
 
-  private bool is_active = true; // if the door is open, then it is set to false
-	private Key required_key;
-  private StaticBody2D collider;
-  private AnimatedSprite2D sprite;
+namespace Mimeva.Object;
+public partial class Door : Area2D
+{
 
-  private Player player; // the target player for scope
+    private bool is_active = true; // if the door is open, then it is set to false
+    private Key required_key;
+    private StaticBody2D collider;
+    private AnimatedSprite2D sprite;
 
-  public override void _Ready()
-  {
-	collider = GetNode<StaticBody2D>("StaticBody2D");
-	// this.CollisionLayer = 1;
-	// this.CollisionMask = 1;
+    private Player player; // the target player for scope
 
-	sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-	BodyEntered += OnBodyEntered;
+    public override void _Ready()
+    {
+        collider = GetNode<StaticBody2D>("StaticBody2D");
+        // this.CollisionLayer = 1;
+        // this.CollisionMask = 1;
 
-	sprite.Play("closed");
-  }
+        sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        BodyEntered += OnBodyEntered;
 
-  public override void _Process(double delta)
-  {
+        sprite.Play("closed");
+    }
 
-  }
+    public override void _Process(double delta)
+    {
 
-	private void OnBodyEntered(Node body) {
-  
-	if(body is Player) {
-	  int keys = ((Player)body).GetKeys();
-	  if(keys > 0) {
-		this.is_active = false;
-		collider.QueueFree();
-		sprite.Play("open");
-		((Player)body).SetKeys(keys - 1);
-	  }
-	}
+    }
 
-	}
+    private void OnBodyEntered(Node body)
+    {
+
+        if (body is Player)
+        {
+            int keys = ((Player)body).GetKeys();
+            if (keys > 0)
+            {
+                this.is_active = false;
+                collider.QueueFree();
+                sprite.Play("open");
+                ((Player)body).SetKeys(keys - 1);
+            }
+        }
+
+    }
 
 
 

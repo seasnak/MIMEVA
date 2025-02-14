@@ -3,7 +3,7 @@ using System;
 /*using System.Numerics;*/
 using Mimeva.Projectiles;
 
-namespace Mimeva;
+namespace Mimeva.Entity;
 public partial class Fleep : Enemy
 {
 

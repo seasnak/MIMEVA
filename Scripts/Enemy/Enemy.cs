@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace Mimeva;
+namespace Mimeva.Entity;
 public partial class Enemy : CharacterBody2D
 {
     protected int max_health = 100;

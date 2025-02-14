@@ -1,9 +1,9 @@
 using Godot;
 using System;
-using System.Reflection.Metadata;
+
 using Mimeva.UI;
 
-namespace Mimeva;
+namespace Mimeva.Utils;
 public partial class DialogueManager : Node
 {
     private PackedScene dbox_scene;

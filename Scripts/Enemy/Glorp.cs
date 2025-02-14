@@ -1,8 +1,7 @@
 using Godot;
 using System;
-// using System.Numerics;
 
-namespace Mimeva;
+namespace Mimeva.Entity;
 public partial class Glorp : Enemy
 {
 
@@ -108,7 +107,7 @@ public partial class Glorp : Enemy
             {
                 this.Position -= new Godot.Vector2(knockback_dist, 0);
             }
-            else // player attacked from above or below 
+            else // player attacked from above or below
             {
                 return;
             }

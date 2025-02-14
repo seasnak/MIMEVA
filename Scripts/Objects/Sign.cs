@@ -1,9 +1,9 @@
 using Godot;
-using System;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
 
-namespace Mimeva;
+using Mimeva.Entity;
+using Mimeva.Utils;
+
+namespace Mimeva.Object;
 public partial class Sign : Area2D
 {
     [Export] private string[] text = { "Insert Dialogue Here" };

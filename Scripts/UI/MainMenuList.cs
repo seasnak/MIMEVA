@@ -1,5 +1,6 @@
 using Godot;
-// using System;
+
+using Mimeva.PCG;
 
 namespace Mimeva.UI;
 
@@ -80,7 +81,7 @@ public partial class MainMenuList : Label
                 break;
             case 1:
                 int numr = LevelGenVariables.NumRooms + change;
-                numr = Mathf.Max(1, numr);
+                numr = Mathf.Min(10, Mathf.Max(1, numr));
                 LevelGenVariables.NumRooms = numr;
                 break;
             default:

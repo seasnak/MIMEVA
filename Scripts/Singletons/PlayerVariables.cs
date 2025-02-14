@@ -1,10 +1,10 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Numerics;
 
-namespace Mimeva;
+using Mimeva.Object;
+
+namespace Mimeva.Entity;
 public partial class PlayerVariables : Node
 {
 

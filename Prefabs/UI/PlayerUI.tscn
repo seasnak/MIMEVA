@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://d4na8s3sryi5v" path="res://Sprites/Objects/Pickups/key.png" id="5_3uepa"]
 [ext_resource type="Script" path="res://Scripts/UI/CoinCounter.cs" id="6_rd4kc"]
 [ext_resource type="Texture2D" uid="uid://djml406r0e135" path="res://Sprites/Objects/Pickups/coin.png" id="7_n4iae"]
-[ext_resource type="Script" path="res://Scripts/UI/DifficultyLabel.cs" id="8_qudg5"]
+[ext_resource type="Script" path="res://Scripts/UI/PCGUILabel.cs" id="9_q3ftv"]
 [ext_resource type="Texture2D" uid="uid://dbjqg5xograwq" path="res://Sprites/UI/skip_used.png" id="10_akn7s"]
 [ext_resource type="Script" path="res://Scripts/UI/SkipUsedLabel.cs" id="10_kdh1u"]
 [ext_resource type="Texture2D" uid="uid://cxcrya1lp7nif" path="res://Sprites/UI/skip_unused.png" id="10_n46d8"]
@@ -53,13 +53,13 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("7_n4iae")
 
-[node name="DifficultyLabel" type="Label" parent="."]
+[node name="PCGUILabel" type="Label" parent="."]
 offset_top = 2.0
 offset_right = 1.0
 offset_bottom = 25.0
 theme_override_fonts/font = ExtResource("4_7mdto")
 theme_override_font_sizes/font_size = 30
-script = ExtResource("8_qudg5")
+script = ExtResource("9_q3ftv")
 
 [node name="SkipUsedLabel" type="TextureRect" parent="."]
 offset_left = 225.0

@@ -1,8 +1,8 @@
 using Godot;
-/*using System;*/
-/*using System.Collections;*/
 
-namespace Mimeva;
+using Mimeva.Entity;
+
+namespace Mimeva.Object;
 public partial class Coin : Area2D
 {
 

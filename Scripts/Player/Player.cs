@@ -1,11 +1,9 @@
 using Godot;
 using System;
-using System.Collections.Generic;
-/*using System.ComponentModel.DataAnnotations;*/
-/*using System.Numerics;*/
-/*using System.Threading;*/
 
-namespace Mimeva;
+using Mimeva.PCG;
+
+namespace Mimeva.Entity;
 public partial class Player : CharacterBody2D
 {
 

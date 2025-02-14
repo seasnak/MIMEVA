@@ -1,14 +1,11 @@
 using Godot;
-/*using Godot.Collections;*/
 
 using System;
 using System.Collections.Generic;
 using System.IO;
-/*using System.Text.Json;*/
 
-/*using Mimeva;*/
 using Mimeva.Utils;
-/*using System.Linq;*/
+using Mimeva.Entity;
 
 namespace Mimeva.PCG;
 
@@ -50,7 +47,7 @@ public partial class BlockPlacer : Area2D
 
     // Booleans for level generation
     private bool is_key_room = false;
-    // private bool has_skipped_room = false;
+    private bool key_has_been_placed = false;
 
     // Prefabs Dictionary
     private static Godot.Collections.Dictionary<string, PackedScene> block_dict;
@@ -183,6 +180,8 @@ public partial class BlockPlacer : Area2D
         BuildLevelFromLevelMat();
     }
 
+
+    // Gets the difficulty of the next level
     private string GetNewDifficulty()
     {
         Random random = new();
@@ -362,6 +361,8 @@ public partial class BlockPlacer : Area2D
     }
 
     // Helper Functions
+
+    // Load in a new tilemap
     private void UpdateTilemap(string new_tilemap_path)
     {
         try

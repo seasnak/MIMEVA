@@ -1,18 +1,17 @@
 using Godot;
-using Mimeva;
+
+using Mimeva.Entity;
 using Mimeva.PCG;
-using System;
 
 namespace Mimeva.UI;
-
-public partial class DifficultyLabel : Label //RichTextLabel
+public partial class PCGUILabel : Label //RichTextLabel
 {
 
     Player player;
 
     public override void _Ready()
     {
-        this.Text = "Difficulty:   ";
+        this.Text = "Difficulty:   \nCompletion:     ";
 
         /*this.AddThemeFontOverride("", new Godot.Font("res://Fonts/monogram/monogram.ttf"));*/
         /*this.AddThemeFontSizeOverride("", 20);*/
@@ -25,6 +24,6 @@ public partial class DifficultyLabel : Label //RichTextLabel
 
     public override void _Process(double delta)
     {
-        this.Text = $"Difficulty: {LevelGenVariables.LevelDifficulty}";
+        this.Text = $"Difficulty: {LevelGenVariables.LevelDifficulty} \nCompletion: {LevelGenVariables.NumRoomsCompleted}/{LevelGenVariables.NumRooms}";
     }
 }

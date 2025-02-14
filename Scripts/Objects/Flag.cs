@@ -1,7 +1,8 @@
 using Godot;
-using Mimeva;
-using System;
 
+using Mimeva.Entity;
+
+namespace Mimeva.Object;
 public partial class Flag : Area2D
 {
     [Export] private string final_scene_path = "";
