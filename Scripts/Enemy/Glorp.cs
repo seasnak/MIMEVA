@@ -95,6 +95,7 @@ public partial class Glorp : Enemy
     public override void Damage(int damage, bool should_blink = false)
     {
         base.Damage(damage, should_blink);
+        if (this.curr_health <= 0) { return; } // unit is already dead, no need
 
         // knockback handler
         if (!is_knockedback)

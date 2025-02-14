@@ -4,8 +4,8 @@ using System;
 namespace Mimeva.Entity;
 public partial class Enemy : CharacterBody2D
 {
-    protected int max_health = 100;
-    protected int curr_health = 100;
+    protected int max_health = 60;
+    protected int curr_health = 60;
 
     protected int max_mana = 100;
     protected int curr_mana = 100;
@@ -41,6 +41,8 @@ public partial class Enemy : CharacterBody2D
         hitbox = GetNode<HitBox>("HitBox");
         hitbox.SetDamage(10);
 
+        is_blinking_state = false;
+
         mat = sprite.Material;
     }
 
@@ -74,10 +76,11 @@ public partial class Enemy : CharacterBody2D
 
     private void HandleDeath()
     {
-
-        //TODO: Add death animation player
+        this.CollisionLayer = 0; // remove object from collision layer so player can't interact with it
         PlayerVariables.AddEnemyKill(this.Name);
-        QueueFree();
+        sprite.Play("death");
+        if (!sprite.IsPlaying()) { QueueFree(); }
+        // QueueFree();
     }
 
     protected virtual void SetMovementLogic()
@@ -87,8 +90,8 @@ public partial class Enemy : CharacterBody2D
 
     public virtual void Damage(int damage, bool should_blink = false)
     {
-
         // GD.Print($"Dealing {damage} damage to enemy");
+        if (is_blinking_state) return;
 
         if (should_blink)
         {

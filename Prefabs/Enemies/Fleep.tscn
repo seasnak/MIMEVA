@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c5571an3gn2gr"]
+[gd_scene load_steps=25 format=3 uid="uid://c5571an3gn2gr"]
 
 [ext_resource type="Script" path="res://Scripts/Enemy/Fleep.cs" id="1_ioafx"]
 [ext_resource type="Texture2D" uid="uid://cnt1in68ls8o2" path="res://Sprites/Enemies/Fleep/fleep_flying-Sheet.png" id="2_bubs8"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b37b1qb5fhs87" path="res://Levels/Bullet.tscn" id="2_uevm2"]
 [ext_resource type="Script" path="res://Scripts/HitBox.cs" id="3_8leck"]
 [ext_resource type="Shader" path="res://Shaders/hitflash.gdshader" id="4_f0vw1"]
+[ext_resource type="Texture2D" uid="uid://cnwe2ivgu1hl0" path="res://Sprites/CharacterAnims/death-Sheet.png" id="6_gtsnl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tyd0v"]
 size = Vector2(4, 5)
@@ -19,6 +20,34 @@ size = Vector2(4, 4)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ytwks"]
 shader = ExtResource("4_f0vw1")
 shader_parameter/active = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hkxyc"]
+atlas = ExtResource("6_gtsnl")
+region = Rect2(0, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fy1af"]
+atlas = ExtResource("6_gtsnl")
+region = Rect2(12, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ao5q"]
+atlas = ExtResource("6_gtsnl")
+region = Rect2(24, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbnw2"]
+atlas = ExtResource("6_gtsnl")
+region = Rect2(36, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5gr4o"]
+atlas = ExtResource("6_gtsnl")
+region = Rect2(48, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cja58"]
+atlas = ExtResource("6_gtsnl")
+region = Rect2(60, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qnhta"]
+atlas = ExtResource("6_gtsnl")
+region = Rect2(72, 0, 12, 12)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vkq01"]
 atlas = ExtResource("2_bubs8")
@@ -42,6 +71,32 @@ region = Rect2(48, 0, 12, 12)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ll8s0"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hkxyc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fy1af")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ao5q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbnw2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5gr4o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cja58")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qnhta")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vkq01")

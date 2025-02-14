@@ -79,7 +79,11 @@ public partial class LevelGenVariables : Node
 
     public static void UpdateDifficulty()
     {
-        float new_diff = level_difficulty + (1 - player_death_count / 2) / (num_rooms_completed);
+        if (num_rooms_completed == 0) return;
+
+        //
+        float new_diff = level_difficulty + (1 / (player_death_count + 1));
+        GD.Print($"Difficulty Update: {level_difficulty} -> {new_diff}");
         level_difficulty = Math.Min(10, new_diff);
 
         level_difficulty = new_diff;

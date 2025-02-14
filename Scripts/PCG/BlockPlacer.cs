@@ -349,9 +349,10 @@ public partial class BlockPlacer : Area2D
             // Update Difficulty
             if (LevelGenVariables.NumRoomsCompleted >= 1 && !LevelGenVariables.PlayerHasSkipped)
             {
-                float new_diff = LevelGenVariables.LevelDifficulty + (1 - LevelGenVariables.PlayerDeathCount / 2) / (LevelGenVariables.NumRoomsCompleted);
-                LevelGenVariables.LevelDifficulty = Math.Min(10, new_diff);
+                // float new_diff = LevelGenVariables.LevelDifficulty + (1 - LevelGenVariables.PlayerDeathCount / 2) / (LevelGenVariables.NumRoomsCompleted);
+                // LevelGenVariables.LevelDifficulty = Math.Min(10, new_diff);
                 // GD.Print($"New Level Difficulty: {new_diff}\nPlayer Deaths: {LevelGenVariables.PlayerDeathCount}");
+                LevelGenVariables.UpdateDifficulty();
             }
             LevelGenVariables.PlayerHasSkipped = false;
 

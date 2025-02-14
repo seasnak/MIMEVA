@@ -1,6 +1,6 @@
 using Godot;
 using System;
-/*using System.Numerics;*/
+
 using Mimeva.Projectiles;
 
 namespace Mimeva.Entity;
@@ -33,7 +33,8 @@ public partial class Fleep : Enemy
 
         // update stats
         this.movespeed = movespeed_override < 0 ? 20 : movespeed_override;
-        this.max_health = 50;
+        this.max_health = 20;
+        this.curr_health = 20;
 
         // update sprite
         sprite.SpeedScale = 1.5f;

@@ -20,7 +20,7 @@ public partial class StatsController : Control
 
         if (Input.IsActionPressed("jump"))
         {
-            GetTree().ChangeSceneToFile("res://Scenes/UI/StartGame.tscn");
+            GetTree().ChangeSceneToFile("res://Scenes/Menus/mainmenu.tscn");
         }
 
     }
