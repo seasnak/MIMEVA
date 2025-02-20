@@ -21,6 +21,7 @@ public partial class Enemy : CharacterBody2D
     protected AnimatedSprite2D sprite;
     protected Material mat;
     protected HitBox hitbox;
+    protected CollisionShape2D collider;
 
     // Enemy Conditionals
     private bool is_blinking_state = false;
@@ -37,6 +38,7 @@ public partial class Enemy : CharacterBody2D
     public override void _Ready()
     {
         sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        collider = GetNode<CollisionShape2D>("CollisionShape2D");
         AddToGroup("enemy");
 
         hitbox = GetNode<HitBox>("HitBox");
@@ -59,7 +61,6 @@ public partial class Enemy : CharacterBody2D
         if (curr_health <= 0)
         {
             HandleDeath();
-            this.movespeed = 0;
         }
 
         // handle damage blink
@@ -75,7 +76,13 @@ public partial class Enemy : CharacterBody2D
         if (!is_dead)
         {
             is_dead = true;
-            this.hitbox.CollisionLayer = 0; // remove object from collision layer so player can't interact with it
+            (mat as ShaderMaterial).SetShaderParameter("active", false);
+            is_blinking_state = false;
+
+            movespeed = 0;
+            hitbox.SetActive(false);
+            this.CollisionMask = 1;
+            this.CollisionLayer = 0;
 
             PlayerVariables.AddEnemyKill(this.Name);
             sprite.Play("death");

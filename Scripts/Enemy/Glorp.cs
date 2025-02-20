@@ -69,7 +69,11 @@ public partial class Glorp : Enemy
 
         sprite.FlipH = Velocity.X > 0;
         ledge_check.GetNode<CollisionShape2D>("CollisionShape2D").Position = new(4 * Velocity.X > 0 ? 1 : -1, 7);
-        if (Velocity.X != 0)
+        if (curr_health <= 0)
+        {
+            // do nothing -- death animation
+        }
+        else if (Velocity.X != 0)
         {
             sprite.Play("walk");
         }

@@ -5,10 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://b2ji2mi6jgcvd" path="res://Prefabs/Components/HitBox.tscn" id="2_l0uu4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qsslh"]
-size = Vector2(4, 4)
+size = Vector2(2, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yxaeb"]
-size = Vector2(4, 4)
+size = Vector2(2, 2)
 
 [node name="Projectile" type="Area2D"]
 script = ExtResource("1_87phq")
@@ -18,7 +18,7 @@ metadata/_edit_group_ = true
 texture = ExtResource("1_xuudp")
 
 [node name="HitBox" parent="." instance=ExtResource("2_l0uu4")]
-collision_layer = 2
+collision_layer = 8
 collision_mask = 0
 damage = 10
 is_breakable = true

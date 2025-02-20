@@ -22,7 +22,8 @@ shader_parameter/active = false
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(1, 0)
-collision_layer = 3
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_iacww")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -50,7 +51,7 @@ debug_color = Color(0, 1, 0, 0.392157)
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 8
 script = ExtResource("7_2u7ll")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
@@ -62,4 +63,4 @@ debug_color = Color(1, 0, 0, 0.392157)
 material = SubResource("ShaderMaterial_wp2xy")
 position = Vector2(0, 2)
 sprite_frames = ExtResource("6_0qwvc")
-animation = &"attack"
+animation = &"death"
