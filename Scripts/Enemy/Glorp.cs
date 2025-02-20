@@ -22,7 +22,7 @@ public partial class Glorp : Enemy
     public override void _Ready()
     {
         base._Ready();
-        sprite.SpeedScale = 1.5f;
+        // sprite.SpeedScale = 1.5f;
 
         if (ledge_check == null)
         {

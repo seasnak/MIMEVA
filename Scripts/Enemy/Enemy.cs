@@ -24,6 +24,7 @@ public partial class Enemy : CharacterBody2D
 
     // Enemy Conditionals
     private bool is_blinking_state = false;
+    private bool is_dead = false;
 
     // Enemy Timers
     private float damage_blink_timer; // keeps track of player's health
@@ -58,6 +59,7 @@ public partial class Enemy : CharacterBody2D
         if (curr_health <= 0)
         {
             HandleDeath();
+            this.movespeed = 0;
         }
 
         // handle damage blink
@@ -66,19 +68,18 @@ public partial class Enemy : CharacterBody2D
             (mat as ShaderMaterial).SetShaderParameter("active", false);
             is_blinking_state = false;
         }
-
-        // Memory Handler
-        // if ((this.GlobalPosition - player.GlobalPosition).Length() >= 100)
-        // {
-        //     QueueFree();
-        // }
     }
 
     private void HandleDeath()
     {
-        this.CollisionLayer = 0; // remove object from collision layer so player can't interact with it
-        PlayerVariables.AddEnemyKill(this.Name);
-        sprite.Play("death");
+        if (!is_dead)
+        {
+            is_dead = true;
+            this.hitbox.CollisionLayer = 0; // remove object from collision layer so player can't interact with it
+
+            PlayerVariables.AddEnemyKill(this.Name);
+            sprite.Play("death");
+        }
         if (!sprite.IsPlaying()) { QueueFree(); }
         // QueueFree();
     }

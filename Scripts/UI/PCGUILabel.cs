@@ -7,19 +7,15 @@ namespace Mimeva.UI;
 public partial class PCGUILabel : Label //RichTextLabel
 {
 
-    Player player;
+    private Player player;
 
     public override void _Ready()
     {
         this.Text = "Difficulty:   \nCompletion:     ";
 
-        /*this.AddThemeFontOverride("", new Godot.Font("res://Fonts/monogram/monogram.ttf"));*/
-        /*this.AddThemeFontSizeOverride("", 20);*/
-
         // Adjust Appearance
         this.Position = new(15, 40);
         this.Size = new(100, 100);
-
     }
 
     public override void _Process(double delta)
