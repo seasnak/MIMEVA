@@ -267,9 +267,6 @@ public partial class BlockPlacer : Area2D
 
     public void LoadPartFromTxtFile(string part_f, int start_pos_x = -1, int start_pos_y = -1)
     {
-        // add level fname to level gen history dictionary
-        LevelGenVariables.AddRoomToLevelDict(part_f);
-
         // Load in a part of a level (based on what part we need)
         if (start_pos_x < 0)
         {
@@ -345,6 +342,7 @@ public partial class BlockPlacer : Area2D
             tmp_generating_level = true;
             // has_skipped_room = false;
             LevelGenVariables.NumRoomsCompleted += 1;
+            LevelGenVariables.NumRoomsGenerated += 1;
 
             // Update Difficulty
             if (LevelGenVariables.NumRoomsCompleted >= 1 && !LevelGenVariables.PlayerHasSkipped)
@@ -486,6 +484,7 @@ public partial class BlockPlacer : Area2D
 
         using var file = Godot.FileAccess.Open(level_f, Godot.FileAccess.ModeFlags.Read);
         string lines = file.GetAsText();
+        Vector2 level_shape = Vector2.Zero;
         foreach (string line in lines.Split('\n'))
         {
             l++; // increment line counter
@@ -502,6 +501,7 @@ public partial class BlockPlacer : Area2D
                 {
                     level_mat.Add(new List<string>(contents[2].ToInt()));
                 }
+                level_shape = new(contents[1].ToInt(), contents[2].ToInt());
                 // GD.Print(level_mat.Count, " ", contents[2].ToInt());
             }
             else if (line == "ROOM")
@@ -518,7 +518,7 @@ public partial class BlockPlacer : Area2D
             }
         }
 
-        // PrintRoom(); // DEBUG
+        LevelGenVariables.AddRoomToLevelDict(level_f, level_shape);
         return level_mat;
     }
 }

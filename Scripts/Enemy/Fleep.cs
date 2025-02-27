@@ -55,7 +55,7 @@ public partial class Fleep : Enemy
     {
         base._Process(delta);
 
-        // GD.Print($"backup: {is_backingup}, passmove: {is_passmove}, attacked: {has_attacked}"); // DEBUG
+        if (player == null) { return; }
 
         Godot.Vector2 vec_to_player = this.GlobalPosition - player.GlobalPosition;
         sprite.FlipH = is_backingup ? vec_to_player.Normalized().X < 0 : Velocity.X > 0;
