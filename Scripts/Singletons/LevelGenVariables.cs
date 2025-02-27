@@ -99,9 +99,9 @@ public partial class LevelGenVariables : Node
         FileUtils.SaveToTxt(filename: death_filename, content: content);
     }
 
-    public static void UpdateDifficulty()
+    public static float UpdateDifficulty()
     {
-        if (num_rooms_completed == 0) return;
+        if (num_rooms_completed == 0) return -1f;
 
         //
         float new_diff = level_difficulty + (1 / (player_death_count + 1));
@@ -109,6 +109,7 @@ public partial class LevelGenVariables : Node
         level_difficulty = Math.Min(10, new_diff);
 
         level_difficulty = new_diff;
+        return new_diff;
     }
 
     public static void DisplayPlayerDeaths()
