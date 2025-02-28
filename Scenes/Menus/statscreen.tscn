@@ -22,6 +22,25 @@ offset_right = 939.0
 offset_bottom = 467.0
 script = ExtResource("2_covco")
 
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 1123.0
+offset_top = -436.0
+offset_right = 2154.0
+offset_bottom = -31.0
+grow_vertical = 0
+size_flags_horizontal = 0
+text = "Press   'Z'   (or   Jump)   to   go   back 
+to   the   main   menu.
+
+Or   press   'ESC'   or    click   the   'X'   at   the   
+top   to   close   the   game"
+label_settings = ExtResource("2_dm3s8")
+autowrap_mode = 2
+
 [node name="Stats" type="Label" parent="Control"]
 layout_mode = 1
 anchors_preset = 2

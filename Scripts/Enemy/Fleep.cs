@@ -41,7 +41,14 @@ public partial class Fleep : Enemy
         sprite.Play("default");
 
         // find nodes
-        player = GetNode<Player>("/root/World/Player");
+        try
+        {
+            player = GetNode<Player>("/root/World/Player");
+        }
+        catch
+        {
+            GD.PrintErr("Player not found");
+        }
     }
 
     public override void _PhysicsProcess(global::System.Double delta)
@@ -53,9 +60,8 @@ public partial class Fleep : Enemy
 
     public override void _Process(global::System.Double delta)
     {
-        base._Process(delta);
-
         if (player == null) { return; }
+        base._Process(delta);
 
         Godot.Vector2 vec_to_player = this.GlobalPosition - player.GlobalPosition;
         sprite.FlipH = is_backingup ? vec_to_player.Normalized().X < 0 : Velocity.X > 0;

@@ -45,22 +45,10 @@ public partial class LevelGenVariables : Node
     private const int BLOCK_OFFSET = 4; // offset to place blocks at
 
     // Files
-    private static string death_filename = "user://upload_this_death_data.txt";
-    private static string level_filename = "user://upload_this_level_data.txt";
+    private static string death_filename = "res://upload_this_death_data.dat";
+    private static string level_filename = "res://upload_this_level_data.dat";
 
     // Statistical Analysis Functions
-    public static void AddNewDeath((float, float) pos)
-    { // updates player death count and adds location of where player died
-        player_death_count += 1;
-        player_death_pos_list.Add(pos);
-
-        if (!player_death_dict.ContainsKey((int)Math.Round(level_difficulty, 0)))
-        {
-            player_death_dict.Add((int)Math.Round(level_difficulty, 0), 0);
-        }
-        player_death_dict[(int)Math.Round(level_difficulty, 0)] += 1;
-    }
-
     public static void AddRoomToLevelDict(string level, Vector2 shape)
     {
         string content = "";
@@ -75,6 +63,11 @@ public partial class LevelGenVariables : Node
 
         content += $"{level} -- ({shape})\n";
         FileUtils.SaveToTxt(filename: level_filename, content: content);
+    }
+
+    public static void AddNewDeath((float, float) pos, String object_name = null)
+    { // updates player death count and adds location of where player died
+        AddNewDeath(new Vector2(pos.Item1, pos.Item2), object_name);
     }
 
     public static void AddNewDeath(ref Player player, String object_name = null)

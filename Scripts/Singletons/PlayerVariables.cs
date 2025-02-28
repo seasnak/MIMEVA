@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 using Mimeva.Object;
+using Mimeva.Utils;
 
 namespace Mimeva.Entity;
 public partial class PlayerVariables : Node
