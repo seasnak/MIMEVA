@@ -151,7 +151,7 @@ public partial class Player : CharacterBody2D
         // Update player variables
         is_grounded = IsOnFloor();
 
-        Godot.Vector2 input_dir = new(Input.GetAxis("ui_left", "ui_right"), Input.GetAxis("ui_up", "ui_down"));
+        Godot.Vector2 input_dir = new(Input.GetAxis("Left", "Right"), Input.GetAxis("Up", "Down"));
         // GD.Print(input_dir); // DEBUG
         HandleMove(input_dir, (float)delta);
         HandleJump(input_dir);
@@ -188,6 +188,7 @@ public partial class Player : CharacterBody2D
             hitflash_is_active = false;
             (sprite.Material as ShaderMaterial).SetShaderParameter("active", false); // deactivate hitflash
         }
+
     }
 
     private void Die()

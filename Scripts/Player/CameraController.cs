@@ -28,10 +28,11 @@ public partial class CameraController : Camera2D
     public override void _Process(double delta)
     {
         // smooth camera
-        Vector2 dist_to_target = player.Position - this.Position;
-        if (dist_to_target.Length() > 5)
+        Vector2 dist_to_target = player.GlobalPosition - this.GlobalPosition;
+        if (dist_to_target.Length() > 8)
         {
-            this.Position += dist_to_target.Normalized() * dist_to_target.Length() * 0.1f;
+            this.GlobalPosition += dist_to_target.Normalized() * dist_to_target.Length() * (float)(delta) * 2f;
+            // this.GlobalTransform = player.Transform.InterpolateWith(this.Transform, 0.1f);
         }
     }
 
