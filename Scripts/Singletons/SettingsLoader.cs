@@ -19,13 +19,14 @@ public partial class SettingsLoader : Node2D
         if (err != Error.Ok)
         {
             GD.PrintErr($"Could not load settings file at '{settings_path}'");
-            using var tmp = FileAccess.Open(settings_path, FileAccess.ModeFlags.Write); // create the file
-            tmp.Close();
-            cf.Load(settings_path);
+        }
+        else
+        {
+
         }
 
         // DEBUG
-        SetConfigToInputMap();
+        // SetConfigToInputMap();
     }
 
     private void ReloadSettings()
@@ -54,15 +55,25 @@ public partial class SettingsLoader : Node2D
         }
     }
 
+    private void SetInputMapToConfig()
+    {
+        // TODO: add function to set Input Map based on Config <cf>
+    }
+
     private void SetConfigToInputMap()
     {
         Godot.Collections.Array<StringName> action_arr = InputMap.GetActions();
         foreach (string action in action_arr)
         {
+            if (action.Contains("ui_")) { continue; } // skip unused inputs
             foreach (InputEvent input in InputMap.ActionGetEvents(action))
             {
-                cf.SetValue("Input", action, input);
+                if (input.AsText().Split(' ')[0] == "Joypad") { continue; }
+                string in_str = input.AsText();
+                GD.Print($"{action}: {in_str}");
+                cf.SetValue("Input", action, in_str);
             }
         }
+        cf.Save(settings_path);
     }
 }
