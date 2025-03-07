@@ -2,6 +2,7 @@ using Godot;
 using System;
 
 using Mimeva.Utils;
+using Mimeva.UI;
 
 namespace Mimeva.Settings;
 public partial class SettingsLoader : Node2D
@@ -22,7 +23,7 @@ public partial class SettingsLoader : Node2D
         }
         else
         {
-
+            SetInputMapToConfig();
         }
 
         // DEBUG
@@ -34,12 +35,13 @@ public partial class SettingsLoader : Node2D
 
     }
 
-    private void AssignInputMap(string action, string input)
+    private void AssignInputMap(string action, string input, bool is_keyboard = true)
     {
         if (InputMap.GetActions().Contains(action))
         {
             try
             {
+                InputMap.ActionEraseEvents(action);
                 InputEventKey ev = new();
                 ev.PhysicalKeycode = OS.FindKeycodeFromString(input);
                 InputMap.ActionAddEvent(action, ev);
@@ -57,7 +59,18 @@ public partial class SettingsLoader : Node2D
 
     private void SetInputMapToConfig()
     {
-        // TODO: add function to set Input Map based on Config <cf>
+        // Sets values found in ConfigFile <cf> to InputMap (effectively rebind controls)
+        foreach (string key in cf.GetSectionKeys("Input"))
+        {
+            Variant value = cf.GetValue("Input", key);
+            string input_str = value.ToString().Split(' ')[0];
+            GD.Print($"[Input] {key} : {input_str}"); // DEBUG
+
+            AssignInputMap(key, input_str);
+            // InputMap.ActionEraseEvent();
+
+        }
+        // StartGame.UpdateText();
     }
 
     private void SetConfigToInputMap()

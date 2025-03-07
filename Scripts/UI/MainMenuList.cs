@@ -19,20 +19,20 @@ public partial class MainMenuList : Label
 
     public override void _Process(double delta)
     {
-        if (Input.IsActionJustPressed("ui_down"))
+        if (Input.IsActionJustPressed("Down"))
         {
             cursor = Mathf.Min(items.Length - 1, cursor + 1);
         }
-        else if (Input.IsActionJustPressed("ui_up"))
+        else if (Input.IsActionJustPressed("Up"))
         {
             cursor = Mathf.Max(0, cursor - 1);
         }
 
-        if (Input.IsActionJustPressed("ui_right"))
+        if (Input.IsActionJustPressed("Right"))
         {
             UpdateLevelGenVariable(1);
         }
-        else if (Input.IsActionJustPressed("ui_left"))
+        else if (Input.IsActionJustPressed("Left"))
         {
             UpdateLevelGenVariable(-1);
         }

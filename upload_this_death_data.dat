@@ -142,3 +142,68 @@ GlobalPosition: (1986.3512, 23.92402)
 GridPosition: (244.2939, -1.0094974)
 RoomNumber: 3
 Difficulty: 7
+
+GlobalPosition: (209.42508, 15.993502)
+GridPosition: (22.178135, -2.0008123)
+RoomNumber: 1
+Difficulty: 6
+
+GlobalPosition: (317.42526, 23.993769)
+GridPosition: (35.678158, -1.0007789)
+RoomNumber: 1
+Difficulty: 6
+
+GlobalPosition: (634.6163, 7.682248)
+GridPosition: (75.327034, -3.039719)
+RoomNumber: 1
+Difficulty: 6
+
+GlobalPosition: (1056.8475, -0.84309137)
+GridPosition: (128.10594, -4.1053863)
+RoomNumber: 2
+Difficulty: 6
+
+GlobalPosition: (185.57474, -8.639296)
+GridPosition: (19.196842, -5.079912)
+RoomNumber: 2
+Difficulty: 6
+
+GlobalPosition: (208.00867, 15.994253)
+GridPosition: (22.001083, -2.0007184)
+RoomNumber: 2
+Difficulty: 6
+
+GlobalPosition: (2352.4253, 23.074823)
+GridPosition: (290.05316, -1.1156471)
+RoomNumber: 3
+Difficulty: 5
+
+GlobalPosition: (-116.57431, 7.9600096)
+GridPosition: (-18.571789, -3.0049987)
+RoomNumber: 0
+Difficulty: 5
+
+GlobalPosition: (-67.55682, 7.925269)
+GridPosition: (-12.444603, -3.0093412)
+RoomNumber: 0
+Difficulty: 5
+
+GlobalPosition: (408.44916, 23.925234)
+GridPosition: (47.056145, -1.0093458)
+RoomNumber: 1
+Difficulty: 5
+
+GlobalPosition: (-50.575993, 7.99848)
+GridPosition: (-10.321999, -3.00019)
+RoomNumber: 0
+Difficulty: 5
+
+GlobalPosition: (-50.575993, 7.9256783)
+GridPosition: (-10.321999, -3.0092902)
+RoomNumber: 0
+Difficulty: 5
+
+GlobalPosition: (357.42526, 7.1881456)
+GridPosition: (40.678158, -3.101482)
+RoomNumber: 1
+Difficulty: 5

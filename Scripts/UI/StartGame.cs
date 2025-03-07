@@ -10,7 +10,7 @@ public partial class StartGame : Label
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-
+        this.Text = $"Press  '{InputMap.ActionGetEvents("jump")[0].AsText().Split(' ')[0]}' (Jump) to  Start";
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -31,5 +31,10 @@ public partial class StartGame : Label
                 GetTree().Quit();
             }
         }
+    }
+
+    public void UpdateText()
+    {
+        this.Text = $"Press  '{InputMap.ActionGetEvents("jump")[0].AsText().Split(' ')[0]}' (Jump) to  Start";
     }
 }
