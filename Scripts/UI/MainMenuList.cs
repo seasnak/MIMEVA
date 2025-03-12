@@ -3,7 +3,6 @@ using Godot;
 using Mimeva.PCG;
 
 namespace Mimeva.UI;
-
 public partial class MainMenuList : Label
 {
     private string[] items = new string[] { $"Starting Difficulty ", $"Number of Rooms: " };

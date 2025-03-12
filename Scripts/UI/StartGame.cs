@@ -5,12 +5,13 @@ namespace Mimeva.UI;
 public partial class StartGame : Label
 {
     [Export] private string starting_scene_path = "";
+    [Export] private string text_suffix = "to Start";
     private float curr_alpha = 0;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        this.Text = $"Press  '{InputMap.ActionGetEvents("jump")[0].AsText().Split(' ')[0]}' (Jump) to  Start";
+        this.Text = $"Press  '{InputMap.ActionGetEvents("jump")[0].AsText().Split(' ')[0]}' (Jump)    {text_suffix}";
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

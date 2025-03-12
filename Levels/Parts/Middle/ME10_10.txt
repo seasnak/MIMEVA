@@ -1,0 +1,16 @@
+10 10
+
+INPUT_S 10
+OUTPUT_S 10
+
+B B B B B B B B B B
+- - B - - B - - B -
+- - B - - B - - B -
+- - B - - B - - B -
+- - - - - B - - - -
+- - - - - - - - - -
+- - B - - - - - B -
+- - B - - B - - B -
+- - B - - B - - B -
+- - B - - B - - B -
+B B B B B B B B B B

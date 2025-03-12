@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://dppywlnwn7v1f"]
+
+[ext_resource type="Texture2D" uid="uid://4ohew37o6gkr" path="res://Sprites/Backgrounds/mainmenu-tmp.png" id="1_bujnm"]
+[ext_resource type="LabelSettings" uid="uid://0qisxlvgy2xq" path="res://Textures/MenuUIFont.tres" id="2_j1ntb"]
+[ext_resource type="Script" path="res://Scripts/UI/StartGame.cs" id="3_oig68"]
+[ext_resource type="Script" path="res://Scripts/UI/MainMenuList.cs" id="4_obta7"]
+
+[node name="SettingsMenu" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_bujnm")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.4, 1.4)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -577.0
+offset_top = -324.0
+offset_right = 578.0
+offset_bottom = 325.0
+
+[node name="Press Start" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -576.5
+offset_top = -163.0
+offset_right = 576.5
+offset_bottom = -21.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Press  'Z' (Jump) to  Go Back
+
+
+"
+label_settings = ExtResource("2_j1ntb")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_oig68")
+starting_scene_path = "res://Scenes/Menus/mainmenu.tscn"
+text_suffix = "to GoBack "
+
+[node name="Controls" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 276.0
+offset_top = 400.0
+offset_right = 876.0
+offset_bottom = 700.0
+text = "Here is where the Menu goes!"
+label_settings = ExtResource("2_j1ntb")
+horizontal_alignment = 1
+script = ExtResource("4_obta7")

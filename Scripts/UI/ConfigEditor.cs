@@ -5,7 +5,11 @@ namespace Mimeva.Settings;
 public partial class ConfigEditor : Label
 {
 
-    private string[] controls;
+    // TODO: Add some sort of dictionary or dictionary-like structure to store input values
+    // private System.Collections.Generic.Dictionary<string, string[]> controls_dict = new()
+    // {
+
+    // };
 
     public override void _Ready()
     {
@@ -13,6 +17,21 @@ public partial class ConfigEditor : Label
     }
 
     public override void _Process(double delta)
+    {
+
+    }
+
+    private void WriteConfig()
+    {
+
+    }
+
+    private void GetConfigFromFile()
+    {
+
+    }
+
+    private void GetConfigFromInputMap()
     {
 
     }
