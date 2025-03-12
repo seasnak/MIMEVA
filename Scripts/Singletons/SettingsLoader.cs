@@ -32,7 +32,6 @@ public partial class SettingsLoader : Node2D
 
     private void ReloadSettings()
     {
-
     }
 
     private void AssignInputMap(string action, string input, bool is_keyboard = true)
