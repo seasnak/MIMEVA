@@ -10,8 +10,8 @@ public partial class MainMenuList : Label
 
     public override void _Ready()
     {
-        this.HorizontalAlignment = HorizontalAlignment.Center;
-        this.Position = new(276, 400);
+        this.HorizontalAlignment = HorizontalAlignment.Left;
+        // this.Position = new(276, 400);
 
         RedrawMainMenuList();
     }
