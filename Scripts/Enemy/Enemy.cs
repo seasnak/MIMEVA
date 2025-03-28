@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+using Mimeva.PCG;
+
 namespace Mimeva.Entity;
 public partial class Enemy : CharacterBody2D
 {
@@ -85,6 +87,7 @@ public partial class Enemy : CharacterBody2D
             this.CollisionLayer = 0;
 
             PlayerVariables.AddEnemyKill(this.Name);
+            LevelGenVariables.UpdatePlayerKillCount(1);
             sprite.Play("death");
         }
         if (!sprite.IsPlaying()) { QueueFree(); }

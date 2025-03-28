@@ -242,7 +242,10 @@ public partial class BlockPlacer : Area2D
             else
             {
                 curr_parts_len = parts_dict["Middle" + diff_str].Length;
-                LoadPartFromTxtFile($"{parts_dict["Middle" + diff_str][random.Next(0, curr_parts_len)]}");
+                string target_file = $"{parts_dict["Middle" + diff_str][random.Next(0, curr_parts_len)]}";
+                // GD.Print($"Loading {target_file}"); // DEBUG
+                LoadPartFromTxtFile(target_file);
+
             }
         }
 
@@ -339,16 +342,17 @@ public partial class BlockPlacer : Area2D
         if (!tmp_generating_level)
         {
             tmp_generating_level = true;
-            // has_skipped_room = false;
+
+            // Update stats for calculating difficulty
+            LevelGenVariables.UpdatePlayerStats();
+
+            // Increment level completion trackers
             LevelGenVariables.NumRoomsCompleted += 1;
             LevelGenVariables.NumRoomsGenerated += 1;
 
             // Update Difficulty
             if (LevelGenVariables.NumRoomsCompleted >= 1 && !LevelGenVariables.PlayerHasSkipped)
             {
-                // float new_diff = LevelGenVariables.LevelDifficulty + (1 - LevelGenVariables.PlayerDeathCount / 2) / (LevelGenVariables.NumRoomsCompleted);
-                // LevelGenVariables.LevelDifficulty = Math.Min(10, new_diff);
-                // GD.Print($"New Level Difficulty: {new_diff}\nPlayer Deaths: {LevelGenVariables.PlayerDeathCount}");
                 LevelGenVariables.UpdateDifficulty();
             }
             LevelGenVariables.PlayerHasSkipped = false;

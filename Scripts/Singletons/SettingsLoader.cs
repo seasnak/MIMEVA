@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 using Mimeva.Utils;
 using Mimeva.UI;
@@ -21,25 +22,26 @@ public partial class SettingsLoader : Node2D
     {
         cf = new();
         Error err = cf.Load(settings_path);
-
-        // if (err != Error.Ok)
-        // {
-        //     GD.PrintErr($"Could not load settings file at '{settings_path}'");
-        // }
-        // else
-        // {
-        //     SetInputMapToConfig();
-        // }
+        // GD.Print(err);
+        if (err != Error.Ok)
+        {
+            GD.PrintErr($"Could not load settings file at '{settings_path}'");
+            SetConfigToInputMap();
+        }
+        else
+        {
+            SetInputMapToConfig();
+        }
 
         // DEBUG
-        SetConfigToInputMap();
+        // SetConfigToInputMap();
     }
 
     private void ReloadSettings()
     {
     }
 
-    private void AssignInputMap(string action, string[] inputs)
+    private void AssignInputMap(string action, Godot.Collections.Array<string> inputs)
     {
         if (InputMap.GetActions().Contains(action))
         {
@@ -47,13 +49,12 @@ public partial class SettingsLoader : Node2D
             {
                 InputMap.ActionEraseEvents(action);
                 InputEventKey evkb = new();
-                evkb.PhysicalKeycode = OS.FindKeycodeFromString(inputs[0]);
+                GD.Print("ActionMap: ", inputs[0], " -- ", OS.FindKeycodeFromString(inputs[0].Split(' ')[0]));
+                evkb.PhysicalKeycode = OS.FindKeycodeFromString(inputs[0].Split(' ')[0]);
                 InputMap.ActionAddEvent(action, evkb);
 
-                InputEventJoypadButton evjp = new();
-                // evjp.ButtonIndex = ...;
-
-                InputMap.ActionAddEvent(action, evjp);
+                // InputEventJoypadButton evjp = new();
+                // InputMap.ActionAddEvent(action, evjp);
             }
             catch (Exception e)
             {
@@ -62,7 +63,7 @@ public partial class SettingsLoader : Node2D
         }
         else
         {
-            GD.PrintErr($"Error, Action \'{action}\' does not exist.\nList of possible actions: Left, Right, Up, Down, Jump, Interact, Dash, Attack, Skip");
+            GD.PrintErr($"Error, Action \'{action}\' does not exist.\nList of possible actions: Left, Right, Up, Down, jump, interact, dash, attack, skip");
         }
     }
 
@@ -71,12 +72,9 @@ public partial class SettingsLoader : Node2D
         // Sets values found in ConfigFile <cf> to InputMap (effectively rebind controls)
         foreach (string key in cf.GetSectionKeys("Input"))
         {
-            string[] input_arr = (string[])cf.GetValue("Input", key);
-            // Variant value = cf.GetValue("Input", key);
-            // string input_str = value.ToString().Split(' ')[0];
-            // GD.Print($"[Input] {key} : {input_str}"); // DEBUG
+            Godot.Collections.Array<string> value = cf.GetValue("Input", key).AsGodotArray<string>();
 
-            AssignInputMap(key, input_arr);
+            AssignInputMap(key, value);
         }
         // StartGame.UpdateText();
     }
@@ -112,7 +110,7 @@ public partial class SettingsLoader : Node2D
     public void UpdateConfig(string action, string input, bool is_keyboard = true)
     {
         // AssignInputMap(action, input, is_keyboard);
-        string[] input_arr = (string[])cf.GetValue("Input", action);
+        Godot.Collections.Array<string> input_arr = cf.GetValue("Input", action).AsGodotArray<string>();
         if (is_keyboard)
         {
             input_arr[0] = input;

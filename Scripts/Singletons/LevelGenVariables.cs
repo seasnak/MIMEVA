@@ -21,6 +21,11 @@ public partial class LevelGenVariables : Node
     private static int player_death_count = 0; // the number of player deaths to determine level difficulty
     private static List<(float, float)> player_death_pos_list = new(); // list of places player has died
 
+    private static List<int> player_total_kill_count = new(); // the total amount of enemies that player has killed at the end of each level
+    private static List<int> player_kill_count = new(); // the amount of enemies that player kills in each level
+    private static List<double> level_start_time = new(); // the time at which a player starts a certain level part
+    private static List<double> level_complete_time = new(); // the calculated time it takes for a player to complete a level part
+
     // booleans
     private static bool player_has_skipped = false;
     public static bool PlayerHasSkipped { get => player_has_skipped; set => player_has_skipped = value; }
@@ -40,6 +45,10 @@ public partial class LevelGenVariables : Node
     public static int PlayerDeathCount { get => player_death_count; }
     public static int NumRooms { get => num_rooms; set => num_rooms = value; }
 
+    public static List<int> PlayerKillCount { get => player_kill_count; }
+    public static List<double> LevelStartTime { get => level_start_time; }
+
+
     // Constants
     private const int BLOCK_SIZE = 8; // size of each tilemap block in pixels
     private const int BLOCK_OFFSET = 4; // offset to place blocks at
@@ -47,6 +56,12 @@ public partial class LevelGenVariables : Node
     // Files
     private static string death_filename = "res://upload_this_death_data.dat";
     private static string level_filename = "res://upload_this_level_data.dat";
+
+    public override void _Ready()
+    {
+        // update data lists
+        level_start_time.Add(Time.GetTicksMsec());
+    }
 
     // Statistical Analysis Functions
     public static void AddRoomToLevelDict(string level, Vector2 shape)
@@ -94,22 +109,86 @@ public partial class LevelGenVariables : Node
 
     public static float UpdateDifficulty()
     {
-        if (num_rooms_completed <= 1) return -1f;
+        if (num_rooms_completed <= 1) return -1f; // skip initial "tutorial" room
 
+        GD.Print("Updating difficulty", num_rooms_completed);
+
+        // initial level difficulty adjustment
+        float new_diff = level_difficulty + (float)(3 / (player_death_count + 1));
+
+        // adjust difficulty according to completion time
+        // PrintList(level_complete_time);
+
+        if (level_complete_time[num_rooms_completed - 2] > 90000)
+        { // case: player has taken longer than 90 seconds to complete a level
+            new_diff -= (float)(level_complete_time[num_rooms_completed - 2] / 40000);
+        }
+        else
+        {
+            new_diff += (float)(15000 / level_complete_time[num_rooms_completed - 2]);
+        }
+
+        // adjust difficulty according to enemy kill rate
+        // PrintList(player_kill_count
+        new_diff += player_kill_count[num_rooms_completed - 2] * 0.1f;
+
+        // adjust difficulty according to coin collection rate
         //
-        // float new_diff = level_difficulty + (1 / (player_death_count + 1));
 
-        float new_diff = level_difficulty + (3 / (player_death_count + 1));
-        if (player_death_count >= 5) { new_diff -= player_death_count * 0.2f; }
+        // adjust difficulty according to notable death rate
+        if (player_death_count >= 5)
+        {
+            new_diff -= player_death_count * 0.2f;
+        }
 
-        level_difficulty = Math.Min(10, new_diff);
         GD.Print($"Difficulty Update: {level_difficulty} -> {new_diff}");
-        return new_diff;
+        level_difficulty = (float)Math.Round(Math.Min(10, new_diff), 2);
+
+        return level_difficulty;
     }
 
-    public static void DisplayPlayerDeaths()
+    public static void UpdatePlayerStats()
     {
+        // called once at each new blockplacer
+        // updates all of the player related stats such as time taken to complete level and number of enemies killed
+        if (num_rooms_completed == 0) return;
 
+        // update count for number of enemies player killed in last room
+        player_total_kill_count.Add(PlayerVariables.EnemyKillCount);
+        if (player_kill_count.ToArray().Length <= num_rooms_completed)
+        {
+            player_kill_count.Add(0);
+        }
+
+        // update
+        level_start_time.Add(Time.GetTicksMsec());
+        level_complete_time.Add(level_start_time[num_rooms_completed] - level_start_time[num_rooms_completed - 1]);
+    }
+
+    public static void UpdatePlayerKillCount(int num_to_add)
+    {
+        if (player_kill_count.ToArray().Length <= num_rooms_completed)
+        {
+            player_kill_count.Add(num_to_add);
+        }
+        else
+        {
+            player_kill_count[num_rooms_completed] += num_to_add;
+        }
+        return;
+    }
+
+    public static void PrintList<T>(List<T> a)
+    {
+        string output = "[";
+
+        foreach (var val in a)
+        {
+            output += val + ", ";
+        }
+
+        output += "]";
+        GD.Print(output);
     }
 
 }

@@ -70,13 +70,7 @@ offset_right = 446.5
 offset_bottom = -181.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "Press  ... to Change Controls"
 label_settings = ExtResource("3_ons5m")
-script = ExtResource("3_dla46")
-starting_scene_path = "res://Scenes/Menus/settingsmenu.tscn"
-text_suffix = "to Edit Controls"
-tr_action = "interact"
-is_blinking = false
 
 [node name="Press Start" type="Label" parent="Control"]
 layout_mode = 1

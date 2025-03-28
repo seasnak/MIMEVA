@@ -14,4 +14,4 @@ B B B B  B B B B B B
 - - - GL - - B * B -
 - B B B  - - B - B -
 - S S -  - - - - B -
-B B B B  B B B B B
+B B B B  B B B B B B

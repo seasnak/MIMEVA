@@ -57,7 +57,7 @@ public partial class LevelGen : Node
                 if (i % measure_length == 0) { rhythm += "^ "; continue; } // first beat of measure is always the only "emphasized" jump
 
                 float rand_int = rand.NextSingle();
-                if (rand_int < 0.6) { rhythm += "- "; }
+                if (rand_int < 0.75) { rhythm += "- "; }
                 else { rhythm += "_ "; }
             }
 
