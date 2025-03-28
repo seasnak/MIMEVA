@@ -114,23 +114,23 @@ public partial class LevelGenVariables : Node
         GD.Print("Updating difficulty", num_rooms_completed);
 
         // initial level difficulty adjustment
-        float new_diff = level_difficulty + (float)(3 / (player_death_count + 1));
+        float new_diff = level_difficulty + (float)(2 / (player_death_count + 1));
 
         // adjust difficulty according to completion time
-        // PrintList(level_complete_time);
+        PrintList(level_complete_time);
 
         if (level_complete_time[num_rooms_completed - 2] > 90000)
         { // case: player has taken longer than 90 seconds to complete a level
-            new_diff -= (float)(level_complete_time[num_rooms_completed - 2] / 40000);
+            new_diff -= Math.Min(2, (float)(level_complete_time[num_rooms_completed - 2] / 60000) / player_death_count);
         }
         else
         {
-            new_diff += (float)(15000 / level_complete_time[num_rooms_completed - 2]);
+            new_diff += (float)(15000 / level_complete_time[num_rooms_completed - 2]) * 0.33f;
         }
 
         // adjust difficulty according to enemy kill rate
         // PrintList(player_kill_count
-        new_diff += player_kill_count[num_rooms_completed - 2] * 0.1f;
+        new_diff += player_kill_count[num_rooms_completed - 2] * 0.2f;
 
         // adjust difficulty according to coin collection rate
         //
@@ -142,7 +142,7 @@ public partial class LevelGenVariables : Node
         }
 
         GD.Print($"Difficulty Update: {level_difficulty} -> {new_diff}");
-        level_difficulty = (float)Math.Round(Math.Min(10, new_diff), 2);
+        level_difficulty = (float)Math.Round(Math.Max(1, Math.Min(10, new_diff)), 2);
 
         return level_difficulty;
     }

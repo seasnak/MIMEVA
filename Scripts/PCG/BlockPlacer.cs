@@ -6,6 +6,7 @@ using System.IO;
 
 using Mimeva.Utils;
 using Mimeva.Entity;
+using Mimeva.Object;
 
 namespace Mimeva.PCG;
 /*
@@ -19,6 +20,9 @@ public partial class BlockPlacer : Area2D
     // Imported Nodes
     private TileMapLayer tilemap;
     private Player player;
+
+    // Important Objects
+    private Flag flag;
 
     // private string tilemap_path = "/root/world/TileMap"; // where the TileMap is located
     private string level_folder = "res://Levels";
@@ -98,10 +102,23 @@ public partial class BlockPlacer : Area2D
     {
         if (Input.IsActionJustPressed("skip") && !LevelGenVariables.PlayerHasSkipped)
         {
-            if (LevelGenVariables.NumRoomsCompleted >= 1) { LevelGenVariables.LevelDifficulty = Math.Max(1, LevelGenVariables.LevelDifficulty - 1 - LevelGenVariables.PlayerDeathCount / 10); }
-            LevelGenVariables.NumRoomsCompleted = Math.Max(0, LevelGenVariables.NumRoomsCompleted - 1);
-            LevelGenVariables.PlayerHasSkipped = true;
-            player.GlobalPosition = this.GlobalPosition - new Vector2(15, 5); // move player to this position
+
+            if (LevelGenVariables.NumRoomsCompleted >= 1)
+            {
+                LevelGenVariables.LevelDifficulty = Math.Max(1, LevelGenVariables.LevelDifficulty - 1 - LevelGenVariables.PlayerDeathCount / 10);
+            }
+
+            if (LevelGenVariables.NumRoomsGenerated == LevelGenVariables.NumRooms)
+            {
+                LevelGenVariables.PlayerHasSkipped = true;
+                player.GlobalPosition = flag.GlobalPosition - new Vector2(15, 5);
+            }
+            else
+            {
+                LevelGenVariables.NumRoomsCompleted = Math.Max(0, LevelGenVariables.NumRoomsCompleted - 1);
+                LevelGenVariables.PlayerHasSkipped = true;
+                player.GlobalPosition = this.GlobalPosition - new Vector2(15, 5); // move player to this position
+            }
         }
     }
 
@@ -393,7 +410,6 @@ public partial class BlockPlacer : Area2D
     {
         //Place an object of type <obj_name> at position <pos>
         var obj = block_dict[obj_name].Instantiate();
-
         ((Node2D)obj).GlobalPosition = pos;
     }
 
@@ -437,6 +453,12 @@ public partial class BlockPlacer : Area2D
                         // GetTree().Root.AddChild(obj);
                         GetTree().Root.CallDeferred("add_child", obj);
                         ((Node2D)obj).Position = obj_pos;
+
+                        if (level_mat[i][j] == "F")
+                        {
+                            GD.Print("Flag found.");
+                            flag = (Flag)obj;
+                        }
                     }
                     else if (level_mat[i][j] == "-") { continue; } // empty element
                     else if (level_mat[i][j] == "L")

@@ -1,6 +1,7 @@
 using Godot;
 
 using Mimeva.Entity;
+using Mimeva.PCG;
 
 namespace Mimeva.Object;
 public partial class Flag : Area2D
@@ -27,6 +28,10 @@ public partial class Flag : Area2D
 
             try
             {
+                LevelGenVariables.UpdatePlayerStats();
+                LevelGenVariables.NumRoomsCompleted += 1;
+                // LevelGenVariables.NumRoomsGenerated += 1;
+                if (!LevelGenVariables.PlayerHasSkipped) { LevelGenVariables.UpdateDifficulty(); }
                 GetTree().ChangeSceneToFile(final_scene_path);
             }
             catch
