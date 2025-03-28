@@ -94,14 +94,16 @@ public partial class LevelGenVariables : Node
 
     public static float UpdateDifficulty()
     {
-        if (num_rooms_completed == 0) return -1f;
+        if (num_rooms_completed <= 1) return -1f;
 
         //
-        float new_diff = level_difficulty + (1 / (player_death_count + 1));
-        GD.Print($"Difficulty Update: {level_difficulty} -> {new_diff}");
-        level_difficulty = Math.Min(10, new_diff);
+        // float new_diff = level_difficulty + (1 / (player_death_count + 1));
 
-        level_difficulty = new_diff;
+        float new_diff = level_difficulty + (3 / (player_death_count + 1));
+        if (player_death_count >= 5) { new_diff -= player_death_count * 0.2f; }
+
+        level_difficulty = Math.Min(10, new_diff);
+        GD.Print($"Difficulty Update: {level_difficulty} -> {new_diff}");
         return new_diff;
     }
 

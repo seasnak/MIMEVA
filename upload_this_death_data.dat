@@ -267,3 +267,28 @@ GlobalPosition: (2403.6206, -6.076266)
 GridPosition: (296.45258, -4.7595334)
 RoomNumber: 3
 Difficulty: 4
+
+GlobalPosition: (1455.4493, 1.9929773)
+GridPosition: (177.93117, -3.7508779)
+RoomNumber: 2
+Difficulty: 7
+
+GlobalPosition: (803.0394, 23.988901)
+GridPosition: (96.37993, -1.0013874)
+RoomNumber: 2
+Difficulty: 7
+
+GlobalPosition: (2057.0854, 17.992725)
+GridPosition: (253.13568, -1.7509093)
+RoomNumber: 3
+Difficulty: 7
+
+GlobalPosition: (2160.4253, -14.202283)
+GridPosition: (266.05316, -5.7752852)
+RoomNumber: 3
+Difficulty: 7
+
+GlobalPosition: (383.42526, 15.122456)
+GridPosition: (43.928158, -2.109693)
+RoomNumber: 1
+Difficulty: 8

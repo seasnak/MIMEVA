@@ -57,6 +57,7 @@ at the top) to Quit."
 label_settings = ExtResource("3_ons5m")
 
 [node name="Press Controls" type="Label" parent="Control"]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5

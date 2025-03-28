@@ -3,7 +3,7 @@
 INPUT_S 10
 OUTPUT_S 10
 
-B B B B B B B B B B -
+B B B B B B B B B B B
 - S B S S B S S B - -
 - - B - - B - - B - -
 - - B - - B - - B - -
@@ -13,4 +13,4 @@ B B B B B B B B B B -
 - - B - B B - - B B -
 - - B - B B - - B B -
 - - B S B B S S B B -
-B B B B B B B B B B -
+B B B B B B B B B B B
