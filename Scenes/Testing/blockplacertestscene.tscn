@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://bw47fxkfhthqi"]
+[gd_scene load_steps=21 format=4 uid="uid://bw47fxkfhthqi"]
 
 [ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="1_b8nu8"]
 [ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="2_npq2r"]
@@ -7,8 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cfvinpv0dyg7n" path="res://Prefabs/Objects/Spikeball.tscn" id="4_4oa5o"]
 [ext_resource type="PackedScene" uid="uid://c0luna03qyx3y" path="res://Prefabs/Objects/sign.tscn" id="5_brqnw"]
 [ext_resource type="PackedScene" uid="uid://c444v4l648t7r" path="res://Prefabs/UI/PlayerUI.tscn" id="6_6x6ar"]
-[ext_resource type="Script" path="res://Scripts/PCG/BlockPlacer.cs" id="7_v6fbu"]
-[ext_resource type="Texture2D" uid="uid://cxbnyyagsqsfj" path="res://Sprites/Objects/Structures/Computer/computer_idle-Sheet.png" id="8_aa7b0"]
+[ext_resource type="PackedScene" uid="uid://sfsnb3x1x2bg" path="res://Prefabs/BlockPlacer.tscn" id="7_io7la"]
 [ext_resource type="Texture2D" uid="uid://oysuhtbiuuqj" path="res://Sprites/Backgrounds/cave_layers/cave_bg.png" id="10_d14ew"]
 [ext_resource type="PackedScene" uid="uid://dywogtpi22sqn" path="res://Prefabs/Enemies/Glorp.tscn" id="11_5dvie"]
 [ext_resource type="Texture2D" uid="uid://mlvwbp22e8er" path="res://Sprites/Backgrounds/cave_layers/cave_3.png" id="11_7k2jq"]
@@ -21,73 +20,6 @@
 [ext_resource type="Texture2D" uid="uid://b7vtrg4ljc4c1" path="res://Sprites/UI/controls_attack.png" id="14_2c0b5"]
 [ext_resource type="Texture2D" uid="uid://drpwor4cuql2t" path="res://Sprites/UI/controls_jump.png" id="15_tlxhf"]
 [ext_resource type="PackedScene" uid="uid://c5571an3gn2gr" path="res://Prefabs/Enemies/Fleep.tscn" id="17_30fe3"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tfnuq"]
-size = Vector2(12, 46)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_13yww"]
-atlas = ExtResource("8_aa7b0")
-region = Rect2(0, 0, 12, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_riw3b"]
-atlas = ExtResource("8_aa7b0")
-region = Rect2(12, 0, 12, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k1mul"]
-atlas = ExtResource("8_aa7b0")
-region = Rect2(24, 0, 12, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rfudo"]
-atlas = ExtResource("8_aa7b0")
-region = Rect2(36, 0, 12, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yn33t"]
-atlas = ExtResource("8_aa7b0")
-region = Rect2(48, 0, 12, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ky8ni"]
-atlas = ExtResource("8_aa7b0")
-region = Rect2(60, 0, 12, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lcbw5"]
-atlas = ExtResource("8_aa7b0")
-region = Rect2(72, 0, 12, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3m4q2"]
-atlas = ExtResource("8_aa7b0")
-region = Rect2(84, 0, 12, 12)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_es1nq"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_13yww")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_riw3b")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k1mul")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rfudo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yn33t")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ky8ni")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lcbw5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3m4q2")
-}],
-"loop": true,
-"name": &"default",
-"speed": 10.0
-}]
 
 [node name="World" type="Node2D"]
 position = Vector2(1, 0)
@@ -137,20 +69,7 @@ text = PackedStringArray("Welcome!", "At the end of each level you will be asked
 
 [node name="UI" parent="." instance=ExtResource("6_6x6ar")]
 
-[node name="BlockPlacer" type="Area2D" parent="."]
-position = Vector2(10, 12)
-collision_layer = 2
-collision_mask = 3
-script = ExtResource("7_v6fbu")
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BlockPlacer"]
-position = Vector2(-1, -5)
-shape = SubResource("RectangleShape2D_tfnuq")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BlockPlacer"]
-position = Vector2(-1, -2)
-sprite_frames = SubResource("SpriteFrames_es1nq")
+[node name="BlockPlacer" parent="." instance=ExtResource("7_io7la")]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 

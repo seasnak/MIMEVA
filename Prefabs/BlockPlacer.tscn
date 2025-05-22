@@ -1,0 +1,86 @@
+[gd_scene load_steps=13 format=3 uid="uid://sfsnb3x1x2bg"]
+
+[ext_resource type="Script" path="res://Scripts/PCG/BlockPlacer.cs" id="1_88qna"]
+[ext_resource type="Texture2D" uid="uid://cxbnyyagsqsfj" path="res://Sprites/Objects/Structures/Computer/computer_idle-Sheet.png" id="2_r0tl5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tfnuq"]
+size = Vector2(12, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_13yww"]
+atlas = ExtResource("2_r0tl5")
+region = Rect2(0, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_riw3b"]
+atlas = ExtResource("2_r0tl5")
+region = Rect2(12, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1mul"]
+atlas = ExtResource("2_r0tl5")
+region = Rect2(24, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfudo"]
+atlas = ExtResource("2_r0tl5")
+region = Rect2(36, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yn33t"]
+atlas = ExtResource("2_r0tl5")
+region = Rect2(48, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ky8ni"]
+atlas = ExtResource("2_r0tl5")
+region = Rect2(60, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lcbw5"]
+atlas = ExtResource("2_r0tl5")
+region = Rect2(72, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3m4q2"]
+atlas = ExtResource("2_r0tl5")
+region = Rect2(84, 0, 12, 12)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_es1nq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_13yww")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_riw3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1mul")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfudo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yn33t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ky8ni")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lcbw5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3m4q2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="BlockPlacer" type="Area2D"]
+position = Vector2(10, 12)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_88qna")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -5)
+shape = SubResource("RectangleShape2D_tfnuq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, -2)
+sprite_frames = SubResource("SpriteFrames_es1nq")
