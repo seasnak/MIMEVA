@@ -20,6 +20,9 @@ public partial class BlockPlacer : Area2D
     // Imported Nodes
     private TileMapLayer tilemap;
     private Player player;
+    public void SetTilemap(string nodepath) { tilemap = GetNode<TileMapLayer>(nodepath); }
+    public void SetPlayer(string nodepath) { player = GetNode<Player>(nodepath); }
+
 
     // Important Objects
     private Flag flag;
@@ -31,10 +34,13 @@ public partial class BlockPlacer : Area2D
 
     // Constants
     private const int BLOCK_SIZE = 8; // size of each tilemap block in pixels
+    public int BLOCK_SIZE_C { get => BLOCK_SIZE; }
     private const int BLOCK_OFFSET = 4; // offset to place blocks at
+    public int BLOCK_OFFSET_C { get => BLOCK_OFFSET; }
 
     // Level Variables
     [Export] private Godot.Vector2 curr_offset = Godot.Vector2.Zero; // offset for the next room
+    public void SetOffset(Vector2 offset) { curr_offset = offset; right_connector_pos = offset; }
     private Godot.Vector2 left_connector_pos = Godot.Vector2.Zero; // the location of the left connector
     private Godot.Vector2 right_connector_pos = Godot.Vector2.Zero; // the location of the right connector
 
@@ -53,7 +59,7 @@ public partial class BlockPlacer : Area2D
     private bool key_has_been_placed = false;
 
     // Prefabs Dictionary
-    private static Godot.Collections.Dictionary<string, PackedScene> block_dict;
+    private static Godot.Collections.Dictionary<string, PackedScene> block_dict = new();
 
     // Level parts dictionary
     private static Godot.Collections.Dictionary<string, string[]> parts_dict;
@@ -298,12 +304,14 @@ public partial class BlockPlacer : Area2D
         BuildLevelFromLevelMat(); // build the level given the current matrix
     }
 
-    private void BuildLevel(ref Level level)
+    public void BuildLevel(ref Level level)
     {
         /* Builds level given an offset
         @Params:
             level : Level - A level object containing all information
         */
+
+        GD.Print($"Building Level at Position {curr_offset}");
 
         // loop through level to build level
         for (int i = 0; i < level.Layout.Count; i++)

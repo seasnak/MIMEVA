@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://d36wdpr3xvjpi"]
+
+[ext_resource type="PackedScene" uid="uid://bir77neou5gur" path="res://Prefabs/Player.tscn" id="1_sy4qv"]
+[ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="2_txjbw"]
+[ext_resource type="Script" path="res://Scripts/PCG/SnippetLoader.cs" id="3_vgf1j"]
+[ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="4_drbia"]
+[ext_resource type="PackedScene" path="res://Prefabs/BlockPlacer.tscn" id="5_pmotr"]
+
+[node name="World" type="Node2D"]
+
+[node name="BlockPlacer" parent="." instance=ExtResource("5_pmotr")]
+position = Vector2(-12, 5)
+
+[node name="Player" parent="." instance=ExtResource("1_sy4qv")]
+
+[node name="Camera2D" parent="." instance=ExtResource("2_txjbw")]
+
+[node name="SnippetLoader" type="Node2D" parent="."]
+script = ExtResource("3_vgf1j")
+snippet_files = PackedStringArray("res://Levels/Parts/Middle/MM5_10.txt")
+
+[node name="TileMap" type="Node2D" parent="."]
+
+[node name="Platforms" type="TileMapLayer" parent="TileMap"]
+tile_map_data = PackedByteArray(0, 0, 255, 255, 1, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, 0, 1, 0, 0, 0, 4, 0, 5, 0, 0, 0, 1, 0, 1, 0, 0, 0, 5, 0, 5, 0, 0, 0)
+tile_set = ExtResource("4_drbia")

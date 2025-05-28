@@ -6,7 +6,6 @@ using Mimeva.PCG;
 namespace Mimeva.Entity;
 public partial class Player : CharacterBody2D
 {
-
     // Player Stats
     [Export] private int max_health = 50;
     [Export] private int curr_health = 50;

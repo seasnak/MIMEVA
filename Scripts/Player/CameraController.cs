@@ -5,22 +5,26 @@ namespace Mimeva;
 public partial class CameraController : Camera2D
 {
 
-    CharacterBody2D player;
+    [Export] CharacterBody2D player;
+
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        try
+        if (player == null)
         {
-            player = GetNode<CharacterBody2D>("/root/World/Player");
-        }
-        catch
-        {
-            GD.PrintErr("Camera could not find Player");
-            throw;
+            try
+            {
+                player = GetNode<CharacterBody2D>("/root/World/Player");
+            }
+            catch
+            {
+                GD.PrintErr("Camera could not find Player");
+                throw;
+            }
         }
 
-        this.Zoom = new Vector2(8.5f, 8.5f);
+        this.Zoom = new Vector2(7.5f, 7.5f);
         this.Position = player.Position;
     }
 

@@ -26,7 +26,7 @@ public partial class Level
     private string block_key = "B"; // default string that represents a tilemap block in the level
     private string empty_key = "-"; // default string that represents and empty tile in the level
     private TileMapLayer block_tilemap; // tilemap to construct the level out of
-    private TileMapLayer fg_tilemap; // tilemap for the foreground elements 
+    private TileMapLayer fg_tilemap; // tilemap for the foreground elements
     private TileMapLayer bg_tilemap; // tilemap for the background elements
     private int BLOCK_SIZE = 8; // the size of each block (in pixels) -- default: 8x8 pixel tiles
     private int BLOCK_OFFSET = 4; // the intial offset (in pixels) -- default: an offset of (4,4) pixels
@@ -84,6 +84,11 @@ public partial class Level
                 layout[i][j] = _layout[i][j];
             }
         }
+    }
+
+    public void SetTilemap(string path = "/root/World/TileMap/Platforms")
+    {
+        // block_tilemap = GD.GetNode<TileMapLayer>(path);
     }
 
 
@@ -210,7 +215,7 @@ public partial class Level
 
     public void SaveLevelToJSON(string outfile)
     {
-        // save level <level> to a JSON file <outfile> 
+        // save level <level> to a JSON file <outfile>
     }
 
     public void ConvertLevelTxtToJSON(string in_txt, string out_json)

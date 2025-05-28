@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cfvinpv0dyg7n" path="res://Prefabs/Objects/Spikeball.tscn" id="4_4oa5o"]
 [ext_resource type="PackedScene" uid="uid://c0luna03qyx3y" path="res://Prefabs/Objects/sign.tscn" id="5_brqnw"]
 [ext_resource type="PackedScene" uid="uid://c444v4l648t7r" path="res://Prefabs/UI/PlayerUI.tscn" id="6_6x6ar"]
-[ext_resource type="PackedScene" uid="uid://sfsnb3x1x2bg" path="res://Prefabs/BlockPlacer.tscn" id="7_io7la"]
+[ext_resource type="PackedScene" path="res://Prefabs/BlockPlacer.tscn" id="7_io7la"]
 [ext_resource type="Texture2D" uid="uid://oysuhtbiuuqj" path="res://Sprites/Backgrounds/cave_layers/cave_bg.png" id="10_d14ew"]
 [ext_resource type="PackedScene" uid="uid://dywogtpi22sqn" path="res://Prefabs/Enemies/Glorp.tscn" id="11_5dvie"]
 [ext_resource type="Texture2D" uid="uid://mlvwbp22e8er" path="res://Sprites/Backgrounds/cave_layers/cave_3.png" id="11_7k2jq"]
