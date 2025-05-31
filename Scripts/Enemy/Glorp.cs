@@ -12,7 +12,7 @@ public partial class Glorp : Enemy
     // knockback variables
     private bool is_knockedback = false;
     public bool IsKnockedBack { get => is_knockedback; }
-    [Export] protected float knockback_dist = 1.2f;
+    [Export] protected float knockback_dist = 0f;
     protected uint knockback_lockout_dur_msec = 160;
     private ulong knockback_timer = 0;
 
@@ -82,7 +82,11 @@ public partial class Glorp : Enemy
             sprite.Play("idle");
         }
 
-        if (is_knockedback && Time.GetTicksMsec() >= knockback_timer + knockback_lockout_dur_msec) { is_knockedback = false; }
+        if (is_knockedback && Time.GetTicksMsec() >= knockback_timer + knockback_lockout_dur_msec)
+        {
+            is_knockedback = false;
+            // this.ledge_check.Monitoring = true;
+        }
     }
 
     protected override void SetMovementLogic()
@@ -119,6 +123,8 @@ public partial class Glorp : Enemy
 
             is_knockedback = true;
             knockback_timer = Time.GetTicksMsec();
+            // is_onedge = false;
+            // this.ledge_check.Monitoring = false;
         }
     }
 

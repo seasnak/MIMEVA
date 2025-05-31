@@ -26,6 +26,7 @@ public partial class Player : CharacterBody2D
     private const int dashspeed = 160;
     private const int air_dashspeed = 120;
     private const int max_fallspeed = 180;
+    private const int sword_bouncespeed = 125;
 
     // Player Timer Values
     private const int attack_dur = 200; // duration of the attack in milliseconds
@@ -150,6 +151,14 @@ public partial class Player : CharacterBody2D
         // Update player variables
         is_grounded = IsOnFloor();
 
+        // Check for sword hitbox down swing (hit enemy)
+        if (weapon.IsActive() && weapon.HitEnemy && weapon_node.RotationDegrees == 90f)
+        {
+            GD.Print("Player Bounced!");
+            Velocity = new Vector2(0f, -sword_bouncespeed);
+            weapon.HitEnemy = false;
+        }
+
         Godot.Vector2 input_dir = new(Input.GetAxis("Left", "Right"), Input.GetAxis("Up", "Down"));
         // GD.Print(input_dir); // DEBUG
         HandleMove(input_dir, (float)delta);
@@ -271,11 +280,11 @@ public partial class Player : CharacterBody2D
         if (Input.IsActionJustPressed("attack"))
         {
             is_attacking = true;
+            weapon.HitEnemy = false; // reset bounce
             weapon.SetActive(true);
             weapon_sprite.Frame = 0;
             weapon_sprite.Play("slash");
             curr_attack_time = Time.GetTicksMsec();
-
         }
 
     }
@@ -510,6 +519,16 @@ public partial class Player : CharacterBody2D
     {
         this.curr_health += val;
         if (this.curr_health > this.max_health) { this.curr_health = this.max_health; }
+    }
+
+    public void BoostUp(float val)
+    {
+        this.Velocity -= new Vector2(0f, val);
+    }
+
+    public void BoostRight(float val)
+    {
+        this.Velocity += new Vector2(val, 0f);
     }
 
     // Getters and Setters

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://yy55uwnex1r5" path="res://Prefabs/Camera.tscn" id="2_txjbw"]
 [ext_resource type="Script" path="res://Scripts/PCG/SnippetLoader.cs" id="3_vgf1j"]
 [ext_resource type="TileSet" uid="uid://bea1nyvbyhj8c" path="res://Tilesets/grass_tileset.tres" id="4_drbia"]
-[ext_resource type="PackedScene" path="res://Prefabs/BlockPlacer.tscn" id="5_pmotr"]
+[ext_resource type="PackedScene" uid="uid://sfsnb3x1x2bg" path="res://Prefabs/BlockPlacer.tscn" id="5_pmotr"]
 
 [node name="World" type="Node2D"]
 
@@ -17,7 +17,7 @@ position = Vector2(-12, 5)
 
 [node name="SnippetLoader" type="Node2D" parent="."]
 script = ExtResource("3_vgf1j")
-snippet_files = PackedStringArray("res://Levels/Parts/Middle/MM5_10.txt")
+snippet_files = PackedStringArray("res://Levels/Parts/Middle/ME2_10.txt")
 
 [node name="TileMap" type="Node2D" parent="."]
 

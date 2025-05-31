@@ -35,6 +35,7 @@ public partial class HurtBox : Area2D
         {
             if (Owner is Enemy enemy)
             {
+                ((HitBox)hitbox).HitEnemy = true;
                 enemy.Damage(((HitBox)hitbox).GetDamage(), true);
             }
             else if (Owner is Player player)
