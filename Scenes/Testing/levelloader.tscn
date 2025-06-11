@@ -17,7 +17,11 @@ position = Vector2(-12, 5)
 
 [node name="SnippetLoader" type="Node2D" parent="."]
 script = ExtResource("3_vgf1j")
+<<<<<<< HEAD
 snippet_files = PackedStringArray("res://Levels/Testing/slashjump_room.txt")
+=======
+snippet_files = PackedStringArray("res://Levels/Parts/Testing/T1_10-basic.txt")
+>>>>>>> 2ad598cfb50cb94beed7bc2f7c5db84626deb6e7
 
 [node name="TileMap" type="Node2D" parent="."]
 
