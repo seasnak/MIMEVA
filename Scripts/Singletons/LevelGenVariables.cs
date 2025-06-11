@@ -123,7 +123,7 @@ public partial class LevelGenVariables : Node
         { // case: player has taken longer than 90 seconds to complete a level
             new_diff -= Math.Min(2, (float)(level_complete_time[num_rooms_completed - 2] / 60000) / player_death_count);
         }
-        else
+        else if (level_complete_time[num_rooms_completed - 2] < 30000)
         {
             new_diff += (float)(15000 / level_complete_time[num_rooms_completed - 2]) * 0.33f;
         }
