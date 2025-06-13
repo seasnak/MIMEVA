@@ -70,6 +70,7 @@ public partial class LevelGenVariables : Node
         if (!level_gen_hist_dict.ContainsKey(num_rooms_generated))
         {
             level_gen_hist_dict.Add(num_rooms_generated, new List<string>());
+            if (num_rooms_generated == 0) content += "===========================================";
             content += $"====== Room {num_rooms_generated} ======\n";
         }
         level_gen_hist_dict[num_rooms_generated].Add(level);

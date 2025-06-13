@@ -5,7 +5,7 @@ using Mimeva.Utils;
 namespace Mimeva.PCG;
 public partial class SnippetLoader : Node2D
 {
-    [Export] private string level_folderpath = "res://Levels/Parts/";
+    // [Export] private string level_folderpath = "res://Levels/Parts/";
     [Export] private string[] snippet_files = { "res://Levels/Parts/Middle/ME1_10.txt" };
 
     // Mandatory Objects
