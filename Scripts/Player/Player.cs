@@ -15,7 +15,6 @@ public partial class Player : CharacterBody2D
 
     private int num_coins = 0;
     private int num_keys = 0;
-    private int num_cool_coins = 0; // the harder to get bonus coins
 
     // Movement Values
     private const int movespeed = 60;
@@ -34,8 +33,8 @@ public partial class Player : CharacterBody2D
     private const int dash_lockout_time = 200; // lockout on the dash
     private const int walljump_dur = 60; // the time for the player to be knocked back
     private ulong curr_attack_time = 0; // current atk time for timer purposes
-    private ulong curr_dash_time = 0; // current dash time for timer purposes
-    private ulong curr_walljump_time = 0;
+    private ulong dash_start_time = 0; // current dash time for timer purposes
+    private ulong walljump_start_time = 0;
     private ulong last_grounded_time = 0; // time that player touched the ground
     private const int coyote_time = 130; // the time (msec) player has to perform coyote jump after leaving platform
 
@@ -67,13 +66,13 @@ public partial class Player : CharacterBody2D
     // Related Nodes
     private AnimatedSprite2D sprite;
     private CollisionShape2D collider;
-    private PlayerVariables p_vars;
+    private PlayerVariables player_vars;
 
     // Weapon Vars
-    private Node2D weapon_node;
-    private HitBox weapon;
+    private Node2D weapon_obj;
+    private HitBox weapon_hitbox;
     private AnimatedSprite2D weapon_sprite;
-    public float WeaponRotationDeg { get => weapon_node.RotationDegrees; }
+    public float WeaponRotationDeg { get => weapon_obj.RotationDegrees; }
     private Godot.Collections.Array<Godot.Vector2> weapon_pos_arr = new() { new Godot.Vector2(-9, 2f), new Godot.Vector2(8, 5), new Godot.Vector2(0, 12), new Godot.Vector2(1, -6) }; // 0 = left, 1 = right, 2 = down, 3 = up
 
     // Debug Nodes
@@ -90,17 +89,17 @@ public partial class Player : CharacterBody2D
         sprite = (AnimatedSprite2D)GetNode("AnimatedSprite2D");
         // sprite.SpriteFrames = ResourceLoader.Load<SpriteFrames>("res://Sprites/Player/RobotPlayer/PlayerAnim.tres");
 
-        p_vars = (PlayerVariables)GetNode("/root/PlayerVariables");
+        player_vars = (PlayerVariables)GetNode("/root/PlayerVariables");
         sprite.ZIndex = 3;
 
         // set sword + hitbox
-        weapon_node = GetNode<Node2D>("Sword");
+        weapon_obj = GetNode<Node2D>("Sword");
 
-        weapon = weapon_node.GetNode<HitBox>("Hitbox");
-        weapon.SetDamage(30);
-        weapon.SetActive(false);
+        weapon_hitbox = weapon_obj.GetNode<HitBox>("Hitbox");
+        weapon_hitbox.SetDamage(30);
+        weapon_hitbox.SetActive(false);
 
-        weapon_sprite = weapon.GetParent().GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        weapon_sprite = weapon_obj.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         weapon_sprite.Frame = 4;
         weapon_sprite.ZIndex = 3;
         collider = GetNode<CollisionShape2D>("CollisionShape2D");
@@ -152,14 +151,17 @@ public partial class Player : CharacterBody2D
         is_grounded = IsOnFloor();
 
         // Check for sword hitbox down swing (hit enemy)
-        if (weapon.IsActive() && weapon.HitEnemy && weapon_node.RotationDegrees == 90f)
+        if (weapon_hitbox.IsActive() && weapon_hitbox.HitEnemy && weapon_obj.RotationDegrees == 90f)
         {
             GD.Print("Player Bounced!");
             Velocity = new Vector2(0f, -sword_bouncespeed);
-            weapon.HitEnemy = false;
+            weapon_hitbox.HitEnemy = false;
         }
 
-        Godot.Vector2 input_dir = new(Input.GetAxis("Left", "Right"), Input.GetAxis("Up", "Down"));
+        Godot.Vector2 input_dir = new(
+                Input.GetAxis("Left", "Right"),
+                Input.GetAxis("Up", "Down")
+        );
         // GD.Print(input_dir); // DEBUG
         HandleMove(input_dir, (float)delta);
         HandleJump(input_dir);
@@ -176,7 +178,6 @@ public partial class Player : CharacterBody2D
         // Handle Health and Death
         if (curr_health <= 0)
         {
-
             if (!is_dead)
             {
                 // GD.Print("Player Died!"); // DEBUG
@@ -191,7 +192,7 @@ public partial class Player : CharacterBody2D
             }
         }
 
-        if (hitflash_is_active && Time.GetTicksMsec() - hitflash_start_time >= hitflash_dur)
+        if (hitflash_is_active && TimerIsDone(hitflash_start_time, hitflash_dur))
         {
             hitflash_is_active = false;
             (sprite.Material as ShaderMaterial).SetShaderParameter("active", false); // deactivate hitflash
@@ -208,10 +209,6 @@ public partial class Player : CharacterBody2D
 
         try
         {
-            // if() {
-            // 	GD.Print("loading scene");
-            // 	GetTree().ChangeSceneToFile(PlayerVariables.GetCheckpointScenePath());
-            // }
             this.GlobalPosition = PlayerVariables.GetCheckpointPos(); // set player position to the position of the checkpoint
         }
         catch
@@ -229,10 +226,10 @@ public partial class Player : CharacterBody2D
         if (is_dashing) { return; } // prevent player from attacking while dashing
 
         // handle attacking state and is_attacking
-        if (is_attacking && Time.GetTicksMsec() - curr_attack_time >= attack_dur)
+        if (is_attacking && TimerIsDone(curr_attack_time, attack_dur))
         {
             is_attacking = false;
-            weapon.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
+            weapon_hitbox.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
         }
         else if (is_attacking) { return; } // don't modify position if already attacking
 
@@ -240,48 +237,48 @@ public partial class Player : CharacterBody2D
         if (input_dir.Y > 0)
         {   // swinging up and down take priority over swinging left or right
             // case: swing down
-            weapon_node.Position = weapon_pos_arr[2];
-            weapon_node.RotationDegrees = 90f;
+            weapon_obj.Position = weapon_pos_arr[2];
+            weapon_obj.RotationDegrees = 90f;
             // weapon_sprite.RotationDegrees = 90f;
             weapon_sprite.FlipV = false;
         }
         else if (input_dir.Y < 0)
         {
             // case: swing up
-            weapon_node.Position = weapon_pos_arr[3];
-            weapon_node.RotationDegrees = -90f;
+            weapon_obj.Position = weapon_pos_arr[3];
+            weapon_obj.RotationDegrees = -90f;
             // weapon_sprite.RotationDegrees = -90f;
             weapon_sprite.FlipV = true;
         }
         else if (input_dir.X > 0)
         {
             // case: swing right
-            weapon_node.Position = weapon_pos_arr[1];
-            weapon_node.RotationDegrees = 0f;
+            weapon_obj.Position = weapon_pos_arr[1];
+            weapon_obj.RotationDegrees = 0f;
             // weapon_sprite.RotationDegrees = 0f;
             weapon_sprite.FlipV = false;
         }
         else if (input_dir.X < 0)
         {
             // case: swing left
-            weapon_node.Position = weapon_pos_arr[0];
-            weapon_node.RotationDegrees = 180f;
+            weapon_obj.Position = weapon_pos_arr[0];
+            weapon_obj.RotationDegrees = 180f;
             // weapon_sprite.RotationDegrees = 180f;
             weapon_sprite.FlipV = true;
         }
         else
         { // default: no input so just swing whatever direction player is facing
-            weapon_node.Position = sprite.FlipH ? weapon_pos_arr[0] : weapon_pos_arr[1];
-            weapon_node.RotationDegrees = sprite.FlipH ? 180 : 0;
-            // weapon_sprite.RotationDegrees = weapon.RotationDegrees;
+            weapon_obj.Position = sprite.FlipH ? weapon_pos_arr[0] : weapon_pos_arr[1];
+            weapon_obj.RotationDegrees = sprite.FlipH ? 180 : 0;
+            // weapon_sprite.RotationDegrees = weapon_hitbox.RotationDegrees;
             weapon_sprite.FlipV = sprite.FlipH;
         }
 
         if (Input.IsActionJustPressed("attack"))
         {
             is_attacking = true;
-            weapon.HitEnemy = false; // reset bounce
-            weapon.SetActive(true);
+            weapon_hitbox.HitEnemy = false; // reset bounce
+            weapon_hitbox.SetActive(true);
             weapon_sprite.Frame = 0;
             weapon_sprite.Play("slash");
             curr_attack_time = Time.GetTicksMsec();
@@ -293,11 +290,11 @@ public partial class Player : CharacterBody2D
     {
 
         // handle player timers
-        if (is_dashing && Time.GetTicksMsec() - curr_dash_time >= dash_dur)
+        if (is_dashing && TimerIsDone(dash_start_time, dash_dur))
         {
             is_dashing = false;
         }
-        else if (is_walljumping && Time.GetTicksMsec() - curr_walljump_time >= walljump_dur)
+        else if (is_walljumping && TimerIsDone(walljump_start_time, walljump_dur))
         {
             is_walljumping = false;
         }
@@ -349,7 +346,7 @@ public partial class Player : CharacterBody2D
             // weapon_sprite.FlipH = sprite.FlipH;
             // weapon_sprite.Position = new(input_dir.X > 0 ? 0 : -15, weapon_sprite.Position.Y);
             // if(input_dir.X > 0) { weapon.Position = new Godot.Vector2(1, 0); }
-            // else { weapon.Position = new Godot.Vector2(-15, 0); }
+            // else { weapon_hitbox.Position = new Godot.Vector2(-15, 0); }
         }
 
         // handle dash movement
@@ -362,9 +359,9 @@ public partial class Player : CharacterBody2D
                 velocity = HorDash(Math.Sign(input_dir.X));
             }
 
-            if (!can_dash && is_grounded && Time.GetTicksMsec() - curr_dash_time > dash_lockout_time)
+            if (!can_dash && is_grounded && Time.GetTicksMsec() - dash_start_time > dash_lockout_time)
             { // reset dash if player is on ground and not locked out
-                curr_dash_time = Time.GetTicksMsec();
+                dash_start_time = Time.GetTicksMsec();
                 // GD.Print("dash reset!"); // DEBUG
                 can_dash = true;
             }
@@ -451,30 +448,30 @@ public partial class Player : CharacterBody2D
         Velocity = velocity;
     }
 
-    private Godot.Vector2 HorDash(int dir)
-    { // dash in the direction <dir>
+    private Godot.Vector2 HorDash(int direction)
+    {
         Godot.Vector2 velocity = Velocity;
 
         is_dashing = true;
-        curr_dash_time = Time.GetTicksMsec();
+        dash_start_time = Time.GetTicksMsec();
         if (is_grounded)
         {
-            velocity.X = dashspeed * dir;
+            velocity.X = dashspeed * direction;
             dash_is_airdash = false;
         }
         else
         {
-            velocity.X = air_dashspeed * dir;
+            velocity.X = air_dashspeed * direction;
             dash_is_airdash = true;
         }
 
         return velocity;
     }
 
-    private bool WallJumpCheck(int dir)
+    private bool WallJumpCheck(int direction)
     { // TODO: fix to make it more fluid
         var spaceState = GetWorld2D().DirectSpaceState;
-        var query = PhysicsRayQueryParameters2D.Create(this.Position, this.Position + new Godot.Vector2(dir * -7, 0));
+        var query = PhysicsRayQueryParameters2D.Create(this.Position, this.Position + new Godot.Vector2(direction * -7, 0));
         var result = spaceState.IntersectRay(query);
 
         if (result.Count > 0)
@@ -531,12 +528,17 @@ public partial class Player : CharacterBody2D
         this.Velocity += new Vector2(val, 0f);
     }
 
+    private bool TimerIsDone(float start_time_msec, float target_duration_msec)
+    {
+        return Time.GetTicksMsec() - start_time_msec <= target_duration_msec;
+    }
+
     // Getters and Setters
     // TODO: remove old getter setter functions
     public int NumCoins { get => this.num_coins; set => this.num_coins = value; }
+
     public void SetClimb(bool val) { this.can_climb = val; }
     public bool GetClimb() { return this.can_climb; }
-
     public bool CanClimb { get => this.can_climb; set => this.can_climb = value; }
 
     public int GetKeys() { return num_keys; }
@@ -546,15 +548,16 @@ public partial class Player : CharacterBody2D
 
     public int GetCurrHealth() { return this.curr_health; }
     public void SetCurrHealth(int val) { this.curr_health = val; }
-
     public int CurrHealth { get => this.curr_health; set => this.curr_health = value; }
 
     public int GetMaxHealth() { return this.max_health; }
     public void SetMaxHealth(int val) { this.max_health = val; }
     public int MaxHealth { get => this.max_health; set => this.max_health = value; }
+
     public int GetCoins() { return this.num_coins; }
     public void SetCoins(int val) { this.num_coins = val; }
     public int Coins { get => this.num_coins; set => this.num_coins = value; }
+
     public bool GetIsAttacking() { return is_attacking; }
     public void SetIsAttacking(bool val) { is_attacking = val; }
     public bool IsAttacking { get => this.is_attacking; set => this.is_attacking = value; }
