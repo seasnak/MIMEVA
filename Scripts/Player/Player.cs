@@ -17,29 +17,33 @@ public partial class Player : CharacterBody2D
     private int num_keys = 0;
 
     // Movement Values
-    private const int movespeed = 60;
-    private const int low_jumpspeed = 75; // 4.5
-    private const int high_jumpspeed = 150; // 10
-    private const int walljump_knockback = 80;
-    private const int fast_fallspeed = 30;
-    private const int dashspeed = 160;
-    private const int air_dashspeed = 120;
-    private const int max_fallspeed = 180;
-    private const int sword_bouncespeed = 125;
+    private const int MOVESPEED = 60;
+    private const int MIN_JUMPSPEED = 75;
+    private const int MAX_JUMPSPEED = 150;
+    private const int WALLJUMP_KNOCKBACK = 80;
+    private const int FAST_FALLSPEED = 30;
+    private const int DASHSPEED = 160;
+    private const int AIRDASH_SPEED = 120;
+    private const int MAX_FALLSPEED = 180;
+    private const int SLASHJUMP_SPEED = 125;
 
-    // Player Timer Values
-    private const int attack_dur = 200; // duration of the attack in milliseconds
-    private const int dash_dur = 130; // dash duration in msec
-    private const int dash_lockout_time = 200; // lockout on the dash
-    private const int walljump_dur = 60; // the time for the player to be knocked back
-    private ulong curr_attack_time = 0; // current atk time for timer purposes
-    private ulong dash_start_time = 0; // current dash time for timer purposes
+    private const float GRAVITY_FALLSPEED_MULTIPLIER = 0.5f;
+
+    // Player Action Durations (in msec)
+    private const int ATTACK_DURATION = 200;
+    private const int DASH_DURATION = 130;
+    private const int DASH_LOCKOUT_DURATION = 200;
+    private const int WALLJUMP_DURATION = 60;
+    private const int COYOTETIME_DURATION = 130;
+    private const int HITFLASH_DURATION = 100;
+
+    // Player Action Timers
+    private ulong curr_attack_time = 0;
+    private ulong dash_start_time = 0;
     private ulong walljump_start_time = 0;
-    private ulong last_grounded_time = 0; // time that player touched the ground
-    private const int coyote_time = 130; // the time (msec) player has to perform coyote jump after leaving platform
-
+    private ulong last_grounded_time = 0;
     private ulong hitflash_start_time = 0;
-    private const int hitflash_dur = 100; // duration of hitflash in msec
+    private double time_falling = 0f;
 
     // Player Boolean Checks
     private bool is_grounded = true;
@@ -49,19 +53,17 @@ public partial class Player : CharacterBody2D
     private bool is_climbing = false;
     private bool is_attacking = false;
     private bool is_dashing = false;
-    private bool dash_is_airdash = false; // determines whether the dash was an airdash
+    private bool dash_is_airdash = false;
     private bool is_jumping = false;
     private bool is_walljumping = false;
     private bool hitflash_is_active = false;
     private bool touched_wall = false;
 
-    private bool can_dash = true; // check for player can only dash once while in the air
-    private bool can_jump = true; // check to see if player can jump
+    private bool can_dash = true;
+    private bool can_jump = true;
 
     private bool is_dead = false;
 
-    // Safety net variables
-    private double time_falling = 0f;
 
     // Related Nodes
     private AnimatedSprite2D sprite;
@@ -111,12 +113,10 @@ public partial class Player : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
 
-        if (is_dead) { return; } // prevent physics if the player is dead
+        if (this.is_dead) { return; }
 
-        // Gravity
         if (IsOnFloor())
         {
-            // player is on floor so don't apply gravity
             is_jumping = false;
             is_walljumping = false;
             last_grounded_time = Time.GetTicksMsec();
@@ -125,36 +125,34 @@ public partial class Player : CharacterBody2D
         {
             Velocity = new(Velocity.X, 0);
         }
-        else if (Velocity.Y < max_fallspeed)
+        else if (Velocity.Y < MAX_FALLSPEED)
         {
-            Velocity += new Godot.Vector2(0, (float)(gravity * 0.5 * delta));
+            Velocity += new Godot.Vector2(0, (float)(gravity * GRAVITY_FALLSPEED_MULTIPLIER * delta));
         }
         else
         {
-            Velocity = new(Velocity.X, Math.Min(Velocity.Y, max_fallspeed));
+            Velocity = new(Velocity.X, Math.Min(Velocity.Y, MAX_FALLSPEED));
         }
 
-        // Temp safety net in case player breaks the game
         if (!is_grounded && !touched_wall)
         {
             time_falling += delta;
-            // GD.Print("Time Falling: ", time_falling); // DEBUG
-            if (time_falling > 2)
-            {   // player free-falling so queue death
+            const int MAX_FALLDURATION = 2;
+            if (time_falling > MAX_FALLDURATION)
+            {
+                // player freefall safety net
                 time_falling = 0;
                 curr_health = 0;
             }
         }
         else { time_falling = 0; }
 
-        // Update player variables
         is_grounded = IsOnFloor();
 
-        // Check for sword hitbox down swing (hit enemy)
         if (weapon_hitbox.IsActive() && weapon_hitbox.HitEnemy && weapon_obj.RotationDegrees == 90f)
         {
             GD.Print("Player Bounced!");
-            Velocity = new Vector2(0f, -sword_bouncespeed);
+            Velocity = new Vector2(0f, -SLASHJUMP_SPEED);
             weapon_hitbox.HitEnemy = false;
         }
 
@@ -162,7 +160,6 @@ public partial class Player : CharacterBody2D
                 Input.GetAxis("Left", "Right"),
                 Input.GetAxis("Up", "Down")
         );
-        // GD.Print(input_dir); // DEBUG
         HandleMove(input_dir, (float)delta);
         HandleJump(input_dir);
         HandleAttack(input_dir);
@@ -172,27 +169,24 @@ public partial class Player : CharacterBody2D
 
     public override void _Process(double delta)
     {
-        // Update Player Variables
         PlayerVariables.NumCoins = num_coins;
 
-        // Handle Health and Death
         if (curr_health <= 0)
         {
             if (!is_dead)
             {
-                // GD.Print("Player Died!"); // DEBUG
                 sprite.Play("death");
                 is_dead = true;
                 PlayerVariables.NumDeaths += 1;
             }
             else if (!sprite.IsPlaying())
             {
-                Die();
+                this.Die();
                 is_dead = false;
             }
         }
 
-        if (hitflash_is_active && TimerIsDone(hitflash_start_time, hitflash_dur))
+        if (hitflash_is_active && ActionTimerCompleted(hitflash_start_time, HITFLASH_DURATION))
         {
             hitflash_is_active = false;
             (sprite.Material as ShaderMaterial).SetShaderParameter("active", false); // deactivate hitflash
@@ -209,7 +203,7 @@ public partial class Player : CharacterBody2D
 
         try
         {
-            this.GlobalPosition = PlayerVariables.GetCheckpointPos(); // set player position to the position of the checkpoint
+            this.GlobalPosition = PlayerVariables.GetCheckpointPos();
         }
         catch
         {
@@ -223,23 +217,27 @@ public partial class Player : CharacterBody2D
     private void HandleAttack(Godot.Vector2 input_dir)
     {
 
-        if (is_dashing) { return; } // prevent player from attacking while dashing
+        // can't attack when dashing
+        if (is_dashing) { return; }
 
         // handle attacking state and is_attacking
-        if (is_attacking && TimerIsDone(curr_attack_time, attack_dur))
+        if (is_attacking && ActionTimerCompleted(curr_attack_time, ATTACK_DURATION))
         {
             is_attacking = false;
             weapon_hitbox.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
         }
-        else if (is_attacking) { return; } // don't modify position if already attacking
+        else if (is_attacking)
+        {
+            // don't modify position if already attacking
+            return;
+        }
 
         // handle sword position
         if (input_dir.Y > 0)
-        {   // swinging up and down take priority over swinging left or right
+        {
             // case: swing down
             weapon_obj.Position = weapon_pos_arr[2];
             weapon_obj.RotationDegrees = 90f;
-            // weapon_sprite.RotationDegrees = 90f;
             weapon_sprite.FlipV = false;
         }
         else if (input_dir.Y < 0)
@@ -247,7 +245,6 @@ public partial class Player : CharacterBody2D
             // case: swing up
             weapon_obj.Position = weapon_pos_arr[3];
             weapon_obj.RotationDegrees = -90f;
-            // weapon_sprite.RotationDegrees = -90f;
             weapon_sprite.FlipV = true;
         }
         else if (input_dir.X > 0)
@@ -255,7 +252,6 @@ public partial class Player : CharacterBody2D
             // case: swing right
             weapon_obj.Position = weapon_pos_arr[1];
             weapon_obj.RotationDegrees = 0f;
-            // weapon_sprite.RotationDegrees = 0f;
             weapon_sprite.FlipV = false;
         }
         else if (input_dir.X < 0)
@@ -263,38 +259,38 @@ public partial class Player : CharacterBody2D
             // case: swing left
             weapon_obj.Position = weapon_pos_arr[0];
             weapon_obj.RotationDegrees = 180f;
-            // weapon_sprite.RotationDegrees = 180f;
             weapon_sprite.FlipV = true;
         }
         else
-        { // default: no input so just swing whatever direction player is facing
+        {
+            // default
             weapon_obj.Position = sprite.FlipH ? weapon_pos_arr[0] : weapon_pos_arr[1];
             weapon_obj.RotationDegrees = sprite.FlipH ? 180 : 0;
-            // weapon_sprite.RotationDegrees = weapon_hitbox.RotationDegrees;
             weapon_sprite.FlipV = sprite.FlipH;
         }
 
         if (Input.IsActionJustPressed("attack"))
         {
-            is_attacking = true;
-            weapon_hitbox.HitEnemy = false; // reset bounce
+            weapon_hitbox.HitEnemy = false;
             weapon_hitbox.SetActive(true);
+
             weapon_sprite.Frame = 0;
             weapon_sprite.Play("slash");
+
+            is_attacking = true;
             curr_attack_time = Time.GetTicksMsec();
         }
-
     }
 
     private void HandleMove(Godot.Vector2 input_dir, float delta = 1)
     {
 
         // handle player timers
-        if (is_dashing && TimerIsDone(dash_start_time, dash_dur))
+        if (is_dashing && ActionTimerCompleted(dash_start_time, DASH_DURATION))
         {
             is_dashing = false;
         }
-        else if (is_walljumping && TimerIsDone(walljump_start_time, walljump_dur))
+        if (is_walljumping && ActionTimerCompleted(walljump_start_time, WALLJUMP_DURATION))
         {
             is_walljumping = false;
         }
@@ -302,38 +298,29 @@ public partial class Player : CharacterBody2D
         // handle player movement
         Godot.Vector2 velocity = Velocity;
 
-        if (is_dashing)
+        // momentum
+        if (velocity.X != MOVESPEED * input_dir.X)
         {
-            // GD.Print("is_dashing");
-        }
-        else if (is_walljumping)
-        {
-            // GD.Print("is_walljumping");
-        }
-        if (velocity.X != movespeed * input_dir.X)
-        { // not dashing or walljumping so keep momentum
-          // slow down movement only if player is on the ground
             if (is_grounded)
             {
-                if (input_dir.X > 0 && velocity.X > input_dir.X * movespeed)
+                if (Math.Abs(velocity.X) > Math.Abs(input_dir.X * MOVESPEED))
+                    velocity.X += 500 * delta * -Math.Sign(input_dir.X);
+                if (input_dir.X > 0 && velocity.X > input_dir.X * MOVESPEED)
                 {
                     velocity.X -= 500 * delta;
                 }
-                else if (input_dir.X < 0 && velocity.X < input_dir.X * movespeed)
+                else if (input_dir.X < 0 && velocity.X < input_dir.X * MOVESPEED)
                 {
                     velocity.X += 500 * delta;
                 }
                 else
                 {
-                    velocity.X = input_dir.X * movespeed;
+                    velocity.X = input_dir.X * MOVESPEED;
                 }
             }
-            else
-            { // player is either jumping or is airborne
-                if (Math.Sign(velocity.X) != input_dir.X)
-                {
-                    velocity.X = input_dir.X * movespeed;
-                }
+            else if (Math.Sign(velocity.X) != input_dir.X)
+            {
+                velocity.X = input_dir.X * MOVESPEED;
             }
         }
 
@@ -359,7 +346,7 @@ public partial class Player : CharacterBody2D
                 velocity = HorDash(Math.Sign(input_dir.X));
             }
 
-            if (!can_dash && is_grounded && Time.GetTicksMsec() - dash_start_time > dash_lockout_time)
+            if (!can_dash && is_grounded && Time.GetTicksMsec() - dash_start_time > DASH_LOCKOUT_DURATION)
             { // reset dash if player is on ground and not locked out
                 dash_start_time = Time.GetTicksMsec();
                 // GD.Print("dash reset!"); // DEBUG
@@ -417,30 +404,30 @@ public partial class Player : CharacterBody2D
                 // return;
             }
         }
-        else if (is_grounded || (!is_jumping && Time.GetTicksMsec() - last_grounded_time <= coyote_time))
+        else if (is_grounded || (!is_jumping && Time.GetTicksMsec() - last_grounded_time <= COYOTETIME_DURATION))
         { // handle regular jump
             has_fastfell = false;
             if (Input.IsActionJustPressed("jump"))
             {
                 is_dashing = false; // dash is jump cancellable
                 is_jumping = true;
-                velocity.Y = -high_jumpspeed;
+                velocity.Y = -MAX_JUMPSPEED;
                 is_held_jump = true;
             }
         }
         else
         {
             // variable jump height
-            if (Input.IsActionJustReleased("jump") && velocity.Y < -low_jumpspeed)
+            if (Input.IsActionJustReleased("jump") && velocity.Y < -MIN_JUMPSPEED)
             {
-                velocity.Y = -low_jumpspeed;
+                velocity.Y = -MIN_JUMPSPEED;
                 is_held_jump = false;
             }
             // steeper jump downward arc for better jump game feel
             if (!has_fastfell && velocity.Y > 0)
             {
-                // this.Velocity += new Vector2(0, fast_fallspeed);
-                velocity.Y = fast_fallspeed;
+                // this.Velocity += new Vector2(0, FAST_FALLSPEED);
+                velocity.Y = FAST_FALLSPEED;
                 has_fastfell = true;
             }
         }
@@ -456,12 +443,12 @@ public partial class Player : CharacterBody2D
         dash_start_time = Time.GetTicksMsec();
         if (is_grounded)
         {
-            velocity.X = dashspeed * direction;
+            velocity.X = DASHSPEED * direction;
             dash_is_airdash = false;
         }
         else
         {
-            velocity.X = air_dashspeed * direction;
+            velocity.X = AIRDASH_SPEED * direction;
             dash_is_airdash = true;
         }
 
@@ -491,8 +478,8 @@ public partial class Player : CharacterBody2D
         has_fastfell = false;
         if (Input.IsActionJustPressed("jump"))
         {
-            velocity.Y = -high_jumpspeed; // -high_jumpspeed * 0.9
-            velocity.X = -walljump_knockback * dir; // wall bounceback
+            velocity.Y = -MAX_JUMPSPEED; // -high_jumpspeed * 0.9
+            velocity.X = -WALLJUMP_KNOCKBACK * dir; // wall bounceback
             is_held_jump = true;
         }
 
@@ -528,7 +515,7 @@ public partial class Player : CharacterBody2D
         this.Velocity += new Vector2(val, 0f);
     }
 
-    private bool TimerIsDone(float start_time_msec, float target_duration_msec)
+    private bool ActionTimerCompleted(float start_time_msec, float target_duration_msec)
     {
         return Time.GetTicksMsec() - start_time_msec <= target_duration_msec;
     }

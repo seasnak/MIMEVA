@@ -1,14 +1,15 @@
 using Godot;
-using System;
 
 namespace Mimeva;
 public partial class CameraController : Camera2D
 {
-
+    // Related Nodes
     [Export] CharacterBody2D player;
 
+    // Constants
+    private Godot.Vector2 DEFAULT_ZOOM = new(7.5f, 7.5f);
+    private const int MAX_DISTANCE_TO_PLAYER = 8;
 
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         if (player == null)
@@ -24,19 +25,16 @@ public partial class CameraController : Camera2D
             }
         }
 
-        this.Zoom = new Vector2(7.5f, 7.5f);
+        this.Zoom = DEFAULT_ZOOM;
         this.Position = player.Position;
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        // smooth camera
         Vector2 dist_to_target = player.GlobalPosition - this.GlobalPosition;
-        if (dist_to_target.Length() > 8)
+        if (dist_to_target.Length() >= MAX_DISTANCE_TO_PLAYER)
         {
             this.GlobalPosition += dist_to_target.Normalized() * dist_to_target.Length() * (float)(delta) * 2f;
-            // this.GlobalTransform = player.Transform.InterpolateWith(this.Transform, 0.1f);
         }
     }
 

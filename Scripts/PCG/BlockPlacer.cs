@@ -9,10 +9,7 @@ using Mimeva.Entity;
 using Mimeva.Object;
 
 namespace Mimeva.PCG;
-/*
-Loads in levels from a specifically formatted .txt file (see examples in Levels/Parts folder)
-TODO: modify to take in Level objects instead -- Level objects handle the text to Level object conversion
-*/
+
 public partial class BlockPlacer : Area2D
 {
     private List<List<string>> level_mat; // list representation of level
@@ -27,16 +24,16 @@ public partial class BlockPlacer : Area2D
     // Important Objects
     private Flag flag;
 
-    // private string tilemap_path = "/root/world/TileMap"; // where the TileMap is located
-    private string level_folder = "res://Levels";
+    // Level Folder/Filepaths
+    private string level_folder_path = "res://Levels";
     private string connector_room_path = "res://Levels/Rooms/C_10.txt";
     private string final_room_path = "res://Levels/Rooms/X_10.txt";
 
     // Constants
-    private const int BLOCK_SIZE = 8; // size of each tilemap block in pixels
-    public int BLOCK_SIZE_C { get => BLOCK_SIZE; }
-    private const int BLOCK_OFFSET = 4; // offset to place blocks at
-    public int BLOCK_OFFSET_C { get => BLOCK_OFFSET; }
+    private const int BLOCK_SIZE = 8;
+    public int BLOCK_SIZE_C { get => BLOCK_SIZE; } // getter
+    private const int BLOCK_OFFSET = 4;
+    public int BLOCK_OFFSET_C { get => BLOCK_OFFSET; } // getter
 
     // Level Variables
     [Export] private Godot.Vector2 curr_offset = Godot.Vector2.Zero; // offset for the next room
@@ -49,9 +46,12 @@ public partial class BlockPlacer : Area2D
     [Export] private int num_rooms_to_generate = 3; // UNUSED the number of rooms to generate before ending the level
     private int num_rooms_generated = 0; // UNUSED (counter) the number of rooms generated so far (depracated -- use LevelGenVariables.NumRoomsCompleted instead)
 
-    private bool tmp_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
+    // Booleans
+    private bool is_generating_level = false; // temporary variable to ensure that the level isn't generated every time the player passes through
     private bool place_excess = false; // replaces excess Os with spikes to give the illusion that a level is harder than it actually is
-    private float excess_rate = 0.5f; // the rate at which to convert Os into spikes
+
+    // Level Modifiers
+    private float excess_spike_rate = 0.5f; // the rate at which to convert Os into spikes
     private int num_keys = 0;
 
     // Booleans for level generation
@@ -62,16 +62,11 @@ public partial class BlockPlacer : Area2D
     private static Godot.Collections.Dictionary<string, PackedScene> block_dict = new();
 
     // Level parts dictionary
-    private static Godot.Collections.Dictionary<string, string[]> parts_dict;
+    private static Godot.Collections.Dictionary<string, string[]> snippet_dict;
 
-    // arrays for difficulty level difficulty and part files
-    private readonly string[] diff_arr = { "Easy", "Medium", "Hard" };
-    private readonly string[] part_arr = { "Left", "Middle", "Right" };
-
-    // UI elements
-    // [Export] private TextureRect skip_used_label;
-
-    // dictionary for optional level adjustments
+    // Arrays for difficulty level difficulty and part files
+    private readonly string[] SNIPPET_DIFFICULTIES = { "Easy", "Medium", "Hard" };
+    private readonly string[] SNIPPET_TYPES = { "Left", "Middle", "Right" };
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -82,7 +77,7 @@ public partial class BlockPlacer : Area2D
 
         // initialize empty dictionaries
         block_dict = new();
-        parts_dict = new();
+        snippet_dict = new();
 
         ReloadBlockDictionary();
         ReloadLevelPartsDictionary(); // loads in the list of levels
@@ -128,9 +123,9 @@ public partial class BlockPlacer : Area2D
         }
     }
 
+    // Loads all prefabs into the Block Dictionary
     public void ReloadBlockDictionary()
     {
-
         UpdateBlockDict("P", "res://Prefabs/Player.tscn");
         UpdateBlockDict("S", "res://Prefabs/Objects/Spikeball.tscn");
         UpdateBlockDict("GL", "res://Prefabs/Enemies/Glorp.tscn");
@@ -141,12 +136,6 @@ public partial class BlockPlacer : Area2D
         UpdateBlockDict("*", "res://Prefabs/Objects/coin.tscn");
         UpdateBlockDict("C", "res://Prefabs/Objects/checkpoint.tscn");
         UpdateBlockDict("F", "res://Prefabs/Objects/flag.tscn");
-
-        // TODO: not yet implemented objects and enemies
-        // UpdateBlockDict("B", "res://Prefabs/Objects/block.tscn"); // todo: add pushable block object
-        // UpdateBlockDict("BT", "res://Prefabs/Objects/button.tscn"); // todo: add button object (for button doors)
-        // UpdateBlockDict("BD", "res://Prefabs/Objects/button_door.tscn"); // todo: add button door object
-
     }
 
     public static void UpdateBlockDict(string key, string val_path)
@@ -167,32 +156,28 @@ public partial class BlockPlacer : Area2D
         string[] files = System.Array.Empty<string>();
         string global_path = ProjectSettings.GlobalizePath(path);
 
-        foreach (string part in part_arr)
+        foreach (string snippet in SNIPPET_TYPES)
         {
-            global_path = ProjectSettings.GlobalizePath(path + part + "/");
+            global_path = ProjectSettings.GlobalizePath(path + snippet + "/");
 
-            foreach (string diff in diff_arr)
+            foreach (string difficulty in SNIPPET_DIFFICULTIES)
             {
                 // difficulties are EASY MEDIUM HARD
-                string key = $"{part}{diff}";
-                // GD.Print($"searching {global_path} for {part}{diff} levels");
+                string key = $"{snippet}{difficulty}";
 
-                files = Directory.GetFiles(global_path, $"*{part[0]}{diff[0]}*", SearchOption.AllDirectories);
+                files = Directory.GetFiles(global_path, $"*{snippet[0]}{difficulty[0]}*", SearchOption.AllDirectories);
 
                 // add files to dictionary
-                if (parts_dict.ContainsKey(key))
+                if (snippet_dict.ContainsKey(key))
                 {
-                    parts_dict[key] = files;
+                    snippet_dict[key] = files;
                 }
                 else
                 {
-                    parts_dict.Add(key, files);
+                    snippet_dict.Add(key, files);
                 }
             }
         }
-
-        // GD.Print(parts_dict); // DEBUG
-
     }
 
     public void LoadRoomFromFile(string target_f)
@@ -224,10 +209,9 @@ public partial class BlockPlacer : Area2D
 
     public void LoadNewRoomFromPartFiles(int start_pos_x = -1, int start_pos_y = -1, int num_parts = -1)
     {
-        // Loads in Levels using Room Parts and lines it up based on where the previous room ended
+        // Load in Level using <num_parts> Snippets at (<start_pos_x>, <start_pos_y>)
         Random random = new();
 
-        // select a random amount of parts for the level
         if (num_parts == -1)
         {
             // select the minimum amount of rooms based on the current difficulty setting
@@ -245,17 +229,14 @@ public partial class BlockPlacer : Area2D
         string rhythm = new LevelGen().GenerateRhythm(num_measures: num_parts_in_room / measure_len, measure_length: measure_len);
         GD.Print(rhythm);
 
-        // manage level variables
-        // LevelGenVariables.NumRoomsCompleted += 1;
-
         // randomly pick room parts from parts dictionary
         int curr_parts_len;
         string diff_str = GetNewDifficulty();
 
+        // load in left snippet
+        LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt"));
 
-        // GD.Print(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt"));
-        LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Left/LT_10.txt")); // changed to a default "left connector"
-
+        // select middle snippets
         foreach (string part in rhythm.Split(' '))
         {
             if (part == "_")
@@ -264,19 +245,17 @@ public partial class BlockPlacer : Area2D
             }
             else
             {
-                curr_parts_len = parts_dict["Middle" + diff_str].Length;
-                string target_file = $"{parts_dict["Middle" + diff_str][random.Next(0, curr_parts_len)]}";
-                // GD.Print($"Loading {target_file}"); // DEBUG
+                curr_parts_len = snippet_dict["Middle" + diff_str].Length;
+                string target_file = $"{snippet_dict["Middle" + diff_str][random.Next(0, curr_parts_len)]}";
                 LoadPartFromTxtFile(target_file);
 
             }
         }
 
-        LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Right/RT_10.txt")); // changed to a default "right connector"
-
-        // diff_str = GetNewDifficulty();
-        curr_parts_len = parts_dict["Right" + diff_str].Length;
-        LoadPartFromTxtFile($"{parts_dict["Right" + diff_str][random.Next(0, curr_parts_len)]}");
+        // load in right snippet
+        LoadPartFromTxtFile(ProjectSettings.GlobalizePath("res://Levels/Parts/Right/RT_10.txt"));
+        curr_parts_len = snippet_dict["Right" + diff_str].Length;
+        LoadPartFromTxtFile($"{snippet_dict["Right" + diff_str][random.Next(0, curr_parts_len)]}");
 
         // load either connector room or final room
         if (LevelGenVariables.NumRoomsCompleted < LevelGenVariables.NumRooms)
@@ -306,14 +285,9 @@ public partial class BlockPlacer : Area2D
 
     public void BuildLevel(ref Level level)
     {
-        /* Builds level given an offset
-        @Params:
-            level : Level - A level object containing all information
-        */
-
         GD.Print($"Building Level at Position {curr_offset}");
 
-        // loop through level to build level
+        // loop through <level> to build level
         for (int i = 0; i < level.Layout.Count; i++)
         {
             for (int j = 0; j < level.Layout.Count; j++)
@@ -332,7 +306,7 @@ public partial class BlockPlacer : Area2D
                         break;
                     case "!": // case: update position of object
                         this.Position = new((j + (int)curr_offset.X) * BLOCK_SIZE + BLOCK_OFFSET, (i + (int)curr_offset.Y) * BLOCK_SIZE + BLOCK_OFFSET);
-                        tmp_generating_level = false;
+                        is_generating_level = false;
                         break;
                     case "K": // case: place key -- check to see if door being generated
                         if (num_keys > 0)
@@ -364,9 +338,9 @@ public partial class BlockPlacer : Area2D
         if (other is not Player || other == null) { return; }
 
         // GD.Print("Player Entered!");
-        if (!tmp_generating_level)
+        if (!is_generating_level)
         {
-            tmp_generating_level = true;
+            is_generating_level = true;
 
             // Update stats for calculating difficulty
             LevelGenVariables.UpdatePlayerStats();
@@ -387,9 +361,10 @@ public partial class BlockPlacer : Area2D
         }
     }
 
-    // Helper Functions
+    // ======================
+    // == Helper Functions ==
+    // ======================
 
-    // Load in a new tilemap
     private void UpdateTilemap(string new_tilemap_path)
     {
         try
@@ -432,7 +407,6 @@ public partial class BlockPlacer : Area2D
             {
                 line += obj + " ";
             }
-            // GD.Print(line);
         }
     }
 
@@ -480,7 +454,7 @@ public partial class BlockPlacer : Area2D
                     else if (level_mat[i][j] == "!")
                     { // move block placer here
                         this.Position = obj_pos;
-                        tmp_generating_level = false;
+                        is_generating_level = false;
                     }
                     else
                     {
@@ -497,9 +471,7 @@ public partial class BlockPlacer : Area2D
 
     private List<List<string>> GetLevelMatFromTxtFile(string level_f)
     {
-        // Generates a level from a series of text files
-
-        // string[,] level_arr = {};
+        // Generates a level from a series of <level_f> text files
         level_mat = new(); // clear level matrix
 
         // check to see if file exists
@@ -510,7 +482,7 @@ public partial class BlockPlacer : Area2D
         }
 
         // load level from file
-        int l = -1; // current line number in file
+        int line_number = -1; // current line number in file
         int room_y = 0; // line in the room or part of room
 
         bool in_room_contents = false; // if true, then currently reading through the room text representation
@@ -520,7 +492,7 @@ public partial class BlockPlacer : Area2D
         Vector2 level_shape = Vector2.Zero;
         foreach (string line in lines.Split('\n'))
         {
-            l++; // increment line counter
+            line_number++; // increment line counter
 
             if (line.Length == 0) { continue; } // empty line so skip
 
